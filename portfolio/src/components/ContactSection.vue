@@ -3,7 +3,7 @@
         <div class="contact-container">
             <h2 class="section-heading">Kontakt</h2>
             <div class="contact-grid">
-                <div class="contact-form-wrapper">
+                <!-- <div class="contact-form-wrapper">
                     <form class="contact-form" @submit.prevent="handleSubmit">
                         <div class="form-group">
                             <label for="name">Imię i nazwisko</label>
@@ -19,7 +19,7 @@
                         </div>
                         <button type="submit" class="submit-btn">Wyślij wiadomość</button>
                     </form>
-                </div>
+                </div> -->
                 <div class="contact-links-wrapper">
                     <div class="contact-card">
                         <h3>Znajdź mnie tutaj</h3>
