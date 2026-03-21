@@ -88,6 +88,7 @@
 
 .timeline-item {
     display: flex;
+    width: 100%;
 }
 
 .timeline-card {
@@ -95,6 +96,7 @@
     border: 3px solid #000;
     box-shadow: 8px 8px 0px #000;
     padding: 2rem;
+    width: 100%;
 }
 
 .timeline-date {
