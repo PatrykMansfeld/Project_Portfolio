@@ -185,4 +185,58 @@
     background-color: #fff;
     border: 3px solid #000;
 }
+
+@media (max-width: 768px) {
+    .projects {
+        padding: 3rem 1.5rem 2rem;
+    }
+    .section-heading {
+        font-size: 2.2rem;
+    }
+    .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+    }
+    .project-image {
+        height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .projects {
+        padding: 2rem 1rem 1rem;
+        height: auto;
+        min-height: 100vh;
+    }
+    .section-heading {
+        font-size: 1.8rem;
+        padding: 0.2rem 0.8rem;
+        margin-bottom: 1.5rem;
+    }
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+    .project-card {
+        box-shadow: 5px 5px 0px #000;
+    }
+    .project-image {
+        height: 100px;
+        font-size: 2rem;
+    }
+    .project-info {
+        padding: 1rem;
+    }
+    .project-info h3 {
+        font-size: 1.1rem;
+    }
+    .project-info > p {
+        font-size: 0.9rem;
+    }
+    .project-btn {
+        padding: 0.4rem 0.9rem;
+        font-size: 0.8rem;
+        box-shadow: 3px 3px 0px #000;
+    }
+}
 </style>

@@ -226,4 +226,54 @@ export default {
 .cube-front .cube-company {
     margin-bottom: 0;
 }
+
+@media (max-width: 768px) {
+    .experience {
+        padding: 3rem 1.5rem 2rem;
+    }
+    .section-heading {
+        font-size: 2.2rem;
+    }
+    .cubes-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    .cube {
+        height: 160px;
+    }
+    .cube:hover {
+        height: 260px;
+    }
+}
+
+@media (max-width: 480px) {
+    .experience {
+        padding: 2rem 1rem 1rem;
+        height: auto;
+        min-height: 100vh;
+    }
+    .section-heading {
+        font-size: 1.8rem;
+        padding: 0.2rem 0.8rem;
+        margin-bottom: 1.5rem;
+    }
+    .cubes-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .cube {
+        height: 140px;
+    }
+    .cube:hover {
+        height: 240px;
+    }
+    .cube-front {
+        padding: 1rem;
+        box-shadow: 4px 4px 0px #000;
+    }
+    .cube-details {
+        padding: 1rem;
+        box-shadow: 5px 5px 0px #000;
+    }
+}
 </style>

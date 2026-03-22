@@ -99,4 +99,42 @@ const technologies = [
     text-transform: uppercase;
     text-align: center;
 }
+
+@media (max-width: 768px) {
+    .techstack {
+        padding: 3rem 1.5rem;
+    }
+    .section-heading {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+    }
+    .tech-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .techstack {
+        padding: 2rem 1rem;
+    }
+    .section-heading {
+        font-size: 1.8rem;
+        padding: 0.2rem 0.8rem;
+    }
+    .tech-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+    }
+    .tech-item {
+        padding: 0.8rem 0.6rem;
+        box-shadow: 3px 3px 0px #000;
+    }
+    .tech-icon {
+        font-size: 1.6rem;
+    }
+    .tech-name {
+        font-size: 0.7rem;
+    }
+}
 </style>

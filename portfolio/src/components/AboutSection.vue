@@ -82,4 +82,37 @@
     font-size: 1.05rem;
     line-height: 1.6;
 }
+
+@media (max-width: 768px) {
+    .about {
+        padding: 3rem 1.5rem;
+    }
+    .about-heading {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+    }
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .about {
+        padding: 2rem 1rem;
+    }
+    .about-heading {
+        font-size: 1.8rem;
+        padding: 0.2rem 0.8rem;
+    }
+    .about-card {
+        padding: 1.5rem;
+        box-shadow: 5px 5px 0px #000;
+    }
+    .about-card h3 {
+        font-size: 1.2rem;
+    }
+    .about-card p {
+        font-size: 0.95rem;
+    }
+}
 </style>

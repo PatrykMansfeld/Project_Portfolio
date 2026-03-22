@@ -117,4 +117,44 @@ const certificates = [
     font-weight: 600;
     opacity: 0.7;
 }
+
+@media (max-width: 768px) {
+    .certificates {
+        padding: 3rem 1.5rem 2rem;
+    }
+    .section-heading {
+        font-size: 2.2rem;
+    }
+    .certificates-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .certificates {
+        padding: 2rem 1rem 1rem;
+        height: auto;
+        min-height: 100vh;
+    }
+    .section-heading {
+        font-size: 1.8rem;
+        padding: 0.2rem 0.8rem;
+        margin-bottom: 1.5rem;
+    }
+    .certificates-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .cert-card {
+        padding: 1rem;
+        box-shadow: 5px 5px 0px #000;
+    }
+    .cert-badge {
+        font-size: 1.5rem;
+    }
+    .cert-info h3 {
+        font-size: 0.9rem;
+    }
+}
 </style>

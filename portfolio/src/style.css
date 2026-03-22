@@ -18,3 +18,9 @@ body {
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
 }
+
+@media (max-width: 480px) {
+  #app {
+    scroll-snap-type: y proximity;
+  }
+}

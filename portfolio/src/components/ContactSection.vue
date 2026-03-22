@@ -206,4 +206,43 @@ function handleSubmit() {
 .link-icon {
     font-size: 1.3rem;
 }
+
+@media (max-width: 768px) {
+    .contact {
+        padding: 3rem 1.5rem;
+    }
+    .section-heading {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+    }
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact {
+        padding: 2rem 1rem;
+    }
+    .section-heading {
+        font-size: 1.8rem;
+        padding: 0.2rem 0.8rem;
+    }
+    .contact-card {
+        padding: 1.5rem;
+        box-shadow: 5px 5px 0px #000;
+    }
+    .contact-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+    .contact-link {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.8rem;
+        box-shadow: 3px 3px 0px #000;
+    }
+    .link-icon {
+        font-size: 1.1rem;
+    }
+}
 </style>

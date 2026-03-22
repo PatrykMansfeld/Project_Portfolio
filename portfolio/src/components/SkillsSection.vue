@@ -113,4 +113,39 @@
     font-size: 0.95rem;
     text-transform: uppercase;
 }
+
+@media (max-width: 768px) {
+    .skills {
+        padding: 3rem 1.5rem;
+    }
+    .section-heading {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+    }
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills {
+        padding: 2rem 1rem;
+    }
+    .section-heading {
+        font-size: 1.8rem;
+        padding: 0.2rem 0.8rem;
+    }
+    .skill-category {
+        padding: 1.5rem;
+        box-shadow: 5px 5px 0px #000;
+    }
+    .skill-category h3 {
+        font-size: 1.2rem;
+    }
+    .skill-tag {
+        font-size: 0.85rem;
+        padding: 0.3rem 0.7rem;
+        box-shadow: 3px 3px 0px #000;
+    }
+}
 </style>

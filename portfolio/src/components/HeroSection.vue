@@ -67,4 +67,34 @@
     transform: translate(5px, 5px);
     box-shadow: 0px 0px 0px #000;
 }
+
+@media (max-width: 768px) {
+    .hero-content {
+        padding: 2rem 2rem;
+        margin: 0 1rem;
+    }
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content {
+        padding: 1.5rem 1.2rem;
+    }
+    .hero-title {
+        font-size: 1.6rem;
+    }
+    .hero-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+    .hero-button {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+}
 </style>
