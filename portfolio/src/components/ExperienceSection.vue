@@ -73,13 +73,15 @@
 
 .timeline {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 2rem;
-    overflow-y: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     flex: 1;
     min-height: 0;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
     scrollbar-width: none;
+    align-items: stretch;
 }
 
 .timeline::-webkit-scrollbar {
@@ -88,7 +90,8 @@
 
 .timeline-item {
     display: flex;
-    width: 100%;
+    flex-shrink: 0;
+    width: 320px;
 }
 
 .timeline-card {
