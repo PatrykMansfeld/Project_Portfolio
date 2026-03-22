@@ -107,24 +107,22 @@ export default {
 }
 
 .cubes-grid {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
     align-items: start;
+    width: 100%;
 }
 
 .cube {
-    width: 200px;
-    height: 200px;
+    height: 180px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     z-index: 1;
 }
 
 .cube:hover {
-    width: 360px;
-    height: 320px;
+    height: 300px;
     z-index: 10;
 }
 
