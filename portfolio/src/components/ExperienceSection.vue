@@ -2,29 +2,20 @@
     <section class="experience">
         <div class="experience-container">
             <h2 class="section-heading">Doświadczenie</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-card">
-                        <span class="timeline-date">2024 — Obecnie</span>
-                        <h3>Full-Stack Developer</h3>
-                        <p class="timeline-company">Firma XYZ</p>
-                        <p>Tworzenie aplikacji webowych w Vue.js i Node.js. Projektowanie REST API oraz zarządzanie bazami danych.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-card">
-                        <span class="timeline-date">2022 — 2024</span>
-                        <h3>Frontend Developer</h3>
-                        <p class="timeline-company">Agencja ABC</p>
-                        <p>Budowanie responsywnych interfejsów użytkownika. Współpraca z zespołem UX/UI przy wdrażaniu designów.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-card">
-                        <span class="timeline-date">2021 — 2022</span>
-                        <h3>Junior Developer</h3>
-                        <p class="timeline-company">Startup DEF</p>
-                        <p>Nauka technologii webowych w praktyce. Udział w projektach wewnętrznych i wdrażanie poprawek.</p>
+            <div class="cubes-grid">
+                <div class="cube" v-for="(job, index) in jobs" :key="index">
+                    <div class="cube-inner">
+                        <div class="cube-front">
+                            <span class="cube-date">{{ job.date }}</span>
+                            <h3>{{ job.title }}</h3>
+                            <p class="cube-company">{{ job.company }}</p>
+                        </div>
+                        <div class="cube-details">
+                            <span class="cube-date">{{ job.date }}</span>
+                            <h3>{{ job.title }}</h3>
+                            <p class="cube-company">{{ job.company }}</p>
+                            <p class="cube-description">{{ job.description }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -33,6 +24,50 @@
 </template>
 
 <script>
+export default {
+    data() {
+        return {
+            jobs: [
+                {
+                    date: '2024 — Obecnie',
+                    title: 'Full-Stack Developer',
+                    company: 'Firma XYZ',
+                    description: 'Tworzenie aplikacji webowych w Vue.js i Node.js. Projektowanie REST API oraz zarządzanie bazami danych.'
+                },
+                {
+                    date: '2022 — 2024',
+                    title: 'Frontend Developer',
+                    company: 'Agencja ABC',
+                    description: 'Budowanie responsywnych interfejsów użytkownika. Współpraca z zespołem UX/UI przy wdrażaniu designów.'
+                },
+                {
+                    date: '2021 — 2022',
+                    title: 'Junior Developer',
+                    company: 'Startup DEF',
+                    description: 'Nauka technologii webowych w praktyce. Udział w projektach wewnętrznych i wdrażanie poprawek.'
+                },
+                {
+                    date: '2021 — 2022',
+                    title: 'Junior Developer',
+                    company: 'Startup DEF',
+                    description: 'Nauka technologii webowych w praktyce. Udział w projektach wewnętrznych i wdrażanie poprawek.'
+                },
+                {
+                    date: '2021 — 2022',
+                    title: 'Junior Developer',
+                    company: 'Startup DEF',
+                    description: 'Nauka technologii webowych w praktyce. Udział w projektach wewnętrznych i wdrażanie poprawek.'
+                },
+                {
+                    date: '2021 — 2022',
+                    title: 'Junior Developer',
+                    company: 'Startup DEF',
+                    description: 'Nauka technologii webowych w praktyce. Udział w projektach wewnętrznych i wdrażanie poprawek.'
+                }
+            ]
+        }
+    }
+}
 </script>
 
 <style scoped>
@@ -71,64 +106,126 @@
     flex-shrink: 0;
 }
 
-.timeline {
+.cubes-grid {
     display: flex;
-    flex-direction: row;
     gap: 2rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    flex: 1;
-    min-height: 0;
-    padding-bottom: 1rem;
-    scrollbar-width: none;
-    align-items: stretch;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
 }
 
-.timeline::-webkit-scrollbar {
-    display: none;
+.cube {
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1;
 }
 
-.timeline-item {
+.cube:hover {
+    width: 360px;
+    height: 320px;
+    z-index: 10;
+}
+
+.cube-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.cube-front {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border: 3px solid #000;
+    box-shadow: 6px 6px 0px #000;
+    padding: 1.2rem;
     display: flex;
-    flex-shrink: 0;
-    width: 320px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    transition: opacity 0.2s ease;
 }
 
-.timeline-card {
+.cube:hover .cube-front {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+}
+
+.cube-details {
+    width: 100%;
+    height: 100%;
     background-color: #fff;
     border: 3px solid #000;
     box-shadow: 8px 8px 0px #000;
-    padding: 2rem;
-    width: 100%;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease 0.15s;
+    overflow: hidden;
 }
 
-.timeline-date {
+.cube:hover .cube-details {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.cube-date {
     display: inline-block;
     background-color: #ff5c5c;
     color: #000;
     font-weight: 800;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    padding: 0.2rem 0.8rem;
+    padding: 0.15rem 0.6rem;
     border: 2px solid #000;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.6rem;
 }
 
-.timeline-card h3 {
-    font-size: 1.4rem;
+.cube-front h3 {
+    font-size: 1rem;
     font-weight: 800;
     text-transform: uppercase;
-    margin: 0 0 0.3rem;
+    margin: 0 0 0.2rem;
+    line-height: 1.2;
 }
 
-.timeline-company {
+.cube-details h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0 0 0.2rem;
+    line-height: 1.2;
+}
+
+.cube-company {
     font-weight: 600;
-    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
     opacity: 0.7;
+    margin: 0;
 }
 
-.timeline-card p {
-    font-size: 1.05rem;
-    line-height: 1.6;
+.cube-details .cube-company {
+    margin-bottom: 0.8rem;
+}
+
+.cube-description {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.cube-front .cube-company {
+    margin-bottom: 0;
 }
 </style>
