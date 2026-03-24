@@ -72,11 +72,10 @@ export default {
 
 <style scoped>
 .experience {
-    height: 100vh;
+    min-height: 100vh;
     padding: 3rem 2rem 2rem;
     background-color: #e9ff70;
     color: #000;
-    scroll-snap-align: start;
     display: flex;
     flex-direction: column;
     overflow: hidden;

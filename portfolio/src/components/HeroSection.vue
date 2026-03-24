@@ -16,10 +16,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #e9ff70;
     color: #000;
-    scroll-snap-align: start;
 }
 
 .hero-content {

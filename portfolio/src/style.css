@@ -12,15 +12,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#app {
-  width: 100%;
-  height: 100svh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+html {
+  scroll-behavior: smooth;
 }
 
-@media (max-width: 480px) {
-  #app {
-    scroll-snap-type: y proximity;
-  }
+#app {
+  width: 100%;
 }

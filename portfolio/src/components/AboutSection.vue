@@ -29,11 +29,10 @@
 
 <style scoped>
 .about {
-    height: 100vh;
+    min-height: 100vh;
     padding: 5rem 2rem;
     background-color: #fff;
     color: #000;
-    scroll-snap-align: start;
     display: flex;
     align-items: center;
     justify-content: center;

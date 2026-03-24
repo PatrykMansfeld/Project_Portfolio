@@ -56,11 +56,10 @@ function handleSubmit() {
 
 <style scoped>
 .contact {
-    height: 100vh;
+    min-height: 100vh;
     padding: 5rem 2rem;
     background-color: #000;
     color: #fff;
-    scroll-snap-align: start;
     display: flex;
     align-items: center;
     justify-content: center;
