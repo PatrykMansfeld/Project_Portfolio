@@ -3,34 +3,14 @@
         <div class="section-container">
             <h2 class="section-heading">{{ t.skills.heading }}</h2>
 
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <div class="category-header">
-                        <span class="category-num">01</span>
-                        <h3>{{ t.skills.frontend }}</h3>
+            <div class="skills-list">
+                <div class="skill-row" v-for="(cat, i) in categories" :key="i">
+                    <div class="skill-row-left">
+                        <span class="skill-num">{{ String(i + 1).padStart(2, '0') }}</span>
+                        <h3 class="skill-cat">{{ cat.label }}</h3>
                     </div>
-                    <ul class="skill-list">
-                        <li class="skill-tag" v-for="skill in frontendSkills" :key="skill">{{ skill }}</li>
-                    </ul>
-                </div>
-
-                <div class="skill-category">
-                    <div class="category-header">
-                        <span class="category-num">02</span>
-                        <h3>{{ t.skills.backend }}</h3>
-                    </div>
-                    <ul class="skill-list">
-                        <li class="skill-tag" v-for="skill in backendSkills" :key="skill">{{ skill }}</li>
-                    </ul>
-                </div>
-
-                <div class="skill-category">
-                    <div class="category-header">
-                        <span class="category-num">03</span>
-                        <h3>{{ t.skills.tools }}</h3>
-                    </div>
-                    <ul class="skill-list">
-                        <li class="skill-tag" v-for="skill in toolSkills" :key="skill">{{ skill }}</li>
+                    <ul class="skill-tags">
+                        <li class="skill-tag" v-for="skill in cat.skills" :key="skill">{{ skill }}</li>
                     </ul>
                 </div>
             </div>
@@ -39,13 +19,25 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useLang } from '../composables/useLang.js'
 
 const { t } = useLang()
 
-const frontendSkills = ['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'Vue.js', 'React']
-const backendSkills  = ['Node.js', 'Express', 'Python', 'REST API', 'PostgreSQL', 'MongoDB']
-const toolSkills     = ['Git', 'Docker', 'Linux', 'Figma', 'CI/CD', 'VS Code']
+const categories = computed(() => [
+    {
+        label: t.value.skills.frontend,
+        skills: ['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'Vue.js', 'React'],
+    },
+    {
+        label: t.value.skills.backend,
+        skills: ['Node.js', 'Express', 'Python', 'REST API', 'PostgreSQL', 'MongoDB'],
+    },
+    {
+        label: t.value.skills.tools,
+        skills: ['Git', 'Docker', 'Linux', 'Figma', 'CI/CD', 'VS Code'],
+    },
+])
 </script>
 
 <style scoped>
@@ -73,7 +65,7 @@ const toolSkills     = ['Git', 'Docker', 'Linux', 'Figma', 'CI/CD', 'VS Code']
 .section-container {
     position: relative;
     z-index: 1;
-    max-width: 960px;
+    max-width: 900px;
     margin: 0 auto;
     width: 100%;
 }
@@ -83,7 +75,7 @@ const toolSkills     = ['Git', 'Docker', 'Linux', 'Figma', 'CI/CD', 'VS Code']
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: -1px;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     display: inline-block;
     background-color: #fff;
     padding: 0.3rem 1.2rem;
@@ -91,54 +83,58 @@ const toolSkills     = ['Git', 'Docker', 'Linux', 'Figma', 'CI/CD', 'VS Code']
     box-shadow: 6px 6px 0 #000;
 }
 
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-}
-
-.skill-category {
-    background-color: #fff;
-    border: 3px solid #000;
-    box-shadow: 8px 8px 0 #000;
-    overflow: hidden;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.skill-category:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 10px 10px 0 #000;
-}
-
-.category-header {
+/* List */
+.skills-list {
     display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    padding: 1rem 1.4rem;
+    flex-direction: column;
+}
+
+.skill-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-top: 3px solid #000;
+    align-items: start;
+}
+
+.skill-row:last-child {
     border-bottom: 3px solid #000;
-    background-color: #000;
-    color: #fff;
 }
 
-.category-num {
-    font-size: 0.7rem;
+/* Left: number + label */
+.skill-row-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.skill-num {
+    font-size: 4.5rem;
     font-weight: 700;
-    color: #ff5c5c;
-    letter-spacing: 1px;
-    flex-shrink: 0;
+    letter-spacing: -4px;
+    line-height: 1;
+    -webkit-text-stroke: 2px #000;
+    color: transparent;
+    user-select: none;
 }
 
-.category-header h3 {
-    font-size: 0.9rem;
+.skill-cat {
+    font-size: 0.82rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     margin: 0;
+    background-color: #000;
+    color: #fff;
+    padding: 0.25rem 0.8rem;
+    width: fit-content;
 }
 
-.skill-list {
+/* Right: tags */
+.skill-tags {
     list-style: none;
-    padding: 1.2rem;
+    padding: 0.6rem 0 0;
     margin: 0;
     display: flex;
     flex-wrap: wrap;
@@ -146,50 +142,52 @@ const toolSkills     = ['Git', 'Docker', 'Linux', 'Figma', 'CI/CD', 'VS Code']
 }
 
 .skill-tag {
-    background-color: #e9ff70;
+    background-color: #fff;
     border: 2px solid #000;
-    padding: 0.35rem 0.85rem;
+    padding: 0.4rem 0.9rem;
     font-weight: 600;
     font-size: 0.82rem;
     text-transform: uppercase;
     letter-spacing: 0.3px;
-    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
     cursor: default;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease, color 0.1s ease;
 }
 
 .skill-tag:hover {
-    background-color: #ff5c5c;
+    background-color: #000;
+    color: #e9ff70;
     transform: translate(-1px, -1px);
-    box-shadow: 2px 2px 0 #000;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
 }
 
-/* Tablet landscape — 2 columns */
-@media (max-width: 1024px) {
-    .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
-    /* Third card spans full width */
-    .skill-category:last-child { grid-column: 1 / -1; }
-    .skill-list { flex-direction: row; }
-}
-
-/* Tablet portrait */
+/* Tablet */
 @media (max-width: 768px) {
     .skills { padding: 3.5rem 1.5rem; }
-    .skills-grid { grid-template-columns: 1fr; gap: 1.2rem; }
-    .skill-category:last-child { grid-column: auto; }
-    .skill-category { box-shadow: 5px 5px 0 #000; }
+    .section-heading { font-size: 2rem; }
+    .skill-row { grid-template-columns: 140px 1fr; gap: 1.5rem; padding: 1.8rem 0; }
+    .skill-num { font-size: 3.5rem; }
 }
 
-/* Mobile */
+/* Mobile — stack */
+@media (max-width: 600px) {
+    .skills { padding: 3rem 1rem; }
+    .section-heading { font-size: 1.8rem; }
+    .skill-row { grid-template-columns: 1fr; gap: 0.8rem; padding: 1.5rem 0; }
+    .skill-row-left { flex-direction: row; align-items: center; gap: 1rem; }
+    .skill-num { font-size: 3rem; letter-spacing: -2px; }
+    .skill-tags { padding-top: 0; }
+}
+
 @media (max-width: 480px) {
     .skills { padding: 2.5rem 1rem; }
     .section-heading { font-size: 1.8rem; padding: 0.2rem 0.8rem; }
-    .skill-tag { font-size: 0.76rem; padding: 0.28rem 0.6rem; }
-    .category-header h3 { font-size: 0.82rem; }
+    .skill-num { font-size: 2.5rem; }
+    .skill-tag { font-size: 0.76rem; padding: 0.32rem 0.7rem; }
 }
 
-/* Very small phones */
 @media (max-width: 375px) {
     .skills { padding: 2rem 0.85rem; }
-    .skill-tag { font-size: 0.72rem; padding: 0.25rem 0.5rem; }
+    .skill-num { font-size: 2.2rem; }
+    .skill-tag { font-size: 0.72rem; padding: 0.28rem 0.55rem; }
 }
 </style>
