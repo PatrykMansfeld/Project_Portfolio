@@ -26,12 +26,9 @@ function scrollToProjects() {
     display: flex;
     align-items: center;
     justify-content: center;
-<<<<<<< Updated upstream
     height: 100vh;
-=======
     min-height: 100vh;
     padding-top: 64px;
->>>>>>> Stashed changes
     background-color: #e9ff70;
     color: #000;
     scroll-snap-align: start;

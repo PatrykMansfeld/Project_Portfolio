@@ -6,49 +6,19 @@
                 <div class="skill-category">
                     <h3>{{ t.skills.frontend }}</h3>
                     <ul class="skill-list">
-                        <li class="skill-item" v-for="skill in frontendSkills" :key="skill.name">
-                            <span class="skill-name">{{ skill.name }}</span>
-                            <span class="skill-dots">
-                                <span
-                                    class="dot"
-                                    v-for="n in 5"
-                                    :key="n"
-                                    :class="{ filled: n <= skill.level }"
-                                ></span>
-                            </span>
-                        </li>
+                        <li class="skill-tag" v-for="skill in frontendSkills" :key="skill.name">{{ skill.name }}</li>
                     </ul>
                 </div>
                 <div class="skill-category">
                     <h3>{{ t.skills.backend }}</h3>
                     <ul class="skill-list">
-                        <li class="skill-item" v-for="skill in backendSkills" :key="skill.name">
-                            <span class="skill-name">{{ skill.name }}</span>
-                            <span class="skill-dots">
-                                <span
-                                    class="dot"
-                                    v-for="n in 5"
-                                    :key="n"
-                                    :class="{ filled: n <= skill.level }"
-                                ></span>
-                            </span>
-                        </li>
+                        <li class="skill-tag" v-for="skill in backendSkills" :key="skill.name">{{ skill.name }}</li>
                     </ul>
                 </div>
                 <div class="skill-category">
                     <h3>{{ t.skills.tools }}</h3>
                     <ul class="skill-list">
-                        <li class="skill-item" v-for="skill in toolSkills" :key="skill.name">
-                            <span class="skill-name">{{ skill.name }}</span>
-                            <span class="skill-dots">
-                                <span
-                                    class="dot"
-                                    v-for="n in 5"
-                                    :key="n"
-                                    :class="{ filled: n <= skill.level }"
-                                ></span>
-                            </span>
-                        </li>
+                        <li class="skill-tag" v-for="skill in toolSkills" :key="skill.name">{{ skill.name }}</li>
                     </ul>
                 </div>
             </div>
@@ -62,30 +32,30 @@ import { useLang } from '../composables/useLang.js'
 const { t } = useLang()
 
 const frontendSkills = [
-    { name: 'HTML5',      level: 5 },
-    { name: 'CSS3',       level: 5 },
-    { name: 'JavaScript', level: 5 },
-    { name: 'TypeScript', level: 4 },
-    { name: 'Vue.js',     level: 5 },
-    { name: 'React',      level: 3 },
+    { name: 'HTML5' },
+    { name: 'CSS3' },
+    { name: 'JavaScript' },
+    { name: 'TypeScript' },
+    { name: 'Vue.js' },
+    { name: 'React' },
 ]
 
 const backendSkills = [
-    { name: 'Node.js',    level: 4 },
-    { name: 'Express',    level: 4 },
-    { name: 'Python',     level: 3 },
-    { name: 'REST API',   level: 5 },
-    { name: 'PostgreSQL', level: 4 },
-    { name: 'MongoDB',    level: 3 },
+    { name: 'Node.js' },
+    { name: 'Express' },
+    { name: 'Python' },
+    { name: 'REST API' },
+    { name: 'PostgreSQL' },
+    { name: 'MongoDB' },
 ]
 
 const toolSkills = [
-    { name: 'Git',    level: 5 },
-    { name: 'Docker', level: 3 },
-    { name: 'Linux',  level: 4 },
-    { name: 'Figma',  level: 3 },
-    { name: 'CI/CD',  level: 3 },
-    { name: 'VS Code', level: 5 },
+    { name: 'Git' },
+    { name: 'Docker' },
+    { name: 'Linux' },
+    { name: 'Figma' },
+    { name: 'CI/CD' },
+    { name: 'VS Code' },
 ]
 </script>
 
@@ -145,40 +115,18 @@ const toolSkills = [
     padding: 0;
     margin: 0;
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.6rem;
 }
 
-.skill-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.skill-name {
+.skill-tag {
+    background-color: #e9ff70;
+    border: 3px solid #000;
+    box-shadow: 4px 4px 0px #000;
+    padding: 0.4rem 1rem;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     text-transform: uppercase;
-}
-
-.skill-dots {
-    display: flex;
-    gap: 4px;
-    flex-shrink: 0;
-}
-
-.dot {
-    width: 12px;
-    height: 12px;
-    border: 2px solid #000;
-    background-color: transparent;
-    border-radius: 0;
-    transition: background-color 0.15s ease;
-}
-
-.dot.filled {
-    background-color: #ff5c5c;
 }
 
 @media (max-width: 768px) {
@@ -209,12 +157,10 @@ const toolSkills = [
     .skill-category h3 {
         font-size: 1.2rem;
     }
-    .skill-name {
-        font-size: 0.8rem;
-    }
-    .dot {
-        width: 10px;
-        height: 10px;
+    .skill-tag {
+        font-size: 0.85rem;
+        padding: 0.3rem 0.7rem;
+        box-shadow: 3px 3px 0px #000;
     }
 }
 </style>
