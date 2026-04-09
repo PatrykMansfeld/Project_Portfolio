@@ -1,42 +1,30 @@
 <template>
-    <section class="contact">
-        <div class="contact-container">
-            <h2 class="section-heading">Kontakt</h2>
+    <section id="contact" class="contact">
+        <div class="section-container">
+            <h2 class="section-heading">{{ t.contact.heading }}</h2>
+
             <div class="contact-grid">
-                <!-- <div class="contact-form-wrapper">
-                    <form class="contact-form" @submit.prevent="handleSubmit">
-                        <div class="form-group">
-                            <label for="name">Imię i nazwisko</label>
-                            <input id="name" v-model="form.name" type="text" placeholder="Jan Kowalski" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input id="email" v-model="form.email" type="email" placeholder="jan@example.com" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Wiadomość</label>
-                            <textarea id="message" v-model="form.message" rows="4" placeholder="Napisz do mnie..." required></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn">Wyślij wiadomość</button>
-                    </form>
-                </div> -->
-                <div class="contact-links-wrapper">
-                    <div class="contact-card">
-                        <h3>Znajdź mnie tutaj</h3>
-                        <div class="links-list">
-                            <a href="mailto:twoj@email.com" class="contact-link">
-                                <span class="link-icon">✉️</span>
-                                <span>twoj@email.com</span>
-                            </a>
-                            <a href="https://github.com" target="_blank" rel="noopener" class="contact-link">
-                                <span class="link-icon">🐙</span>
-                                <span>github.com/twojanazwa</span>
-                            </a>
-                            <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-link">
-                                <span class="link-icon">💼</span>
-                                <span>linkedin.com/in/twojanazwa</span>
-                            </a>
-                        </div>
+                <!-- Links -->
+                <div class="contact-links-col">
+                    <p class="col-label">{{ t.contact.findMe }}</p>
+                    <div class="links-stack">
+                        <a href="mailto:twoj@email.com" class="contact-link">
+                            <span class="link-label">Email</span>
+                            <span class="link-value">twoj@email.com ↗</span>
+                        </a>
+                        <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="contact-link">
+                            <span class="link-label">GitHub</span>
+                            <span class="link-value">PatrykMansfeld ↗</span>
+                        </a>
+                        <a href="https://linkedin.com/in/twojanazwa" target="_blank" rel="noopener" class="contact-link">
+                            <span class="link-label">LinkedIn</span>
+                            <span class="link-value">twojanazwa ↗</span>
+                        </a>
+                    </div>
+
+                    <div class="availability-box">
+                        <span class="avail-dot"></span>
+                        <span>{{ t.hero.available }}</span>
                     </div>
                 </div>
             </div>
@@ -45,17 +33,14 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { useLang } from '../composables/useLang.js'
 
-const form = reactive({ name: '', email: '', message: '' })
-
-function handleSubmit() {
-    console.log('Form submitted:', form)
-}
+const { t } = useLang()
 </script>
 
 <style scoped>
 .contact {
+    position: relative;
     min-height: 100vh;
     padding: 5rem 2rem;
     background-color: #000;
@@ -63,18 +48,29 @@ function handleSubmit() {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-y: auto;
 }
 
-.contact-container {
+.contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.06) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.section-container {
+    position: relative;
+    z-index: 1;
     max-width: 960px;
     margin: 0 auto;
     width: 100%;
 }
 
 .section-heading {
-    font-size: 3rem;
-    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: -1px;
     margin-bottom: 3rem;
@@ -83,165 +79,117 @@ function handleSubmit() {
     color: #000;
     padding: 0.3rem 1.2rem;
     border: 3px solid #e9ff70;
-    box-shadow: 6px 6px 0px #e9ff70;
+    box-shadow: 6px 6px 0 #e9ff70;
 }
 
 .contact-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    gap: 3rem;
+    align-items: start;
 }
 
-@media (max-width: 700px) {
-    .contact-grid {
-        grid-template-columns: 1fr;
-    }
+.col-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.4;
+    margin-bottom: 1.2rem;
 }
 
-.contact-form {
+/* Links column */
+.links-stack {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-}
-
-.form-group label {
-    font-weight: 800;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.form-group input,
-.form-group textarea {
-    background-color: #fff;
-    color: #000;
-    border: 3px solid #fff;
-    padding: 0.7rem 1rem;
-    font-size: 1rem;
-    font-family: inherit;
-    outline: none;
-    resize: none;
-    transition: box-shadow 0.1s ease;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    box-shadow: 4px 4px 0px #e9ff70;
-    border-color: #e9ff70;
-}
-
-.submit-btn {
-    padding: 0.8rem 2rem;
-    background-color: #e9ff70;
-    color: #000;
-    border: 3px solid #e9ff70;
-    box-shadow: 5px 5px 0px #e9ff70;
-    font-size: 1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
-    align-self: flex-start;
-}
-
-.submit-btn:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 3px 3px 0px #e9ff70;
-}
-
-.submit-btn:active {
-    transform: translate(5px, 5px);
-    box-shadow: 0px 0px 0px #e9ff70;
-}
-
-.contact-card {
-    background-color: #fff;
-    color: #000;
-    border: 3px solid #fff;
-    box-shadow: 8px 8px 0px #e9ff70;
-    padding: 2rem;
-    height: fit-content;
-}
-
-.contact-card h3 {
-    font-size: 1.3rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-}
-
-.links-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    gap: 0;
 }
 
 .contact-link {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.8rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #222;
     text-decoration: none;
-    color: #000;
-    font-weight: 600;
-    font-size: 0.95rem;
-    padding: 0.6rem 1rem;
-    border: 3px solid #000;
-    box-shadow: 4px 4px 0px #000;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    color: #fff;
+    transition: color 0.15s ease, padding-left 0.15s ease;
+    gap: 1rem;
+}
+
+.contact-link:first-child {
+    border-top: 1px solid #222;
 }
 
 .contact-link:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px #000;
+    color: #e9ff70;
+    padding-left: 0.5rem;
 }
 
-.link-icon {
-    font-size: 1.3rem;
+.link-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.4;
+    flex-shrink: 0;
+}
+
+.link-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: right;
+}
+
+.availability-box {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background-color: #111;
+    border: 1px solid #333;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #4ade80;
+}
+
+.avail-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #4ade80;
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
 }
 
 @media (max-width: 768px) {
-    .contact {
-        padding: 3rem 1.5rem;
-    }
-    .section-heading {
-        font-size: 2.2rem;
-        margin-bottom: 2rem;
-    }
-    .contact-grid {
-        grid-template-columns: 1fr;
-    }
+    .contact { padding: 4rem 1.5rem; }
+    .availability-box { margin-top: 1.5rem; }
+}
+
+@media (max-width: 600px) {
+    .contact { padding: 3rem 1rem; }
+    .section-heading { font-size: 1.8rem; }
 }
 
 @media (max-width: 480px) {
-    .contact {
-        padding: 2rem 1rem;
-    }
-    .section-heading {
-        font-size: 1.8rem;
-        padding: 0.2rem 0.8rem;
-    }
-    .contact-card {
-        padding: 1.5rem;
-        box-shadow: 5px 5px 0px #000;
-    }
-    .contact-card h3 {
-        font-size: 1.1rem;
-        margin-bottom: 1rem;
-    }
-    .contact-link {
-        font-size: 0.85rem;
-        padding: 0.5rem 0.8rem;
-        box-shadow: 3px 3px 0px #000;
-    }
-    .link-icon {
-        font-size: 1.1rem;
-    }
+    .contact { padding: 2.5rem 1rem; }
+    .section-heading { padding: 0.2rem 0.8rem; }
+    .link-value { font-size: 0.82rem; }
+    .availability-box { padding: 0.65rem 1rem; font-size: 0.75rem; }
+}
+
+@media (max-width: 375px) {
+    .contact { padding: 2rem 0.85rem; }
+    .section-heading { font-size: 1.6rem; }
 }
 </style>

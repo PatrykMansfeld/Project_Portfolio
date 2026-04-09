@@ -1,34 +1,68 @@
 <template>
-    <section class="about">
+    <section id="about" class="about">
         <div class="about-container">
-            <h2 class="about-heading">O mnie</h2>
-            <div class="about-grid">
-                <div class="about-card">
-                    <h3>Kim jestem</h3>
-                    <p>
-                        Jestem full-stack developerem z pasją do tworzenia śmiałych i funkcjonalnych
-                        aplikacji webowych. Lubię czysty kod, kreatywny design i zamienianie pomysłów
-                        w rzeczywistość.
-                    </p>
+
+            <div class="about-header">
+                <h2 class="about-heading">{{ t.about.heading }}</h2>
+                <div class="about-sticker">FRONTEND<br>DEV ✦</div>
+            </div>
+
+            <div class="about-main">
+                <!-- Left -->
+                <div class="about-left">
+                    <div class="about-photo">
+                        <div class="photo-top">PM</div>
+                        <div class="photo-label">{{ t.hero.role }}</div>
+                    </div>
+                    <div class="about-socials">
+                        <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="social-btn">GitHub ↗</a>
+                        <a href="https://linkedin.com/in/twojanazwa" target="_blank" rel="noopener" class="social-btn">LinkedIn ↗</a>
+                    </div>
                 </div>
-                <div class="about-card">
-                    <h3>Doświadczenie</h3>
-                    <p>
-                        Pracowałem nad różnorodnymi projektami — od interaktywnych interfejsów
-                        po rozbudowane API backendowe. Zawsze szukam nowych wyzwań i możliwości
-                        rozwoju.
-                    </p>
+
+                <!-- Right -->
+                <div class="about-right">
+                    <p class="about-statement">{{ t.about.card1Text }}</p>
+
+                    <div class="about-rule">
+                        <span class="rule-line"></span>
+                        <span class="rule-star">✦</span>
+                        <span class="rule-line"></span>
+                    </div>
+
+                    <p class="about-body">{{ t.about.card2Text }}</p>
+
+                    <div class="about-facts">
+                        <div class="fact-block">
+                            <span class="fact-num">3+</span>
+                            <span class="fact-label">{{ t.hero.statYears }}</span>
+                        </div>
+                        <div class="fact-divider"></div>
+                        <div class="fact-block">
+                            <span class="fact-num">20+</span>
+                            <span class="fact-label">{{ t.hero.statProjects }}</span>
+                        </div>
+                        <div class="fact-divider"></div>
+                        <div class="fact-block">
+                            <span class="fact-num">10+</span>
+                            <span class="fact-label">{{ t.hero.statTech }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
     </section>
 </template>
 
-<script>
+<script setup>
+import { useLang } from '../composables/useLang.js'
+const { t } = useLang()
 </script>
 
 <style scoped>
 .about {
+    position: relative;
     min-height: 100vh;
     padding: 5rem 2rem;
     background-color: #fff;
@@ -36,82 +70,268 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-y: auto;
+}
+
+.about::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.08) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .about-container {
-    max-width: 960px;
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
     margin: 0 auto;
+    width: 100%;
+}
+
+/* Header */
+.about-header {
+    position: relative;
+    margin-bottom: 3rem;
+    display: inline-block;
 }
 
 .about-heading {
-    font-size: 3rem;
-    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: -1px;
-    margin-bottom: 3rem;
     display: inline-block;
     background-color: #ff5c5c;
     padding: 0.3rem 1.2rem;
     border: 3px solid #000;
-    box-shadow: 6px 6px 0px #000;
+    box-shadow: 6px 6px 0 #000;
 }
 
-.about-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2rem;
-}
-
-.about-card {
-    background-color: #e9ff70;
-    border: 3px solid #000;
-    box-shadow: 8px 8px 0px #000;
-    padding: 2rem;
-}
-
-.about-card h3 {
-    font-size: 1.4rem;
-    font-weight: 800;
+.about-sticker {
+    position: absolute;
+    top: -1.2rem;
+    left: calc(100% + 1.2rem);
+    background-color: #000;
+    color: #e9ff70;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.68rem;
+    font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 1rem;
+    line-height: 1.4;
+    text-align: center;
+    letter-spacing: 0.5px;
+    transform: rotate(-5deg);
+    transition: transform 0.2s ease;
+    white-space: nowrap;
+    user-select: none;
+    border: 3px solid #000;
 }
 
-.about-card p {
-    font-size: 1.05rem;
-    line-height: 1.6;
+.about-sticker:hover {
+    transform: rotate(0deg) scale(1.06);
 }
 
+/* Main layout */
+.about-main {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+/* Photo */
+.about-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.about-photo {
+    border: 3px solid #000;
+    box-shadow: 8px 8px 0 #000;
+    overflow: hidden;
+}
+
+.photo-top {
+    height: 220px;
+    background-color: #a78bfa;
+    border-bottom: 3px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: -4px;
+    color: rgba(0, 0, 0, 0.2);
+}
+
+.photo-label {
+    padding: 0.6rem 1rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.about-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.social-btn {
+    display: block;
+    padding: 0.55rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #000;
+    border: 2px solid #000;
+    box-shadow: 3px 3px 0 #000;
+    background-color: #e9ff70;
+    text-align: center;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.social-btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 #000;
+}
+
+/* Right content */
+.about-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    padding-top: 0.4rem;
+}
+
+.about-statement {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    font-weight: 600;
+    line-height: 1.65;
+    margin: 0;
+    border-left: 4px solid #ff5c5c;
+    padding-left: 1.2rem;
+}
+
+.about-rule {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.rule-line {
+    flex: 1;
+    height: 2px;
+    background-color: #000;
+    opacity: 0.15;
+}
+
+.rule-star {
+    font-size: 0.9rem;
+    opacity: 0.35;
+}
+
+.about-body {
+    font-size: 0.97rem;
+    line-height: 1.75;
+    margin: 0;
+    opacity: 0.7;
+}
+
+/* Facts bar */
+.about-facts {
+    display: flex;
+    align-items: center;
+    background-color: #000;
+    color: #fff;
+    border: 3px solid #000;
+    box-shadow: 6px 6px 0 #000;
+    padding: 1rem 1.4rem;
+    gap: 0;
+}
+
+.fact-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    flex: 1;
+}
+
+.fact-num {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1;
+    color: #e9ff70;
+}
+
+.fact-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.55;
+    text-align: center;
+}
+
+.fact-divider {
+    width: 2px;
+    height: 36px;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Tablet landscape */
+@media (max-width: 1024px) {
+    .about-main { grid-template-columns: 190px 1fr; gap: 2.5rem; }
+}
+
+/* Tablet portrait */
 @media (max-width: 768px) {
-    .about {
-        padding: 3rem 1.5rem;
+    .about { padding: 4rem 1.5rem; }
+    .about-sticker { display: none; }
+    .about-main { grid-template-columns: 1fr; gap: 2rem; }
+    .about-left {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 1.5rem;
     }
-    .about-heading {
-        font-size: 2.2rem;
-        margin-bottom: 2rem;
+    .about-photo { width: 150px; flex-shrink: 0; }
+    .photo-top { height: 160px; font-size: 3rem; }
+    .about-socials {
+        flex-direction: column;
+        justify-content: flex-end;
+        flex: 1;
     }
-    .about-grid {
-        grid-template-columns: 1fr;
-    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .about { padding: 3rem 1rem; }
+    .about-left { flex-direction: column; }
+    .about-photo { width: 130px; }
+    .photo-top { height: 130px; }
+    .about-socials { flex-direction: row; }
+    .about-statement { font-size: 1rem; }
 }
 
 @media (max-width: 480px) {
-    .about {
-        padding: 2rem 1rem;
-    }
-    .about-heading {
-        font-size: 1.8rem;
-        padding: 0.2rem 0.8rem;
-    }
-    .about-card {
-        padding: 1.5rem;
-        box-shadow: 5px 5px 0px #000;
-    }
-    .about-card h3 {
-        font-size: 1.2rem;
-    }
-    .about-card p {
-        font-size: 0.95rem;
-    }
+    .about { padding: 2.5rem 1rem; }
+    .fact-num { font-size: 1.4rem; }
+    .fact-label { font-size: 0.55rem; }
+}
+
+@media (max-width: 375px) {
+    .about { padding: 2rem 0.85rem; }
+    .about-photo { width: 110px; }
+    .photo-top { height: 110px; font-size: 2.5rem; }
 }
 </style>
