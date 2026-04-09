@@ -267,15 +267,43 @@ function handleSubmit() {
     50% { opacity: 0.3; }
 }
 
+/* Tablet landscape — tighten right col */
+@media (max-width: 1024px) {
+    .contact-grid { grid-template-columns: 1fr 280px; gap: 2rem; }
+}
+
+/* Tablet portrait — stack */
 @media (max-width: 768px) {
-    .contact { padding: 3rem 1.5rem; }
+    .contact { padding: 4rem 1.5rem; }
     .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .form-row { grid-template-columns: 1fr 1fr; }
+    .availability-box { margin-top: 1.5rem; }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .contact { padding: 3rem 1rem; }
     .form-row { grid-template-columns: 1fr; }
+    .section-heading { font-size: 1.8rem; }
 }
 
 @media (max-width: 480px) {
-    .contact { padding: 2rem 1rem; }
-    .section-heading { font-size: 1.8rem; padding: 0.2rem 0.8rem; }
-    .submit-btn { width: 100%; text-align: center; justify-content: center; }
+    .contact { padding: 2.5rem 1rem; }
+    .section-heading { padding: 0.2rem 0.8rem; }
+    .submit-btn {
+        width: 100%;
+        justify-content: center;
+        box-shadow: 3px 3px 0 #e9ff70;
+    }
+    .link-value { font-size: 0.82rem; }
+    .availability-box { padding: 0.65rem 1rem; font-size: 0.75rem; }
+}
+
+/* Very small phones */
+@media (max-width: 375px) {
+    .contact { padding: 2rem 0.85rem; }
+    .section-heading { font-size: 1.6rem; }
+    .form-group input,
+    .form-group textarea { padding: 0.65rem 0.85rem; font-size: 0.88rem; }
 }
 </style>

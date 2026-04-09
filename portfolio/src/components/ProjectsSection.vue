@@ -6,11 +6,7 @@
             </div>
 
             <div class="projects-grid">
-                <div
-                    class="project-card"
-                    v-for="(project, i) in t.projects.items"
-                    :key="project.num"
-                >
+                <div class="project-card" v-for="(project, i) in t.projects.items" :key="project.num">
                     <!-- Thumbnail -->
                     <div class="project-thumb" :style="`--color: ${thumbColors[i]}`">
                         <span class="project-num">{{ project.num }}</span>
@@ -30,7 +26,8 @@
                             <a :href="project.demo" class="project-btn project-btn--primary">
                                 {{ t.projects.demo }} ↗
                             </a>
-                            <a :href="project.github" class="project-btn project-btn--ghost" target="_blank" rel="noopener">
+                            <a :href="project.github" class="project-btn project-btn--ghost" target="_blank"
+                                rel="noopener">
                                 {{ t.projects.github }} ↗
                             </a>
                         </div>
@@ -119,7 +116,7 @@ const thumbColors = ['#a78bfa', '#ff5c5c', '#e9ff70']
 .project-thumb-bg {
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
     background-size: 20px 20px;
 }
 
@@ -127,7 +124,7 @@ const thumbColors = ['#a78bfa', '#ff5c5c', '#e9ff70']
     font-size: 4.5rem;
     font-weight: 700;
     letter-spacing: -4px;
-    color: rgba(0,0,0,0.18);
+    color: rgba(0, 0, 0, 0.18);
     position: relative;
     z-index: 1;
     line-height: 1;
@@ -212,11 +209,97 @@ const thumbColors = ['#a78bfa', '#ff5c5c', '#e9ff70']
     background-color: transparent;
 }
 
+/* Tablet landscape — force 2 cols */
+@media (max-width: 1024px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+/* Tablet portrait */
+@media (max-width: 768px) {
+    .projects {
+        padding: 4rem 1.5rem;
+    }
+
+    .section-heading {
+        font-size: 2rem;
+    }
+
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+    }
+
+    .project-thumb {
+        height: 140px;
+    }
+
+    .project-body {
+        padding: 1.2rem;
+    }
+
+    .project-title {
+        font-size: 1rem;
+    }
+}
+
+/* Mobile — 1 col */
 @media (max-width: 600px) {
-    .projects { padding: 3rem 1rem; }
-    .section-heading { font-size: 1.8rem; }
-    .projects-grid { gap: 1.5rem; }
-    .project-card { box-shadow: 5px 5px 0 #000; }
-    .project-thumb { height: 130px; }
+    .projects {
+        padding: 3rem 1rem;
+    }
+
+    .section-heading {
+        font-size: 1.8rem;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.3rem;
+    }
+
+    .project-card {
+        box-shadow: 5px 5px 0 #000;
+    }
+
+    .project-thumb {
+        height: 130px;
+    }
+}
+
+@media (max-width: 480px) {
+    .projects {
+        padding: 2.5rem 1rem;
+    }
+
+    .project-body {
+        padding: 1rem;
+        gap: 0.6rem;
+    }
+
+    .project-desc {
+        font-size: 0.88rem;
+    }
+
+    .project-btn {
+        padding: 0.45rem 0.9rem;
+        font-size: 0.78rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .projects {
+        padding: 2rem 0.85rem;
+    }
+
+    .project-thumb {
+        height: 110px;
+    }
+
+    .project-num {
+        font-size: 3.5rem;
+    }
 }
 </style>

@@ -110,18 +110,44 @@ const technologies = [
     opacity: 1;
 }
 
+/* Tablet landscape */
+@media (max-width: 1024px) {
+    .techstack { padding: 4rem 2rem; }
+    .tech-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.9rem; }
+}
+
+/* Tablet portrait */
 @media (max-width: 768px) {
-    .techstack { padding: 3rem 1.5rem; }
+    .techstack { padding: 3.5rem 1.5rem; }
     .section-heading { font-size: 2rem; margin-bottom: 2rem; }
-    .tech-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.8rem; }
+    .tech-grid { grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 0.8rem; }
+    .tech-item { padding: 1.1rem 0.6rem 0.9rem; }
+    .tech-icon { font-size: 1.9rem; }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .techstack { padding: 3rem 1rem; }
+    .tech-grid { grid-template-columns: repeat(4, 1fr); gap: 0.7rem; }
+    .tech-item { padding: 1rem 0.5rem 0.8rem; box-shadow: 3px 3px 0 #000; }
+    .tech-icon { font-size: 1.7rem; }
+    .tech-name { font-size: 0.65rem; }
 }
 
 @media (max-width: 480px) {
-    .techstack { padding: 2rem 1rem; }
+    .techstack { padding: 2.5rem 1rem; }
     .section-heading { font-size: 1.8rem; padding: 0.2rem 0.8rem; }
     .tech-grid { grid-template-columns: repeat(4, 1fr); gap: 0.6rem; }
-    .tech-item { padding: 1rem 0.5rem 0.8rem; box-shadow: 3px 3px 0 #000; }
-    .tech-icon { font-size: 1.6rem; }
-    .tech-name { font-size: 0.62rem; }
+    .tech-icon { font-size: 1.5rem; }
+    .tech-name { font-size: 0.6rem; }
+}
+
+/* Very small phones — 3 columns */
+@media (max-width: 375px) {
+    .techstack { padding: 2rem 0.85rem; }
+    .tech-grid { grid-template-columns: repeat(3, 1fr); gap: 0.55rem; }
+    .tech-item { padding: 0.85rem 0.4rem 0.7rem; }
+    .tech-icon { font-size: 1.4rem; }
+    .tech-name { font-size: 0.58rem; }
 }
 </style>

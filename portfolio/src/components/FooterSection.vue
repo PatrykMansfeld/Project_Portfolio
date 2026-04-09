@@ -135,12 +135,24 @@ function scrollTop() {
     box-shadow: 6px 6px 0 #000;
 }
 
+@media (max-width: 768px) {
+    .footer { padding: 1.5rem 1.5rem; }
+    .back-to-top { right: 1.5rem; }
+}
+
 @media (max-width: 600px) {
     .footer-inner {
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.6rem;
+        gap: 0.7rem;
     }
-    .footer-links { gap: 1rem; }
+    .footer-links { gap: 1.2rem; }
+    .back-to-top { right: 1rem; width: 40px; height: 40px; font-size: 1rem; }
+}
+
+@media (max-width: 375px) {
+    .footer { padding: 1.2rem 0.85rem; }
+    .footer-name { display: none; }
+    .footer-link { font-size: 0.72rem; }
 }
 </style>

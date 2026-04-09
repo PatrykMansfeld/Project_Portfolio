@@ -383,54 +383,119 @@ function scrollToContact() {
 }
 
 /* ── Responsive ── */
+
+/* Tablet landscape */
+@media (max-width: 1024px) {
+    .hero-inner {
+        gap: 2rem;
+        padding: 3rem 2rem;
+    }
+    .hero-photo {
+        width: 190px;
+    }
+    .photo-inner {
+        height: 210px;
+    }
+    .hero-stats {
+        width: 190px;
+    }
+}
+
+/* Tablet portrait — stack layout */
 @media (max-width: 860px) {
     .hero-inner {
         grid-template-columns: 1fr;
-        text-align: left;
-        gap: 2.5rem;
-        padding: 2rem 1.5rem 3rem;
+        gap: 2rem;
+        padding: 2.5rem 1.5rem 3rem;
     }
     .hero-right {
         flex-direction: row;
         align-items: flex-start;
-        justify-content: center;
+        justify-content: flex-start;
         flex-wrap: wrap;
-    }
-    .hero-firstname,
-    .hero-lastname {
-        font-size: clamp(3rem, 12vw, 5rem);
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-inner {
-        padding: 1.5rem 1rem 2.5rem;
-    }
-    .hero-firstname,
-    .hero-lastname {
-        font-size: clamp(2.4rem, 14vw, 3.5rem);
-        letter-spacing: -2px;
-    }
-    .hero-subtitle {
-        font-size: 0.95rem;
-    }
-    .hero-btn-primary,
-    .hero-btn-secondary {
-        padding: 0.75rem 1.5rem;
-        font-size: 0.85rem;
+        gap: 1.2rem;
     }
     .hero-photo {
-        width: 180px;
+        width: 160px;
     }
     .photo-inner {
-        height: 190px;
+        height: 175px;
         font-size: 3rem;
     }
     .hero-stats {
-        width: 180px;
+        width: 160px;
     }
-    .stat-num {
-        font-size: 1.3rem;
+    .hero-firstname,
+    .hero-lastname {
+        font-size: clamp(2.8rem, 10vw, 5rem);
     }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .hero-inner {
+        padding: 2rem 1.2rem 2.5rem;
+        gap: 1.5rem;
+    }
+    /* Hide photo on small phones, keep stats row */
+    .hero-card-stack {
+        display: none;
+    }
+    .hero-stats {
+        width: 100%;
+        max-width: 340px;
+        box-shadow: 4px 4px 0 #000;
+    }
+    .hero-right {
+        justify-content: flex-start;
+    }
+    .hero-firstname,
+    .hero-lastname {
+        font-size: clamp(2.6rem, 13vw, 4rem);
+        letter-spacing: -2px;
+    }
+    .hero-btn-primary,
+    .hero-btn-secondary {
+        padding: 0.8rem 1.8rem;
+        font-size: 0.88rem;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+    .hero-inner {
+        padding: 1.5rem 1rem 2rem;
+    }
+    .hero-firstname,
+    .hero-lastname {
+        font-size: clamp(2.2rem, 14vw, 3.2rem);
+        letter-spacing: -2px;
+    }
+    .hero-subtitle {
+        font-size: 0.92rem;
+    }
+    .hero-actions {
+        gap: 0.7rem;
+    }
+    .hero-btn-primary,
+    .hero-btn-secondary {
+        padding: 0.72rem 1.4rem;
+        font-size: 0.82rem;
+        box-shadow: 4px 4px 0 #000;
+    }
+    .stat-num { font-size: 1.3rem; }
+    .stat-label { font-size: 0.58rem; }
+}
+
+/* Very small phones */
+@media (max-width: 375px) {
+    .hero-inner { padding: 1.2rem 0.85rem 1.8rem; }
+    .hero-firstname,
+    .hero-lastname {
+        font-size: clamp(1.9rem, 14vw, 2.8rem);
+        letter-spacing: -1.5px;
+    }
+    .hero-badge { font-size: 0.68rem; padding: 0.3rem 0.8rem; }
+    .hero-role { font-size: 0.75rem; letter-spacing: 1px; }
 }
 </style>

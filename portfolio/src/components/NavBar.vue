@@ -297,8 +297,32 @@ onBeforeUnmount(() => {
     padding-left: 0.6rem;
 }
 
+/* Tablet landscape — collapse nav links */
 @media (max-width: 900px) {
     .navbar-links { display: none; }
     .hamburger { display: flex; }
+}
+
+/* Tablet portrait */
+@media (max-width: 768px) {
+    .navbar-inner { padding: 0 1.2rem; gap: 0.7rem; }
+    .mobile-menu { padding: 0.8rem 1.2rem 1.2rem; }
+    .mobile-nav-link { font-size: 0.95rem; padding: 0.65rem 0; }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .navbar-inner { height: 56px; padding: 0 1rem; }
+    .navbar-logo { font-size: 1rem; padding: 0.25rem 0.65rem; }
+    .lang-btn { font-size: 0.68rem; padding: 0.22rem 0.55rem; }
+    .mobile-menu { padding: 0.7rem 1rem 1.1rem; }
+    .mobile-nav-link { font-size: 0.88rem; }
+}
+
+/* Very small phones */
+@media (max-width: 375px) {
+    .navbar-inner { height: 52px; padding: 0 0.85rem; }
+    .navbar-logo { font-size: 0.92rem; padding: 0.2rem 0.55rem; }
+    .hamburger span { width: 20px; }
 }
 </style>

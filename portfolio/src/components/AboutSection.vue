@@ -181,9 +181,19 @@ const { t } = useLang()
 }
 
 /* Responsive */
+
+/* Tablet landscape */
+@media (max-width: 1024px) {
+    .about-main {
+        grid-template-columns: 200px 1fr;
+        gap: 2rem;
+    }
+}
+
+/* Tablet portrait */
 @media (max-width: 768px) {
     .about {
-        padding: 3rem 1.5rem;
+        padding: 4rem 1.5rem;
     }
     .about-main {
         grid-template-columns: 1fr;
@@ -195,32 +205,62 @@ const { t } = useLang()
         gap: 1.5rem;
     }
     .about-photo {
-        width: 160px;
+        width: 150px;
         flex-shrink: 0;
     }
     .about-socials {
         flex-direction: column;
         justify-content: center;
+        flex: 1;
+    }
+    .social-btn {
+        font-size: 0.75rem;
     }
     .about-cards {
         grid-template-columns: 1fr;
     }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
     .about {
-        padding: 2rem 1rem;
+        padding: 2.5rem 1rem;
     }
     .about-photo-wrap {
         flex-direction: column;
         align-items: flex-start;
+        gap: 1rem;
     }
     .about-photo {
-        width: 140px;
+        width: 130px;
+    }
+    .about-socials {
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+    .social-btn {
+        font-size: 0.72rem;
+        padding: 0.4rem 0.8rem;
     }
     .about-card {
-        padding: 1.3rem;
+        padding: 1.2rem;
         box-shadow: 5px 5px 0 #000;
     }
+    .about-card h3 {
+        font-size: 0.95rem;
+        margin-bottom: 0.6rem;
+        padding-bottom: 0.5rem;
+    }
+    .about-card p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 375px) {
+    .about { padding: 2rem 0.85rem; }
+    .about-heading { padding: 0.2rem 0.8rem; }
+    .about-photo { width: 110px; }
 }
 </style>

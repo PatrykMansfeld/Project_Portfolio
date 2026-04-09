@@ -13,15 +13,13 @@
                     :key="index"
                     :class="{ expanded: activeIndex === index }"
                     @click="toggle(index)"
-                    @mouseenter="hovered = index"
-                    @mouseleave="hovered = null"
                 >
                     <div class="timeline-marker">
                         <div class="marker-dot"></div>
                         <div class="marker-line" v-if="index < t.experience.jobs.length - 1"></div>
                     </div>
 
-                    <div class="timeline-card" :class="{ 'is-hovered': hovered === index || activeIndex === index }">
+                    <div class="timeline-card" :class="{ 'is-active': activeIndex === index }">
                         <div class="card-top">
                             <div class="card-meta">
                                 <span class="card-date">{{ job.date }}</span>
@@ -29,7 +27,7 @@
                             </div>
                             <h3 class="card-title">{{ job.title }}</h3>
                         </div>
-                        <p class="card-desc" :class="{ visible: activeIndex === index || hovered === index }">
+                        <p class="card-desc" :class="{ visible: activeIndex === index }">
                             {{ job.description }}
                         </p>
                         <span class="card-toggle">{{ activeIndex === index ? '−' : '+' }}</span>
@@ -46,7 +44,6 @@ import { useLang } from '../composables/useLang.js'
 
 const { t } = useLang()
 const activeIndex = ref(null)
-const hovered = ref(null)
 
 function toggle(index) {
     activeIndex.value = activeIndex.value === index ? null : index
@@ -155,9 +152,26 @@ function toggle(index) {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.timeline-card.is-hovered {
+.timeline-card.is-active {
     transform: translate(-2px, -2px);
     box-shadow: 8px 8px 0 #000;
+}
+
+@media (hover: hover) {
+    .timeline-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 8px 8px 0 #000;
+    }
+
+    .timeline-card:hover .card-desc {
+        max-height: 200px;
+        opacity: 1;
+        margin-top: 0.8rem;
+    }
+
+    .timeline-card:hover .card-toggle {
+        opacity: 1;
+    }
 }
 
 .card-top {
@@ -217,6 +231,7 @@ function toggle(index) {
 }
 
 .card-toggle {
+    display: none;
     position: absolute;
     top: 1.2rem;
     right: 1.4rem;
@@ -227,7 +242,7 @@ function toggle(index) {
     transition: opacity 0.15s ease, transform 0.2s ease;
 }
 
-.timeline-card.is-hovered .card-toggle {
+.timeline-card.is-active .card-toggle {
     opacity: 1;
 }
 
@@ -238,12 +253,33 @@ function toggle(index) {
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+    .experience { padding: 4rem 1.5rem; }
+    .section-heading { font-size: 2rem; }
+    .section-header { gap: 1rem; }
+}
+
 @media (max-width: 600px) {
     .experience { padding: 3rem 1rem; }
     .section-heading { font-size: 1.8rem; }
+    .section-hint { display: none; }
     .timeline-item { grid-template-columns: 24px 1fr; gap: 0.8rem; }
     .marker-dot { width: 12px; height: 12px; }
-    .timeline-card { padding: 1rem 1.2rem; box-shadow: 4px 4px 0 #000; }
+    .timeline-card { padding: 1rem 2.2rem 1rem 1rem; box-shadow: 4px 4px 0 #000; }
     .card-title { font-size: 1rem; }
+    .card-date { font-size: 0.68rem; }
+    .card-toggle { display: block; }
+}
+
+@media (max-width: 480px) {
+    .experience { padding: 2.5rem 1rem; }
+    .card-toggle { top: 0.9rem; right: 1rem; }
+}
+
+@media (max-width: 375px) {
+    .experience { padding: 2rem 0.85rem; }
+    .timeline-item { grid-template-columns: 20px 1fr; gap: 0.6rem; }
+    .timeline-card { padding: 0.85rem 2rem 0.85rem 0.85rem; }
+    .card-title { font-size: 0.93rem; }
 }
 </style>

@@ -145,11 +145,32 @@ const { t } = useLang()
     transform: scale(1.15) rotate(-8deg);
 }
 
+/* Tablet */
+@media (max-width: 768px) {
+    .certificates { padding: 4rem 1.5rem; }
+    .section-heading { font-size: 2rem; }
+    .cert-card { padding: 1.1rem 1.4rem; }
+    .cert-title { font-size: 0.9rem; }
+}
+
+/* Mobile */
 @media (max-width: 600px) {
     .certificates { padding: 3rem 1rem; }
     .section-heading { font-size: 1.8rem; }
-    .cert-card { grid-template-columns: 56px 1fr; gap: 1rem; padding: 1rem 1rem; }
+    .cert-card { grid-template-columns: 56px 1fr; gap: 1rem; padding: 0.95rem 1rem; }
     .cert-icon { display: none; }
     .cert-title { font-size: 0.85rem; }
+    .cert-year { font-size: 0.65rem; padding: 0.2rem 0.45rem; }
+}
+
+@media (max-width: 480px) {
+    .certificates { padding: 2.5rem 1rem; }
+    .cert-card { grid-template-columns: 48px 1fr; gap: 0.8rem; }
+}
+
+@media (max-width: 375px) {
+    .certificates { padding: 2rem 0.85rem; }
+    .cert-title { font-size: 0.8rem; }
+    .cert-issuer { font-size: 0.75rem; }
 }
 </style>

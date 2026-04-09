@@ -150,15 +150,33 @@ const toolSkills     = ['Git', 'Docker', 'Linux', 'Figma', 'CI/CD', 'VS Code']
     box-shadow: 2px 2px 0 #000;
 }
 
+/* Tablet landscape — 2 columns */
+@media (max-width: 1024px) {
+    .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+    /* Third card spans full width */
+    .skill-category:last-child { grid-column: 1 / -1; }
+    .skill-list { flex-direction: row; }
+}
+
+/* Tablet portrait */
 @media (max-width: 768px) {
-    .skills { padding: 3rem 1.5rem; }
+    .skills { padding: 3.5rem 1.5rem; }
     .skills-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+    .skill-category:last-child { grid-column: auto; }
     .skill-category { box-shadow: 5px 5px 0 #000; }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
-    .skills { padding: 2rem 1rem; }
+    .skills { padding: 2.5rem 1rem; }
     .section-heading { font-size: 1.8rem; padding: 0.2rem 0.8rem; }
-    .skill-tag { font-size: 0.78rem; padding: 0.3rem 0.65rem; }
+    .skill-tag { font-size: 0.76rem; padding: 0.28rem 0.6rem; }
+    .category-header h3 { font-size: 0.82rem; }
+}
+
+/* Very small phones */
+@media (max-width: 375px) {
+    .skills { padding: 2rem 0.85rem; }
+    .skill-tag { font-size: 0.72rem; padding: 0.25rem 0.5rem; }
 }
 </style>
