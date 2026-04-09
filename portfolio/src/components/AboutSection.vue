@@ -1,13 +1,18 @@
 <template>
     <section id="about" class="about">
         <div class="about-container">
-            <h2 class="about-heading">{{ t.about.heading }}</h2>
+
+            <div class="about-header">
+                <h2 class="about-heading">{{ t.about.heading }}</h2>
+                <div class="about-sticker">FRONTEND<br>DEV ✦</div>
+            </div>
 
             <div class="about-main">
-                <!-- Photo -->
-                <div class="about-photo-wrap">
+                <!-- Left -->
+                <div class="about-left">
                     <div class="about-photo">
-                        <div class="photo-placeholder">PM</div>
+                        <div class="photo-top">PM</div>
+                        <div class="photo-label">{{ t.hero.role }}</div>
                     </div>
                     <div class="about-socials">
                         <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="social-btn">GitHub ↗</a>
@@ -15,32 +20,49 @@
                     </div>
                 </div>
 
-                <!-- Content -->
-                <div class="about-content">
-                    <div class="about-cards">
-                        <div class="about-card">
-                            <h3>{{ t.about.card1Title }}</h3>
-                            <p>{{ t.about.card1Text }}</p>
+                <!-- Right -->
+                <div class="about-right">
+                    <p class="about-statement">{{ t.about.card1Text }}</p>
+
+                    <div class="about-rule">
+                        <span class="rule-line"></span>
+                        <span class="rule-star">✦</span>
+                        <span class="rule-line"></span>
+                    </div>
+
+                    <p class="about-body">{{ t.about.card2Text }}</p>
+
+                    <div class="about-facts">
+                        <div class="fact-block">
+                            <span class="fact-num">3+</span>
+                            <span class="fact-label">{{ t.hero.statYears }}</span>
                         </div>
-                        <div class="about-card about-card--accent">
-                            <h3>{{ t.about.card2Title }}</h3>
-                            <p>{{ t.about.card2Text }}</p>
+                        <div class="fact-divider"></div>
+                        <div class="fact-block">
+                            <span class="fact-num">20+</span>
+                            <span class="fact-label">{{ t.hero.statProjects }}</span>
+                        </div>
+                        <div class="fact-divider"></div>
+                        <div class="fact-block">
+                            <span class="fact-num">10+</span>
+                            <span class="fact-label">{{ t.hero.statTech }}</span>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 </template>
 
 <script setup>
 import { useLang } from '../composables/useLang.js'
-
 const { t } = useLang()
 </script>
 
 <style scoped>
 .about {
+    position: relative;
     min-height: 100vh;
     padding: 5rem 2rem;
     background-color: #fff;
@@ -50,10 +72,29 @@ const { t } = useLang()
     justify-content: center;
 }
 
+.about::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.08) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+}
+
 .about-container {
+    position: relative;
+    z-index: 1;
     max-width: 1000px;
     margin: 0 auto;
     width: 100%;
+}
+
+/* Header */
+.about-header {
+    position: relative;
+    margin-bottom: 3rem;
+    display: inline-block;
 }
 
 .about-heading {
@@ -61,7 +102,6 @@ const { t } = useLang()
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: -1px;
-    margin-bottom: 3rem;
     display: inline-block;
     background-color: #ff5c5c;
     padding: 0.3rem 1.2rem;
@@ -69,15 +109,40 @@ const { t } = useLang()
     box-shadow: 6px 6px 0 #000;
 }
 
+.about-sticker {
+    position: absolute;
+    top: -1.2rem;
+    left: calc(100% + 1.2rem);
+    background-color: #000;
+    color: #e9ff70;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.4;
+    text-align: center;
+    letter-spacing: 0.5px;
+    transform: rotate(-5deg);
+    transition: transform 0.2s ease;
+    white-space: nowrap;
+    user-select: none;
+    border: 3px solid #000;
+}
+
+.about-sticker:hover {
+    transform: rotate(0deg) scale(1.06);
+}
+
+/* Main layout */
 .about-main {
     display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 3rem;
+    grid-template-columns: 220px 1fr;
+    gap: 4rem;
     align-items: start;
 }
 
-/* Photo column */
-.about-photo-wrap {
+/* Photo */
+.about-left {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -89,21 +154,27 @@ const { t } = useLang()
     overflow: hidden;
 }
 
-.photo-placeholder {
-    width: 100%;
-    aspect-ratio: 1;
+.photo-top {
+    height: 220px;
     background-color: #a78bfa;
+    border-bottom: 3px solid #000;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3.5rem;
+    font-size: 4rem;
     font-weight: 700;
-    letter-spacing: -3px;
-    /* Swap with real photo:
-       background-image: url('/photo.jpg');
-       background-size: cover; background-position: center;
-       font-size: 0; color: transparent;
-    */
+    letter-spacing: -4px;
+    color: rgba(0, 0, 0, 0.2);
+}
+
+.photo-label {
+    padding: 0.6rem 1rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    background-color: #fff;
 }
 
 .about-socials {
@@ -114,8 +185,8 @@ const { t } = useLang()
 
 .social-btn {
     display: block;
-    padding: 0.5rem 1rem;
-    font-size: 0.8rem;
+    padding: 0.55rem 1rem;
+    font-size: 0.78rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -133,134 +204,134 @@ const { t } = useLang()
     box-shadow: 1px 1px 0 #000;
 }
 
-/* Content column */
-.about-content {
+/* Right content */
+.about-right {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.6rem;
+    padding-top: 0.4rem;
 }
 
-.about-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+.about-statement {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    font-weight: 600;
+    line-height: 1.65;
+    margin: 0;
+    border-left: 4px solid #ff5c5c;
+    padding-left: 1.2rem;
 }
 
-.about-card {
-    background-color: #e9ff70;
+.about-rule {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.rule-line {
+    flex: 1;
+    height: 2px;
+    background-color: #000;
+    opacity: 0.15;
+}
+
+.rule-star {
+    font-size: 0.9rem;
+    opacity: 0.35;
+}
+
+.about-body {
+    font-size: 0.97rem;
+    line-height: 1.75;
+    margin: 0;
+    opacity: 0.7;
+}
+
+/* Facts bar */
+.about-facts {
+    display: flex;
+    align-items: center;
+    background-color: #000;
+    color: #fff;
     border: 3px solid #000;
-    box-shadow: 8px 8px 0 #000;
-    padding: 1.8rem;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
-}
-
-.about-card:hover {
-    transform: translate(2px, 2px);
     box-shadow: 6px 6px 0 #000;
+    padding: 1rem 1.4rem;
+    gap: 0;
 }
 
-.about-card--accent {
-    background-color: #fff;
-    border-color: #000;
+.fact-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    flex: 1;
 }
 
-.about-card h3 {
-    font-size: 1.1rem;
+.fact-num {
+    font-size: 1.8rem;
     font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1;
+    color: #e9ff70;
+}
+
+.fact-label {
+    font-size: 0.6rem;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 0.8rem;
-    padding-bottom: 0.6rem;
-    border-bottom: 2px solid #000;
+    opacity: 0.55;
+    text-align: center;
 }
 
-.about-card p {
-    font-size: 0.97rem;
-    line-height: 1.7;
-    font-weight: 400;
+.fact-divider {
+    width: 2px;
+    height: 36px;
+    background-color: rgba(255, 255, 255, 0.15);
 }
-
-/* Responsive */
 
 /* Tablet landscape */
 @media (max-width: 1024px) {
-    .about-main {
-        grid-template-columns: 200px 1fr;
-        gap: 2rem;
-    }
+    .about-main { grid-template-columns: 190px 1fr; gap: 2.5rem; }
 }
 
 /* Tablet portrait */
 @media (max-width: 768px) {
-    .about {
-        padding: 4rem 1.5rem;
-    }
-    .about-main {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-    .about-photo-wrap {
+    .about { padding: 4rem 1.5rem; }
+    .about-sticker { display: none; }
+    .about-main { grid-template-columns: 1fr; gap: 2rem; }
+    .about-left {
         flex-direction: row;
         align-items: flex-start;
         gap: 1.5rem;
     }
-    .about-photo {
-        width: 150px;
-        flex-shrink: 0;
-    }
+    .about-photo { width: 150px; flex-shrink: 0; }
+    .photo-top { height: 160px; font-size: 3rem; }
     .about-socials {
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-end;
         flex: 1;
-    }
-    .social-btn {
-        font-size: 0.75rem;
-    }
-    .about-cards {
-        grid-template-columns: 1fr;
     }
 }
 
 /* Mobile */
-@media (max-width: 480px) {
-    .about {
-        padding: 2.5rem 1rem;
-    }
-    .about-photo-wrap {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-    .about-photo {
-        width: 130px;
-    }
-    .about-socials {
-        flex-direction: row;
-        gap: 0.5rem;
-    }
-    .social-btn {
-        font-size: 0.72rem;
-        padding: 0.4rem 0.8rem;
-    }
-    .about-card {
-        padding: 1.2rem;
-        box-shadow: 5px 5px 0 #000;
-    }
-    .about-card h3 {
-        font-size: 0.95rem;
-        margin-bottom: 0.6rem;
-        padding-bottom: 0.5rem;
-    }
-    .about-card p {
-        font-size: 0.9rem;
-        line-height: 1.6;
-    }
+@media (max-width: 600px) {
+    .about { padding: 3rem 1rem; }
+    .about-left { flex-direction: column; }
+    .about-photo { width: 130px; }
+    .photo-top { height: 130px; }
+    .about-socials { flex-direction: row; }
+    .about-statement { font-size: 1rem; }
 }
 
-/* Very small phones */
+@media (max-width: 480px) {
+    .about { padding: 2.5rem 1rem; }
+    .fact-num { font-size: 1.4rem; }
+    .fact-label { font-size: 0.55rem; }
+}
+
 @media (max-width: 375px) {
     .about { padding: 2rem 0.85rem; }
-    .about-heading { padding: 0.2rem 0.8rem; }
     .about-photo { width: 110px; }
+    .photo-top { height: 110px; font-size: 2.5rem; }
 }
 </style>

@@ -50,6 +50,7 @@ const toolSkills     = ['Git', 'Docker', 'Linux', 'Figma', 'CI/CD', 'VS Code']
 
 <style scoped>
 .skills {
+    position: relative;
     min-height: 100vh;
     padding: 5rem 2rem;
     background-color: #ff5c5c;
@@ -59,7 +60,19 @@ const toolSkills     = ['Git', 'Docker', 'Linux', 'Figma', 'CI/CD', 'VS Code']
     justify-content: center;
 }
 
+.skills::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.12) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+}
+
 .section-container {
+    position: relative;
+    z-index: 1;
     max-width: 960px;
     margin: 0 auto;
     width: 100%;

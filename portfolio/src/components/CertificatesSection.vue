@@ -16,7 +16,7 @@
                         <h3 class="cert-title">{{ cert.title }}</h3>
                         <p class="cert-issuer">{{ cert.issuer }}</p>
                     </div>
-                    <span class="cert-icon">🏆</span>
+                    <span class="cert-icon">✦</span>
                 </div>
             </div>
         </div>
@@ -31,6 +31,7 @@ const { t } = useLang()
 
 <style scoped>
 .certificates {
+    position: relative;
     min-height: 100vh;
     padding: 5rem 2rem;
     background-color: #a78bfa;
@@ -40,7 +41,19 @@ const { t } = useLang()
     justify-content: center;
 }
 
+.certificates::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+}
+
 .section-container {
+    position: relative;
+    z-index: 1;
     max-width: 800px;
     margin: 0 auto;
     width: 100%;

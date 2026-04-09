@@ -72,6 +72,7 @@ function handleSubmit() {
 
 <style scoped>
 .contact {
+    position: relative;
     min-height: 100vh;
     padding: 5rem 2rem;
     background-color: #000;
@@ -81,7 +82,19 @@ function handleSubmit() {
     justify-content: center;
 }
 
+.contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.06) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+}
+
 .section-container {
+    position: relative;
+    z-index: 1;
     max-width: 960px;
     margin: 0 auto;
     width: 100%;
