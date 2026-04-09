@@ -2,20 +2,34 @@
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-left">
-                <span class="footer-logo">PM</span>
+                <button class="footer-logo" @click="scrollTop">PM</button>
                 <span class="footer-name">Patryk Mansfeld</span>
             </div>
-            <p class="footer-copy">© {{ year }} — {{ t.footer.rights }}</p>
-            <p class="footer-made">{{ t.footer.madeWith }} Vue.js</p>
+
+            <div class="footer-links">
+                <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="footer-link">GitHub</a>
+                <a href="https://linkedin.com/in/twojanazwa" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>
+                <a href="mailto:twoj@email.com" class="footer-link">Email</a>
+            </div>
+
+            <div class="footer-right">
+                <p class="footer-copy">© {{ year }} {{ t.footer.rights }}</p>
+            </div>
         </div>
+
+        <button class="back-to-top" @click="scrollTop" :title="lang === 'pl' ? 'Wróć na górę' : 'Back to top'">↑</button>
     </footer>
 </template>
 
 <script setup>
 import { useLang } from '../composables/useLang.js'
 
-const { t } = useLang()
+const { lang, t } = useLang()
 const year = new Date().getFullYear()
+
+function scrollTop() {
+    document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' })
+}
 </script>
 
 <style scoped>
@@ -24,6 +38,7 @@ const year = new Date().getFullYear()
     color: #fff;
     border-top: 3px solid #e9ff70;
     padding: 1.5rem 2rem;
+    position: relative;
 }
 
 .footer-inner {
@@ -33,7 +48,7 @@ const year = new Date().getFullYear()
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 0.8rem;
+    gap: 1rem;
 }
 
 .footer-left {
@@ -45,32 +60,87 @@ const year = new Date().getFullYear()
 .footer-logo {
     background-color: #e9ff70;
     color: #000;
-    font-weight: 900;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
     font-size: 0.9rem;
-    padding: 0.15rem 0.5rem;
+    letter-spacing: -0.5px;
+    padding: 0.2rem 0.6rem;
     border: 2px solid #e9ff70;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.footer-logo:hover {
+    background-color: #000;
+    color: #e9ff70;
 }
 
 .footer-name {
-    font-weight: 800;
-    font-size: 0.9rem;
+    font-size: 0.82rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    opacity: 0.5;
 }
 
-.footer-copy,
-.footer-made {
-    font-size: 0.8rem;
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.78rem;
     font-weight: 600;
-    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.45;
+    transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.footer-link:hover {
+    opacity: 1;
+    color: #e9ff70;
+}
+
+.footer-copy {
+    font-size: 0.75rem;
+    font-weight: 500;
+    opacity: 0.35;
     letter-spacing: 0.5px;
+}
+
+.back-to-top {
+    position: absolute;
+    top: -22px;
+    right: 2rem;
+    width: 44px;
+    height: 44px;
+    background-color: #e9ff70;
+    color: #000;
+    border: 3px solid #000;
+    box-shadow: 4px 4px 0 #000;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.back-to-top:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #000;
 }
 
 @media (max-width: 600px) {
     .footer-inner {
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.4rem;
+        gap: 0.6rem;
     }
+    .footer-links { gap: 1rem; }
 }
 </style>

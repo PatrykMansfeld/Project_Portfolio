@@ -2,18 +2,30 @@
     <section id="about" class="about">
         <div class="about-container">
             <h2 class="about-heading">{{ t.about.heading }}</h2>
-            <div class="about-layout">
-                <div class="about-photo">
-                    <div class="photo-placeholder">PM</div>
-                </div>
-                <div class="about-grid">
-                    <div class="about-card">
-                        <h3>{{ t.about.card1Title }}</h3>
-                        <p>{{ t.about.card1Text }}</p>
+
+            <div class="about-main">
+                <!-- Photo -->
+                <div class="about-photo-wrap">
+                    <div class="about-photo">
+                        <div class="photo-placeholder">PM</div>
                     </div>
-                    <div class="about-card">
-                        <h3>{{ t.about.card2Title }}</h3>
-                        <p>{{ t.about.card2Text }}</p>
+                    <div class="about-socials">
+                        <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="social-btn">GitHub ↗</a>
+                        <a href="https://linkedin.com/in/twojanazwa" target="_blank" rel="noopener" class="social-btn">LinkedIn ↗</a>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="about-content">
+                    <div class="about-cards">
+                        <div class="about-card">
+                            <h3>{{ t.about.card1Title }}</h3>
+                            <p>{{ t.about.card1Text }}</p>
+                        </div>
+                        <div class="about-card about-card--accent">
+                            <h3>{{ t.about.card2Title }}</h3>
+                            <p>{{ t.about.card2Text }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -29,25 +41,24 @@ const { t } = useLang()
 
 <style scoped>
 .about {
-    height: 100vh;
+    min-height: 100vh;
     padding: 5rem 2rem;
     background-color: #fff;
     color: #000;
-    scroll-snap-align: start;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .about-container {
-    max-width: 960px;
+    max-width: 1000px;
     margin: 0 auto;
     width: 100%;
 }
 
 .about-heading {
-    font-size: 3rem;
-    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: -1px;
     margin-bottom: 3rem;
@@ -55,81 +66,144 @@ const { t } = useLang()
     background-color: #ff5c5c;
     padding: 0.3rem 1.2rem;
     border: 3px solid #000;
-    box-shadow: 6px 6px 0px #000;
+    box-shadow: 6px 6px 0 #000;
 }
 
-.about-layout {
-    display: flex;
+.about-main {
+    display: grid;
+    grid-template-columns: 240px 1fr;
     gap: 3rem;
-    align-items: flex-start;
+    align-items: start;
+}
+
+/* Photo column */
+.about-photo-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .about-photo {
-    flex-shrink: 0;
+    border: 3px solid #000;
+    box-shadow: 8px 8px 0 #000;
+    overflow: hidden;
 }
 
 .photo-placeholder {
-    width: 180px;
-    height: 180px;
-    background-color: #e9ff70;
-    border: 3px solid #000;
-    box-shadow: 8px 8px 0 #000;
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: #a78bfa;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
-    font-weight: 900;
-    letter-spacing: -2px;
-    color: #000;
-    /* Replace background-color with background-image when you have a real photo:
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -3px;
+    /* Swap with real photo:
        background-image: url('/photo.jpg');
-       background-size: cover;
-       background-position: center;
+       background-size: cover; background-position: center;
+       font-size: 0; color: transparent;
     */
 }
 
-.about-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+.about-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.social-btn {
+    display: block;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #000;
+    border: 2px solid #000;
+    box-shadow: 3px 3px 0 #000;
+    background-color: #e9ff70;
+    text-align: center;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.social-btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 #000;
+}
+
+/* Content column */
+.about-content {
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
-    flex: 1;
+}
+
+.about-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
 }
 
 .about-card {
     background-color: #e9ff70;
     border: 3px solid #000;
-    box-shadow: 8px 8px 0px #000;
-    padding: 2rem;
+    box-shadow: 8px 8px 0 #000;
+    padding: 1.8rem;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.about-card:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 6px 6px 0 #000;
+}
+
+.about-card--accent {
+    background-color: #fff;
+    border-color: #000;
 }
 
 .about-card h3 {
-    font-size: 1.4rem;
-    font-weight: 800;
+    font-size: 1.1rem;
+    font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid #000;
 }
 
 .about-card p {
-    font-size: 1.05rem;
-    line-height: 1.6;
+    font-size: 0.97rem;
+    line-height: 1.7;
+    font-weight: 400;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
     .about {
         padding: 3rem 1.5rem;
     }
-    .about-heading {
-        font-size: 2.2rem;
-        margin-bottom: 2rem;
-    }
-    .about-layout {
-        flex-direction: column;
-        gap: 2rem;
-        align-items: center;
-    }
-    .about-grid {
+    .about-main {
         grid-template-columns: 1fr;
-        width: 100%;
+        gap: 2rem;
+    }
+    .about-photo-wrap {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    .about-photo {
+        width: 160px;
+        flex-shrink: 0;
+    }
+    .about-socials {
+        flex-direction: column;
+        justify-content: center;
+    }
+    .about-cards {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -137,25 +211,16 @@ const { t } = useLang()
     .about {
         padding: 2rem 1rem;
     }
-    .about-heading {
-        font-size: 1.8rem;
-        padding: 0.2rem 0.8rem;
+    .about-photo-wrap {
+        flex-direction: column;
+        align-items: flex-start;
     }
-    .photo-placeholder {
+    .about-photo {
         width: 140px;
-        height: 140px;
-        font-size: 2.2rem;
-        box-shadow: 5px 5px 0 #000;
     }
     .about-card {
-        padding: 1.5rem;
-        box-shadow: 5px 5px 0px #000;
-    }
-    .about-card h3 {
-        font-size: 1.2rem;
-    }
-    .about-card p {
-        font-size: 0.95rem;
+        padding: 1.3rem;
+        box-shadow: 5px 5px 0 #000;
     }
 }
 </style>

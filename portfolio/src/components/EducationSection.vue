@@ -1,29 +1,30 @@
 <template>
     <section id="education" class="education">
-        <div class="education-container">
-            <h2 class="section-heading">{{ t.education.heading }}</h2>
-            <div class="cubes-grid">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-heading">{{ t.education.heading }}</h2>
+                <p class="section-hint">{{ t.education.tapHint }}</p>
+            </div>
+
+            <div class="edu-grid">
                 <div
-                    class="cube"
+                    class="edu-card"
                     v-for="(edu, index) in t.education.items"
                     :key="index"
                     :class="{ expanded: activeIndex === index }"
                     @click="toggle(index)"
-                    @mouseenter="activeIndex = index"
-                    @mouseleave="activeIndex = null"
+                    @mouseenter="hovered = index"
+                    @mouseleave="hovered = null"
                 >
-                    <div class="cube-inner">
-                        <div class="cube-front">
-                            <span class="cube-date">{{ edu.date }}</span>
-                            <h3>{{ edu.title }}</h3>
-                            <p class="cube-school">{{ edu.school }}</p>
-                        </div>
-                        <div class="cube-details">
-                            <span class="cube-date">{{ edu.date }}</span>
-                            <h3>{{ edu.title }}</h3>
-                            <p class="cube-school">{{ edu.school }}</p>
-                            <p class="cube-description">{{ edu.description }}</p>
-                        </div>
+                    <div class="edu-card-accent"></div>
+                    <div class="edu-card-inner">
+                        <span class="edu-date">{{ edu.date }}</span>
+                        <h3 class="edu-title">{{ edu.title }}</h3>
+                        <p class="edu-school">{{ edu.school }}</p>
+                        <p class="edu-desc" :class="{ visible: activeIndex === index || hovered === index }">
+                            {{ edu.description }}
+                        </p>
+                        <span class="edu-toggle">{{ activeIndex === index ? '−' : '+' }}</span>
                     </div>
                 </div>
             </div>
@@ -37,6 +38,7 @@ import { useLang } from '../composables/useLang.js'
 
 const { t } = useLang()
 const activeIndex = ref(null)
+const hovered = ref(null)
 
 function toggle(index) {
     activeIndex.value = activeIndex.value === index ? null : index
@@ -45,209 +47,151 @@ function toggle(index) {
 
 <style scoped>
 .education {
-    height: 100vh;
-    padding: 3rem 2rem 2rem;
+    min-height: 100vh;
+    padding: 5rem 2rem;
     background-color: #fff;
     color: #000;
-    scroll-snap-align: start;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.education-container {
-    max-width: 960px;
+.section-container {
+    max-width: 900px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
     width: 100%;
 }
 
+.section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
 .section-heading {
-    font-size: 3rem;
-    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: -1px;
-    margin-bottom: 2rem;
     display: inline-block;
     background-color: #a78bfa;
     padding: 0.3rem 1.2rem;
     border: 3px solid #000;
-    box-shadow: 6px 6px 0px #000;
+    box-shadow: 6px 6px 0 #000;
     flex-shrink: 0;
 }
 
-.cubes-grid {
+.section-hint {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.45;
+}
+
+.edu-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    align-items: start;
-    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.8rem;
 }
 
-.cube {
-    height: 180px;
+.edu-card {
+    position: relative;
+    background-color: #e9ff70;
+    border: 3px solid #000;
+    box-shadow: 8px 8px 0 #000;
     cursor: pointer;
-    transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.cube.expanded,
-.cube:hover {
-    height: 300px;
+.edu-card:hover,
+.edu-card.expanded {
+    transform: translate(-3px, -3px);
+    box-shadow: 11px 11px 0 #000;
 }
 
-.cube-inner {
-    width: 100%;
-    height: 100%;
+.edu-card-accent {
+    height: 6px;
+    background-color: #a78bfa;
+    border-bottom: 3px solid #000;
+}
+
+.edu-card-inner {
+    padding: 1.6rem;
     position: relative;
 }
 
-.cube-front {
-    width: 100%;
-    height: 100%;
-    background-color: #e9ff70;
-    border: 3px solid #000;
-    box-shadow: 6px 6px 0px #000;
-    padding: 1.2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    overflow: hidden;
-    transition: opacity 0.2s ease;
-}
-
-.cube.expanded .cube-front,
-.cube:hover .cube-front {
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-}
-
-.cube-details {
-    width: 100%;
-    height: 100%;
-    background-color: #e9ff70;
-    border: 3px solid #000;
-    box-shadow: 8px 8px 0px #000;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: opacity 0.3s ease 0.15s;
-    overflow: hidden;
-}
-
-.cube.expanded .cube-details,
-.cube:hover .cube-details {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.cube-date {
+.edu-date {
     display: inline-block;
-    background-color: #a78bfa;
-    color: #000;
-    font-weight: 800;
-    font-size: 0.75rem;
+    background-color: #000;
+    color: #e9ff70;
+    font-size: 0.72rem;
+    font-weight: 700;
     text-transform: uppercase;
-    padding: 0.15rem 0.6rem;
-    border: 2px solid #000;
-    margin-bottom: 0.6rem;
-    align-self: flex-start;
-}
-
-.cube-front .cube-date {
-    align-self: center;
-}
-
-.cube-front h3 {
-    font-size: 1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin: 0 0 0.2rem;
-    line-height: 1.2;
-}
-
-.cube-details h3 {
-    font-size: 1.3rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin: 0 0 0.2rem;
-    line-height: 1.2;
-}
-
-.cube-school {
-    font-weight: 600;
-    font-size: 0.9rem;
-    opacity: 0.7;
-    margin: 0;
-}
-
-.cube-details .cube-school {
+    letter-spacing: 1px;
+    padding: 0.2rem 0.7rem;
     margin-bottom: 0.8rem;
 }
 
-.cube-description {
-    font-size: 0.95rem;
-    line-height: 1.5;
+.edu-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    margin: 0 0 0.3rem;
+    line-height: 1.2;
+    padding-right: 2rem;
+}
+
+.edu-school {
+    font-size: 0.87rem;
+    font-weight: 600;
+    opacity: 0.6;
     margin: 0;
 }
 
-@media (max-width: 768px) {
-    .education {
-        padding: 3rem 1.5rem 2rem;
-    }
-    .section-heading {
-        font-size: 2.2rem;
-    }
-    .cubes-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-    .cube {
-        height: 160px;
-    }
-    .cube.expanded,
-    .cube:hover {
-        height: 260px;
-    }
+.edu-desc {
+    font-size: 0.93rem;
+    line-height: 1.65;
+    margin-top: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease, margin-top 0.25s ease;
 }
 
-@media (max-width: 480px) {
-    .education {
-        padding: 2rem 1rem 1rem;
-        min-height: 100vh;
-    }
-    .section-heading {
-        font-size: 1.8rem;
-        padding: 0.2rem 0.8rem;
-        margin-bottom: 1.5rem;
-    }
-    .cubes-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    .cube {
-        height: 140px;
-    }
-    .cube.expanded,
-    .cube:hover {
-        height: 240px;
-    }
-    .cube-front {
-        padding: 1rem;
-        box-shadow: 4px 4px 0px #000;
-    }
-    .cube-details {
-        padding: 1rem;
-        box-shadow: 5px 5px 0px #000;
-    }
+.edu-desc.visible {
+    max-height: 150px;
+    opacity: 1;
+    margin-top: 0.9rem;
+    padding-top: 0.9rem;
+    border-top: 2px solid rgba(0,0,0,0.15);
+}
+
+.edu-toggle {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.4rem;
+    font-size: 1.3rem;
+    font-weight: 300;
+    line-height: 1;
+    opacity: 0.35;
+    transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.edu-card:hover .edu-toggle,
+.edu-card.expanded .edu-toggle {
+    opacity: 1;
+    color: #7c3aed;
+}
+
+@media (max-width: 600px) {
+    .education { padding: 3rem 1rem; }
+    .section-heading { font-size: 1.8rem; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .edu-card { box-shadow: 5px 5px 0 #000; }
 }
 </style>

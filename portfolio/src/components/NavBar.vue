@@ -27,7 +27,6 @@
             </div>
         </div>
 
-        <!-- Mobile overlay -->
         <div v-if="menuOpen" class="mobile-menu">
             <ul>
                 <li v-for="item in navItems" :key="item.id">
@@ -79,7 +78,6 @@ function handleScroll() {
 
 onMounted(() => {
     window.addEventListener('scroll', handleScroll, { passive: true })
-
     sectionObserver = new IntersectionObserver(
         entries => {
             entries.forEach(entry => {
@@ -88,7 +86,6 @@ onMounted(() => {
         },
         { threshold: 0, rootMargin: '-45% 0px -55% 0px' }
     )
-
     sectionIds.forEach(id => {
         const el = document.getElementById(id)
         if (el) sectionObserver.observe(el)
@@ -108,14 +105,17 @@ onBeforeUnmount(() => {
     left: 0;
     right: 0;
     z-index: 1000;
-    background-color: #fff;
-    border-bottom: 3px solid transparent;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .navbar.scrolled {
     border-bottom-color: #000;
     box-shadow: 0 4px 0 #000;
+    background-color: #fff;
 }
 
 .navbar-inner {
@@ -126,63 +126,68 @@ onBeforeUnmount(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .navbar-logo {
-    font-size: 1.3rem;
-    font-weight: 900;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
     letter-spacing: -1px;
     background-color: #000;
     color: #e9ff70;
-    border: 3px solid #000;
-    padding: 0.2rem 0.7rem;
+    border: 2px solid #000;
+    padding: 0.3rem 0.8rem;
     cursor: pointer;
     flex-shrink: 0;
-    transition: box-shadow 0.1s ease, transform 0.1s ease;
-    box-shadow: 4px 4px 0 #e9ff70;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .navbar-logo:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 #e9ff70;
+    background-color: #e9ff70;
+    color: #000;
 }
 
 .navbar-links {
     display: flex;
     align-items: center;
-    gap: 0.2rem;
+    gap: 0;
     list-style: none;
     padding: 0;
     margin: 0;
-    flex-wrap: nowrap;
 }
 
 .nav-link {
     background: none;
     border: none;
-    font-size: 0.78rem;
-    font-weight: 800;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
     cursor: pointer;
-    padding: 0.3rem 0.5rem;
-    color: #000;
+    padding: 0.35rem 0.6rem;
+    color: #555;
     position: relative;
-    transition: color 0.1s ease;
+    transition: color 0.15s ease;
     white-space: nowrap;
 }
 
 .nav-link::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0.5rem;
-    right: 0.5rem;
-    height: 3px;
+    bottom: -2px;
+    left: 0.6rem;
+    right: 0.6rem;
+    height: 2px;
     background-color: #ff5c5c;
     transform: scaleX(0);
-    transition: transform 0.15s ease;
+    transform-origin: left;
+    transition: transform 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #000;
 }
 
 .nav-link:hover::after,
@@ -190,41 +195,44 @@ onBeforeUnmount(() => {
     transform: scaleX(1);
 }
 
+.nav-link.active {
+    color: #000;
+    font-weight: 700;
+}
+
 .navbar-actions {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.7rem;
     flex-shrink: 0;
 }
 
 .lang-btn {
     background-color: #e9ff70;
-    border: 3px solid #000;
-    box-shadow: 3px 3px 0 #000;
-    padding: 0.25rem 0.7rem;
-    font-size: 0.78rem;
-    font-weight: 800;
+    border: 2px solid #000;
+    box-shadow: 2px 2px 0 #000;
+    padding: 0.25rem 0.65rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
     cursor: pointer;
     letter-spacing: 1px;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
     display: flex;
-    gap: 0.2rem;
+    gap: 0.25rem;
     align-items: center;
 }
 
 .lang-btn:hover {
     transform: translate(1px, 1px);
-    box-shadow: 2px 2px 0 #000;
+    box-shadow: 1px 1px 0 #000;
 }
 
-.lang-sep {
-    opacity: 0.4;
-}
+.lang-sep { opacity: 0.35; }
 
 .lang-active {
     color: #ff5c5c;
-    text-decoration: underline;
-    text-underline-offset: 2px;
+    font-weight: 700;
 }
 
 /* Hamburger */
@@ -240,25 +248,19 @@ onBeforeUnmount(() => {
 
 .hamburger span {
     display: block;
-    width: 24px;
-    height: 3px;
+    width: 22px;
+    height: 2px;
     background-color: #000;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.hamburger.open span:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
-.hamburger.open span:nth-child(2) {
-    opacity: 0;
-}
-.hamburger.open span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* Mobile menu overlay */
+/* Mobile menu */
 .mobile-menu {
-    border-top: 3px solid #000;
+    border-top: 2px solid #000;
     background-color: #fff;
     padding: 1rem 1.5rem 1.5rem;
 }
@@ -269,36 +271,34 @@ onBeforeUnmount(() => {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0;
 }
 
 .mobile-nav-link {
     background: none;
     border: none;
-    font-size: 1.1rem;
-    font-weight: 800;
+    border-bottom: 1px solid #eee;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
     text-transform: uppercase;
     cursor: pointer;
-    padding: 0.5rem 0;
+    padding: 0.7rem 0;
     color: #000;
     text-align: left;
     width: 100%;
-    border-bottom: 2px solid #f0f0f0;
-    transition: color 0.1s ease, padding-left 0.15s ease;
+    letter-spacing: 0.5px;
+    transition: color 0.15s ease, padding-left 0.15s ease;
 }
 
 .mobile-nav-link:hover,
 .mobile-nav-link.active {
     color: #ff5c5c;
-    padding-left: 0.5rem;
+    padding-left: 0.6rem;
 }
 
 @media (max-width: 900px) {
-    .navbar-links {
-        display: none;
-    }
-    .hamburger {
-        display: flex;
-    }
+    .navbar-links { display: none; }
+    .hamburger { display: flex; }
 }
 </style>

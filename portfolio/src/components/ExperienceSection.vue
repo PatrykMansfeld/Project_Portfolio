@@ -1,29 +1,38 @@
 <template>
     <section id="experience" class="experience">
-        <div class="experience-container">
-            <h2 class="section-heading">{{ t.experience.heading }}</h2>
-            <div class="cubes-grid">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-heading">{{ t.experience.heading }}</h2>
+                <p class="section-hint">{{ t.experience.tapHint }}</p>
+            </div>
+
+            <div class="timeline">
                 <div
-                    class="cube"
+                    class="timeline-item"
                     v-for="(job, index) in t.experience.jobs"
                     :key="index"
                     :class="{ expanded: activeIndex === index }"
                     @click="toggle(index)"
-                    @mouseenter="activeIndex = index"
-                    @mouseleave="activeIndex = null"
+                    @mouseenter="hovered = index"
+                    @mouseleave="hovered = null"
                 >
-                    <div class="cube-inner">
-                        <div class="cube-front">
-                            <span class="cube-date">{{ job.date }}</span>
-                            <h3>{{ job.title }}</h3>
-                            <p class="cube-company">{{ job.company }}</p>
+                    <div class="timeline-marker">
+                        <div class="marker-dot"></div>
+                        <div class="marker-line" v-if="index < t.experience.jobs.length - 1"></div>
+                    </div>
+
+                    <div class="timeline-card" :class="{ 'is-hovered': hovered === index || activeIndex === index }">
+                        <div class="card-top">
+                            <div class="card-meta">
+                                <span class="card-date">{{ job.date }}</span>
+                                <span class="card-company">{{ job.company }}</span>
+                            </div>
+                            <h3 class="card-title">{{ job.title }}</h3>
                         </div>
-                        <div class="cube-details">
-                            <span class="cube-date">{{ job.date }}</span>
-                            <h3>{{ job.title }}</h3>
-                            <p class="cube-company">{{ job.company }}</p>
-                            <p class="cube-description">{{ job.description }}</p>
-                        </div>
+                        <p class="card-desc" :class="{ visible: activeIndex === index || hovered === index }">
+                            {{ job.description }}
+                        </p>
+                        <span class="card-toggle">{{ activeIndex === index ? '−' : '+' }}</span>
                     </div>
                 </div>
             </div>
@@ -37,6 +46,7 @@ import { useLang } from '../composables/useLang.js'
 
 const { t } = useLang()
 const activeIndex = ref(null)
+const hovered = ref(null)
 
 function toggle(index) {
     activeIndex.value = activeIndex.value === index ? null : index
@@ -45,209 +55,195 @@ function toggle(index) {
 
 <style scoped>
 .experience {
-    height: 100vh;
-    padding: 3rem 2rem 2rem;
+    min-height: 100vh;
+    padding: 5rem 2rem;
     background-color: #e9ff70;
     color: #000;
-    scroll-snap-align: start;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.experience-container {
-    max-width: 960px;
+.section-container {
+    max-width: 800px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
     width: 100%;
 }
 
+.section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
 .section-heading {
-    font-size: 3rem;
-    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: -1px;
-    margin-bottom: 2rem;
     display: inline-block;
     background-color: #fff;
     padding: 0.3rem 1.2rem;
     border: 3px solid #000;
-    box-shadow: 6px 6px 0px #000;
+    box-shadow: 6px 6px 0 #000;
     flex-shrink: 0;
 }
 
-.cubes-grid {
+.section-hint {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.5;
+}
+
+/* Timeline */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.timeline-item {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    align-items: start;
-    width: 100%;
-}
-
-.cube {
-    height: 180px;
+    grid-template-columns: 32px 1fr;
+    gap: 1.2rem;
     cursor: pointer;
-    transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.cube.expanded,
-.cube:hover {
-    height: 300px;
-}
-
-.cube-inner {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.cube-front {
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    border: 3px solid #000;
-    box-shadow: 6px 6px 0px #000;
-    padding: 1.2rem;
+.timeline-marker {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    text-align: center;
-    overflow: hidden;
-    transition: opacity 0.2s ease;
+    padding-top: 1.5rem;
 }
 
-.cube.expanded .cube-front,
-.cube:hover .cube-front {
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
+.marker-dot {
+    width: 16px;
+    height: 16px;
+    background-color: #000;
+    border: 3px solid #000;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.cube-details {
-    width: 100%;
-    height: 100%;
+.timeline-item.expanded .marker-dot,
+.timeline-item:hover .marker-dot {
+    background-color: #ff5c5c;
+    transform: scale(1.2);
+}
+
+.marker-line {
+    width: 3px;
+    flex: 1;
+    background-color: #000;
+    opacity: 0.2;
+    min-height: 24px;
+    margin-top: 4px;
+}
+
+/* Card */
+.timeline-card {
     background-color: #fff;
     border: 3px solid #000;
-    box-shadow: 8px 8px 0px #000;
-    padding: 1.5rem;
+    box-shadow: 6px 6px 0 #000;
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.timeline-card.is-hovered {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 #000;
+}
+
+.card-top {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: opacity 0.3s ease 0.15s;
-    overflow: hidden;
+    gap: 0.3rem;
 }
 
-.cube.expanded .cube-details,
-.cube:hover .cube-details {
-    opacity: 1;
-    pointer-events: auto;
+.card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
 }
 
-.cube-date {
-    display: inline-block;
+.card-date {
     background-color: #ff5c5c;
     color: #000;
-    font-weight: 800;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 1px;
     padding: 0.15rem 0.6rem;
     border: 2px solid #000;
-    margin-bottom: 0.6rem;
-    align-self: flex-start;
 }
 
-.cube-front .cube-date {
-    align-self: center;
-}
-
-.cube-front h3 {
-    font-size: 1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin: 0 0 0.2rem;
-    line-height: 1.2;
-}
-
-.cube-details h3 {
-    font-size: 1.3rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin: 0 0 0.2rem;
-    line-height: 1.2;
-}
-
-.cube-company {
+.card-company {
+    font-size: 0.82rem;
     font-weight: 600;
-    font-size: 0.9rem;
-    opacity: 0.7;
+    opacity: 0.55;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
     margin: 0;
 }
 
-.cube-details .cube-company {
-    margin-bottom: 0.8rem;
-}
-
-.cube-description {
+.card-desc {
     font-size: 0.95rem;
-    line-height: 1.5;
-    margin: 0;
+    line-height: 1.65;
+    margin-top: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease, margin-top 0.25s ease;
 }
 
-@media (max-width: 768px) {
-    .experience {
-        padding: 3rem 1.5rem 2rem;
-    }
-    .section-heading {
-        font-size: 2.2rem;
-    }
-    .cubes-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-    .cube {
-        height: 160px;
-    }
-    .cube.expanded,
-    .cube:hover {
-        height: 260px;
-    }
+.card-desc.visible {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 0.8rem;
 }
 
-@media (max-width: 480px) {
-    .experience {
-        padding: 2rem 1rem 1rem;
-        min-height: 100vh;
-    }
-    .section-heading {
-        font-size: 1.8rem;
-        padding: 0.2rem 0.8rem;
-        margin-bottom: 1.5rem;
-    }
-    .cubes-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    .cube {
-        height: 140px;
-    }
-    .cube.expanded,
-    .cube:hover {
-        height: 240px;
-    }
-    .cube-front {
-        padding: 1rem;
-        box-shadow: 4px 4px 0px #000;
-    }
-    .cube-details {
-        padding: 1rem;
-        box-shadow: 5px 5px 0px #000;
-    }
+.card-toggle {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.4rem;
+    font-size: 1.3rem;
+    font-weight: 300;
+    line-height: 1;
+    opacity: 0.4;
+    transition: opacity 0.15s ease, transform 0.2s ease;
+}
+
+.timeline-card.is-hovered .card-toggle {
+    opacity: 1;
+}
+
+.timeline-item.expanded .card-toggle {
+    opacity: 1;
+    transform: rotate(0deg);
+    color: #ff5c5c;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .experience { padding: 3rem 1rem; }
+    .section-heading { font-size: 1.8rem; }
+    .timeline-item { grid-template-columns: 24px 1fr; gap: 0.8rem; }
+    .marker-dot { width: 12px; height: 12px; }
+    .timeline-card { padding: 1rem 1.2rem; box-shadow: 4px 4px 0 #000; }
+    .card-title { font-size: 1rem; }
 }
 </style>

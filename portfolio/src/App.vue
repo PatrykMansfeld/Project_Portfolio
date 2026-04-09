@@ -2,6 +2,7 @@
 import { onMounted } from 'vue'
 import NavBar from './components/NavBar.vue'
 import HeroSection from './components/HeroSection.vue'
+import MarqueeBanner from './components/MarqueeBanner.vue'
 import AboutSection from './components/AboutSection.vue'
 import ExperienceSection from './components/ExperienceSection.vue'
 import EducationSection from './components/EducationSection.vue'
@@ -25,13 +26,14 @@ onMounted(() => {
     { threshold: 0.05 }
   )
 
-  document.querySelectorAll('section:not(#hero)').forEach(s => observer.observe(s))
+  document.querySelectorAll('section:not(#hero), .marquee-strip').forEach(el => observer.observe(el))
 })
 </script>
 
 <template>
   <NavBar />
   <HeroSection />
+  <MarqueeBanner />
   <AboutSection />
   <ExperienceSection />
   <EducationSection />
