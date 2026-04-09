@@ -24,3 +24,20 @@ body {
     scroll-snap-type: y proximity;
   }
 }
+
+/* Navbar offset for anchor links */
+section {
+  scroll-margin-top: 64px;
+}
+
+/* Scroll reveal animation */
+section:not(#hero) {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+section:not(#hero).in-view {
+  opacity: 1;
+  transform: translateY(0);
+}

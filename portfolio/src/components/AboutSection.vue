@@ -1,30 +1,30 @@
 <template>
-    <section class="about">
+    <section id="about" class="about">
         <div class="about-container">
-            <h2 class="about-heading">O mnie</h2>
-            <div class="about-grid">
-                <div class="about-card">
-                    <h3>Kim jestem</h3>
-                    <p>
-                        Jestem full-stack developerem z pasją do tworzenia śmiałych i funkcjonalnych
-                        aplikacji webowych. Lubię czysty kod, kreatywny design i zamienianie pomysłów
-                        w rzeczywistość.
-                    </p>
+            <h2 class="about-heading">{{ t.about.heading }}</h2>
+            <div class="about-layout">
+                <div class="about-photo">
+                    <div class="photo-placeholder">PM</div>
                 </div>
-                <div class="about-card">
-                    <h3>Doświadczenie</h3>
-                    <p>
-                        Pracowałem nad różnorodnymi projektami — od interaktywnych interfejsów
-                        po rozbudowane API backendowe. Zawsze szukam nowych wyzwań i możliwości
-                        rozwoju.
-                    </p>
+                <div class="about-grid">
+                    <div class="about-card">
+                        <h3>{{ t.about.card1Title }}</h3>
+                        <p>{{ t.about.card1Text }}</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>{{ t.about.card2Title }}</h3>
+                        <p>{{ t.about.card2Text }}</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 </template>
 
-<script>
+<script setup>
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
 </script>
 
 <style scoped>
@@ -37,12 +37,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-y: auto;
 }
 
 .about-container {
     max-width: 960px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .about-heading {
@@ -58,10 +58,41 @@
     box-shadow: 6px 6px 0px #000;
 }
 
+.about-layout {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.about-photo {
+    flex-shrink: 0;
+}
+
+.photo-placeholder {
+    width: 180px;
+    height: 180px;
+    background-color: #e9ff70;
+    border: 3px solid #000;
+    box-shadow: 8px 8px 0 #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    color: #000;
+    /* Replace background-color with background-image when you have a real photo:
+       background-image: url('/photo.jpg');
+       background-size: cover;
+       background-position: center;
+    */
+}
+
 .about-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 2rem;
+    flex: 1;
 }
 
 .about-card {
@@ -91,8 +122,14 @@
         font-size: 2.2rem;
         margin-bottom: 2rem;
     }
+    .about-layout {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
+    }
     .about-grid {
         grid-template-columns: 1fr;
+        width: 100%;
     }
 }
 
@@ -103,6 +140,12 @@
     .about-heading {
         font-size: 1.8rem;
         padding: 0.2rem 0.8rem;
+    }
+    .photo-placeholder {
+        width: 140px;
+        height: 140px;
+        font-size: 2.2rem;
+        box-shadow: 5px 5px 0 #000;
     }
     .about-card {
         padding: 1.5rem;

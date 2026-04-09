@@ -1,9 +1,9 @@
 <template>
-    <section class="certificates">
+    <section id="certificates" class="certificates">
         <div class="certificates-container">
-            <h2 class="section-heading">Certyfikaty</h2>
+            <h2 class="section-heading">{{ t.certificates.heading }}</h2>
             <div class="certificates-grid">
-                <div class="cert-card" v-for="cert in certificates" :key="cert.title">
+                <div class="cert-card" v-for="cert in t.certificates.items" :key="cert.title">
                     <div class="cert-badge">🏆</div>
                     <div class="cert-info">
                         <span class="cert-year">{{ cert.year }}</span>
@@ -17,14 +17,9 @@
 </template>
 
 <script setup>
-const certificates = [
-    { title: 'Vue.js — The Complete Guide', issuer: 'Udemy', year: '2024' },
-    { title: 'Node.js Developer Course', issuer: 'Udemy', year: '2023' },
-    { title: 'CS50: Introduction to Computer Science', issuer: 'Harvard / edX', year: '2022' },
-    { title: 'Python Bootcamp', issuer: 'Coursera', year: '2022' },
-    { title: 'Responsive Web Design', issuer: 'freeCodeCamp', year: '2021' },
-    { title: 'JavaScript Algorithms & Data Structures', issuer: 'freeCodeCamp', year: '2021' },
-]
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
 </script>
 
 <style scoped>
@@ -36,7 +31,6 @@ const certificates = [
     scroll-snap-align: start;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 .certificates-container {
@@ -45,7 +39,6 @@ const certificates = [
     display: flex;
     flex-direction: column;
     flex: 1;
-    min-height: 0;
     width: 100%;
 }
 
@@ -67,15 +60,7 @@ const certificates = [
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
-    overflow-y: auto;
-    flex: 1;
-    min-height: 0;
     padding-bottom: 2rem;
-    scrollbar-width: none;
-}
-
-.certificates-grid::-webkit-scrollbar {
-    display: none;
 }
 
 .cert-card {
@@ -86,6 +71,12 @@ const certificates = [
     display: flex;
     gap: 1rem;
     align-items: flex-start;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.cert-card:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 6px 6px 0px #000;
 }
 
 .cert-badge {
@@ -134,7 +125,6 @@ const certificates = [
 @media (max-width: 480px) {
     .certificates {
         padding: 2rem 1rem 1rem;
-        height: auto;
         min-height: 100vh;
     }
     .section-heading {

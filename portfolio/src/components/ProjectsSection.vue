@@ -1,53 +1,19 @@
 <template>
-    <section class="projects">
+    <section id="projects" class="projects">
         <div class="projects-container">
-            <h2 class="section-heading">Projekty</h2>
+            <h2 class="section-heading">{{ t.projects.heading }}</h2>
             <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">01</div>
+                <div class="project-card" v-for="(project, i) in t.projects.items" :key="project.num" :style="`--delay: ${i * 0.1}s`">
+                    <div class="project-image">{{ project.num }}</div>
                     <div class="project-info">
-                        <h3>E-commerce Platform</h3>
-                        <p>Pełny sklep internetowy z koszykiem, płatnościami i panelem admina.</p>
+                        <h3>{{ project.title }}</h3>
+                        <p>{{ project.description }}</p>
                         <div class="project-tags">
-                            <span class="project-tag">Vue.js</span>
-                            <span class="project-tag">Node.js</span>
-                            <span class="project-tag">MongoDB</span>
+                            <span class="project-tag" v-for="tag in project.tags" :key="tag">{{ tag }}</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="project-btn">Demo</a>
-                            <a href="#" class="project-btn project-btn-alt">GitHub</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">02</div>
-                    <div class="project-info">
-                        <h3>Task Manager App</h3>
-                        <p>Aplikacja do zarządzania zadaniami z drag & drop i powiadomieniami.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">React</span>
-                            <span class="project-tag">Express</span>
-                            <span class="project-tag">PostgreSQL</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="project-btn">Demo</a>
-                            <a href="#" class="project-btn project-btn-alt">GitHub</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">03</div>
-                    <div class="project-info">
-                        <h3>Weather Dashboard</h3>
-                        <p>Dashboard pogodowy z wykresami, mapami i prognozą na 7 dni.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">JavaScript</span>
-                            <span class="project-tag">API</span>
-                            <span class="project-tag">CSS</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="project-btn">Demo</a>
-                            <a href="#" class="project-btn project-btn-alt">GitHub</a>
+                            <a :href="project.demo" class="project-btn">{{ t.projects.demo }}</a>
+                            <a :href="project.github" class="project-btn project-btn-alt" target="_blank" rel="noopener">{{ t.projects.github }}</a>
                         </div>
                     </div>
                 </div>
@@ -56,7 +22,10 @@
     </section>
 </template>
 
-<script>
+<script setup>
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
 </script>
 
 <style scoped>
@@ -68,7 +37,6 @@
     scroll-snap-align: start;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 .projects-container {
@@ -77,7 +45,6 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    min-height: 0;
     width: 100%;
 }
 
@@ -99,9 +66,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
-    overflow-y: auto;
-    flex: 1;
-    min-height: 0;
     padding-bottom: 2rem;
 }
 
@@ -110,6 +74,12 @@
     border: 3px solid #000;
     box-shadow: 8px 8px 0px #000;
     overflow: hidden;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.project-card:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 6px 6px 0px #000;
 }
 
 .project-image {
@@ -183,7 +153,6 @@
 
 .project-btn-alt {
     background-color: #fff;
-    border: 3px solid #000;
 }
 
 @media (max-width: 768px) {
@@ -205,7 +174,6 @@
 @media (max-width: 480px) {
     .projects {
         padding: 2rem 1rem 1rem;
-        height: auto;
         min-height: 100vh;
     }
     .section-heading {

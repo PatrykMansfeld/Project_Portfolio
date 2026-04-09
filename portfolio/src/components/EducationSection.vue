@@ -1,9 +1,17 @@
 <template>
-    <section class="education">
+    <section id="education" class="education">
         <div class="education-container">
-            <h2 class="section-heading">Edukacja</h2>
+            <h2 class="section-heading">{{ t.education.heading }}</h2>
             <div class="cubes-grid">
-                <div class="cube" v-for="(edu, index) in educations" :key="index">
+                <div
+                    class="cube"
+                    v-for="(edu, index) in t.education.items"
+                    :key="index"
+                    :class="{ expanded: activeIndex === index }"
+                    @click="toggle(index)"
+                    @mouseenter="activeIndex = index"
+                    @mouseleave="activeIndex = null"
+                >
                     <div class="cube-inner">
                         <div class="cube-front">
                             <span class="cube-date">{{ edu.date }}</span>
@@ -23,26 +31,15 @@
     </section>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            educations: [
-                {
-                    date: '2020 — 2024',
-                    title: 'Informatyka — Magister',
-                    school: 'Politechnika Warszawska',
-                    description: 'Specjalizacja: Inżynieria oprogramowania. Praca magisterska z zakresu aplikacji webowych.'
-                },
-                {
-                    date: '2017 — 2020',
-                    title: 'Informatyka — Licencjat',
-                    school: 'Uniwersytet Jagielloński',
-                    description: 'Podstawy programowania, algorytmy, bazy danych i sieci komputerowe.'
-                }
-            ]
-        }
-    }
+<script setup>
+import { ref } from 'vue'
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
+const activeIndex = ref(null)
+
+function toggle(index) {
+    activeIndex.value = activeIndex.value === index ? null : index
 }
 </script>
 
@@ -55,7 +52,6 @@ export default {
     scroll-snap-align: start;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 .education-container {
@@ -64,7 +60,6 @@ export default {
     display: flex;
     flex-direction: column;
     flex: 1;
-    min-height: 0;
     width: 100%;
 }
 
@@ -94,12 +89,11 @@ export default {
     height: 180px;
     cursor: pointer;
     transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    z-index: 1;
 }
 
+.cube.expanded,
 .cube:hover {
     height: 300px;
-    z-index: 10;
 }
 
 .cube-inner {
@@ -124,6 +118,7 @@ export default {
     transition: opacity 0.2s ease;
 }
 
+.cube.expanded .cube-front,
 .cube:hover .cube-front {
     opacity: 0;
     pointer-events: none;
@@ -149,6 +144,7 @@ export default {
     overflow: hidden;
 }
 
+.cube.expanded .cube-details,
 .cube:hover .cube-details {
     opacity: 1;
     pointer-events: auto;
@@ -164,6 +160,11 @@ export default {
     padding: 0.15rem 0.6rem;
     border: 2px solid #000;
     margin-bottom: 0.6rem;
+    align-self: flex-start;
+}
+
+.cube-front .cube-date {
+    align-self: center;
 }
 
 .cube-front h3 {
@@ -199,10 +200,6 @@ export default {
     margin: 0;
 }
 
-.cube-front .cube-school {
-    margin-bottom: 0;
-}
-
 @media (max-width: 768px) {
     .education {
         padding: 3rem 1.5rem 2rem;
@@ -217,6 +214,7 @@ export default {
     .cube {
         height: 160px;
     }
+    .cube.expanded,
     .cube:hover {
         height: 260px;
     }
@@ -225,7 +223,6 @@ export default {
 @media (max-width: 480px) {
     .education {
         padding: 2rem 1rem 1rem;
-        height: auto;
         min-height: 100vh;
     }
     .section-heading {
@@ -240,6 +237,7 @@ export default {
     .cube {
         height: 140px;
     }
+    .cube.expanded,
     .cube:hover {
         height: 240px;
     }

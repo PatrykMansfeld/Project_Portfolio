@@ -1,39 +1,54 @@
 <template>
-    <section class="skills">
+    <section id="skills" class="skills">
         <div class="skills-container">
-            <h2 class="section-heading">Umiejętności</h2>
+            <h2 class="section-heading">{{ t.skills.heading }}</h2>
             <div class="skills-grid">
                 <div class="skill-category">
-                    <h3>Frontend</h3>
+                    <h3>{{ t.skills.frontend }}</h3>
                     <ul class="skill-list">
-                        <li class="skill-tag">HTML5</li>
-                        <li class="skill-tag">CSS3</li>
-                        <li class="skill-tag">JavaScript</li>
-                        <li class="skill-tag">TypeScript</li>
-                        <li class="skill-tag">Vue.js</li>
-                        <li class="skill-tag">React</li>
+                        <li class="skill-item" v-for="skill in frontendSkills" :key="skill.name">
+                            <span class="skill-name">{{ skill.name }}</span>
+                            <span class="skill-dots">
+                                <span
+                                    class="dot"
+                                    v-for="n in 5"
+                                    :key="n"
+                                    :class="{ filled: n <= skill.level }"
+                                ></span>
+                            </span>
+                        </li>
                     </ul>
                 </div>
                 <div class="skill-category">
-                    <h3>Backend</h3>
+                    <h3>{{ t.skills.backend }}</h3>
                     <ul class="skill-list">
-                        <li class="skill-tag">Node.js</li>
-                        <li class="skill-tag">Express</li>
-                        <li class="skill-tag">Python</li>
-                        <li class="skill-tag">REST API</li>
-                        <li class="skill-tag">PostgreSQL</li>
-                        <li class="skill-tag">MongoDB</li>
+                        <li class="skill-item" v-for="skill in backendSkills" :key="skill.name">
+                            <span class="skill-name">{{ skill.name }}</span>
+                            <span class="skill-dots">
+                                <span
+                                    class="dot"
+                                    v-for="n in 5"
+                                    :key="n"
+                                    :class="{ filled: n <= skill.level }"
+                                ></span>
+                            </span>
+                        </li>
                     </ul>
                 </div>
                 <div class="skill-category">
-                    <h3>Narzędzia</h3>
+                    <h3>{{ t.skills.tools }}</h3>
                     <ul class="skill-list">
-                        <li class="skill-tag">Git</li>
-                        <li class="skill-tag">Docker</li>
-                        <li class="skill-tag">Linux</li>
-                        <li class="skill-tag">VS Code</li>
-                        <li class="skill-tag">Figma</li>
-                        <li class="skill-tag">CI/CD</li>
+                        <li class="skill-item" v-for="skill in toolSkills" :key="skill.name">
+                            <span class="skill-name">{{ skill.name }}</span>
+                            <span class="skill-dots">
+                                <span
+                                    class="dot"
+                                    v-for="n in 5"
+                                    :key="n"
+                                    :class="{ filled: n <= skill.level }"
+                                ></span>
+                            </span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -41,7 +56,37 @@
     </section>
 </template>
 
-<script>
+<script setup>
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
+
+const frontendSkills = [
+    { name: 'HTML5',      level: 5 },
+    { name: 'CSS3',       level: 5 },
+    { name: 'JavaScript', level: 5 },
+    { name: 'TypeScript', level: 4 },
+    { name: 'Vue.js',     level: 5 },
+    { name: 'React',      level: 3 },
+]
+
+const backendSkills = [
+    { name: 'Node.js',    level: 4 },
+    { name: 'Express',    level: 4 },
+    { name: 'Python',     level: 3 },
+    { name: 'REST API',   level: 5 },
+    { name: 'PostgreSQL', level: 4 },
+    { name: 'MongoDB',    level: 3 },
+]
+
+const toolSkills = [
+    { name: 'Git',    level: 5 },
+    { name: 'Docker', level: 3 },
+    { name: 'Linux',  level: 4 },
+    { name: 'Figma',  level: 3 },
+    { name: 'CI/CD',  level: 3 },
+    { name: 'VS Code', level: 5 },
+]
 </script>
 
 <style scoped>
@@ -54,12 +99,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-y: auto;
 }
 
 .skills-container {
     max-width: 960px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .section-heading {
@@ -92,7 +137,7 @@
     font-size: 1.4rem;
     font-weight: 800;
     text-transform: uppercase;
-    margin: 0 0 1.2rem;
+    margin: 0 0 1.4rem;
 }
 
 .skill-list {
@@ -100,18 +145,40 @@
     padding: 0;
     margin: 0;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
-.skill-tag {
-    background-color: #e9ff70;
-    border: 3px solid #000;
-    box-shadow: 4px 4px 0px #000;
-    padding: 0.4rem 1rem;
+.skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.skill-name {
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
+}
+
+.skill-dots {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border: 2px solid #000;
+    background-color: transparent;
+    border-radius: 0;
+    transition: background-color 0.15s ease;
+}
+
+.dot.filled {
+    background-color: #ff5c5c;
 }
 
 @media (max-width: 768px) {
@@ -142,10 +209,12 @@
     .skill-category h3 {
         font-size: 1.2rem;
     }
-    .skill-tag {
-        font-size: 0.85rem;
-        padding: 0.3rem 0.7rem;
-        box-shadow: 3px 3px 0px #000;
+    .skill-name {
+        font-size: 0.8rem;
+    }
+    .dot {
+        width: 10px;
+        height: 10px;
     }
 }
 </style>

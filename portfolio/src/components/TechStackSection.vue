@@ -1,7 +1,7 @@
 <template>
-    <section class="techstack">
+    <section id="techstack" class="techstack">
         <div class="techstack-container">
-            <h2 class="section-heading">Stack technologiczny</h2>
+            <h2 class="section-heading">{{ t.techStack.heading }}</h2>
             <div class="tech-grid">
                 <div class="tech-item" v-for="tech in technologies" :key="tech.name">
                     <span class="tech-icon">{{ tech.icon }}</span>
@@ -13,23 +13,27 @@
 </template>
 
 <script setup>
+import { useLang } from '../composables/useLang.js'
+
+const { t } = useLang()
+
 const technologies = [
-    { name: 'HTML5', icon: '🌐' },
-    { name: 'CSS3', icon: '🎨' },
+    { name: 'HTML5',      icon: '🌐' },
+    { name: 'CSS3',       icon: '🎨' },
     { name: 'JavaScript', icon: '⚡' },
     { name: 'TypeScript', icon: '🔷' },
-    { name: 'Vue.js', icon: '💚' },
-    { name: 'React', icon: '⚛️' },
-    { name: 'Node.js', icon: '🟢' },
-    { name: 'Express', icon: '🚂' },
-    { name: 'Python', icon: '🐍' },
+    { name: 'Vue.js',     icon: '💚' },
+    { name: 'React',      icon: '⚛️' },
+    { name: 'Node.js',    icon: '🟢' },
+    { name: 'Express',    icon: '🚂' },
+    { name: 'Python',     icon: '🐍' },
     { name: 'PostgreSQL', icon: '🐘' },
-    { name: 'MongoDB', icon: '🍃' },
-    { name: 'Docker', icon: '🐳' },
-    { name: 'Git', icon: '🔀' },
-    { name: 'Linux', icon: '🐧' },
-    { name: 'Figma', icon: '🖌️' },
-    { name: 'VS Code', icon: '💻' },
+    { name: 'MongoDB',    icon: '🍃' },
+    { name: 'Docker',     icon: '🐳' },
+    { name: 'Git',        icon: '🔀' },
+    { name: 'Linux',      icon: '🐧' },
+    { name: 'Figma',      icon: '🖌️' },
+    { name: 'VS Code',    icon: '💻' },
 ]
 </script>
 
@@ -43,7 +47,6 @@ const technologies = [
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-y: auto;
 }
 
 .techstack-container {

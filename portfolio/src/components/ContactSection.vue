@@ -1,38 +1,41 @@
 <template>
-    <section class="contact">
+    <section id="contact" class="contact">
         <div class="contact-container">
-            <h2 class="section-heading">Kontakt</h2>
+            <h2 class="section-heading">{{ t.contact.heading }}</h2>
             <div class="contact-grid">
-                <!-- <div class="contact-form-wrapper">
+                <div class="contact-form-wrapper">
+                    <h3 class="contact-sub-heading">{{ t.contact.writeMe }}</h3>
                     <form class="contact-form" @submit.prevent="handleSubmit">
                         <div class="form-group">
-                            <label for="name">Imię i nazwisko</label>
-                            <input id="name" v-model="form.name" type="text" placeholder="Jan Kowalski" required />
+                            <label for="name">{{ t.contact.name }}</label>
+                            <input id="name" v-model="form.name" type="text" :placeholder="t.contact.namePlaceholder" required />
                         </div>
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input id="email" v-model="form.email" type="email" placeholder="jan@example.com" required />
+                            <label for="email">{{ t.contact.email }}</label>
+                            <input id="email" v-model="form.email" type="email" :placeholder="t.contact.emailPlaceholder" required />
                         </div>
                         <div class="form-group">
-                            <label for="message">Wiadomość</label>
-                            <textarea id="message" v-model="form.message" rows="4" placeholder="Napisz do mnie..." required></textarea>
+                            <label for="message">{{ t.contact.message }}</label>
+                            <textarea id="message" v-model="form.message" rows="4" :placeholder="t.contact.messagePlaceholder" required></textarea>
                         </div>
-                        <button type="submit" class="submit-btn">Wyślij wiadomość</button>
+                        <button type="submit" class="submit-btn">{{ t.contact.btn }}</button>
                     </form>
-                </div> -->
+                </div>
+
                 <div class="contact-links-wrapper">
+                    <h3 class="contact-sub-heading">{{ t.contact.findMe }}</h3>
                     <div class="contact-card">
-                        <h3>Znajdź mnie tutaj</h3>
                         <div class="links-list">
+                            <!-- Replace with your real email and profiles -->
                             <a href="mailto:twoj@email.com" class="contact-link">
                                 <span class="link-icon">✉️</span>
                                 <span>twoj@email.com</span>
                             </a>
-                            <a href="https://github.com" target="_blank" rel="noopener" class="contact-link">
+                            <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="contact-link">
                                 <span class="link-icon">🐙</span>
-                                <span>github.com/twojanazwa</span>
+                                <span>github.com/PatrykMansfeld</span>
                             </a>
-                            <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-link">
+                            <a href="https://linkedin.com/in/twojanazwa" target="_blank" rel="noopener" class="contact-link">
                                 <span class="link-icon">💼</span>
                                 <span>linkedin.com/in/twojanazwa</span>
                             </a>
@@ -46,11 +49,16 @@
 
 <script setup>
 import { reactive } from 'vue'
+import { useLang } from '../composables/useLang.js'
 
+const { t } = useLang()
 const form = reactive({ name: '', email: '', message: '' })
 
 function handleSubmit() {
-    console.log('Form submitted:', form)
+    const subject = encodeURIComponent(`Portfolio — ${form.name}`)
+    const body = encodeURIComponent(`Imię / Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`)
+    // Replace twoj@email.com with your real email address
+    window.open(`mailto:twoj@email.com?subject=${subject}&body=${body}`)
 }
 </script>
 
@@ -64,7 +72,6 @@ function handleSubmit() {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-y: auto;
 }
 
 .contact-container {
@@ -87,16 +94,19 @@ function handleSubmit() {
     box-shadow: 6px 6px 0px #e9ff70;
 }
 
+.contact-sub-heading {
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.2rem;
+    opacity: 0.6;
+}
+
 .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-}
-
-@media (max-width: 700px) {
-    .contact-grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 .contact-form {
@@ -163,19 +173,7 @@ function handleSubmit() {
 }
 
 .contact-card {
-    background-color: #fff;
-    color: #000;
-    border: 3px solid #fff;
-    box-shadow: 8px 8px 0px #e9ff70;
-    padding: 2rem;
-    height: fit-content;
-}
-
-.contact-card h3 {
-    font-size: 1.3rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
+    background-color: transparent;
 }
 
 .links-list {
@@ -189,18 +187,18 @@ function handleSubmit() {
     align-items: center;
     gap: 0.8rem;
     text-decoration: none;
-    color: #000;
+    color: #fff;
     font-weight: 600;
     font-size: 0.95rem;
     padding: 0.6rem 1rem;
-    border: 3px solid #000;
-    box-shadow: 4px 4px 0px #000;
+    border: 3px solid #fff;
+    box-shadow: 4px 4px 0px #e9ff70;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .contact-link:hover {
     transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px #000;
+    box-shadow: 2px 2px 0px #e9ff70;
 }
 
 .link-icon {
@@ -228,18 +226,10 @@ function handleSubmit() {
         font-size: 1.8rem;
         padding: 0.2rem 0.8rem;
     }
-    .contact-card {
-        padding: 1.5rem;
-        box-shadow: 5px 5px 0px #000;
-    }
-    .contact-card h3 {
-        font-size: 1.1rem;
-        margin-bottom: 1rem;
-    }
     .contact-link {
         font-size: 0.85rem;
         padding: 0.5rem 0.8rem;
-        box-shadow: 3px 3px 0px #000;
+        box-shadow: 3px 3px 0px #e9ff70;
     }
     .link-icon {
         font-size: 1.1rem;
