@@ -10,7 +10,10 @@
                         <h3 class="skill-cat">{{ cat.label }}</h3>
                     </div>
                     <ul class="skill-tags">
-                        <li class="skill-tag" v-for="skill in cat.skills" :key="skill">{{ skill }}</li>
+                        <li class="skill-tag" v-for="skill in cat.skills" :key="skill.name">
+                            <span class="skill-abbr">{{ skill.abbr }}</span>
+                            <span class="skill-name">{{ skill.name }}</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -27,15 +30,36 @@ const { t } = useLang()
 const categories = computed(() => [
     {
         label: t.value.skills.frontend,
-        skills: ['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'Vue.js', 'React'],
+        skills: [
+            { name: 'HTML5',      abbr: 'H5'  },
+            { name: 'CSS3',       abbr: 'CS'  },
+            { name: 'JavaScript', abbr: 'JS'  },
+            { name: 'TypeScript', abbr: 'TS'  },
+            { name: 'Vue.js',     abbr: 'VUE' },
+            { name: 'React',      abbr: 'RCT' },
+        ],
     },
     {
         label: t.value.skills.backend,
-        skills: ['Node.js', 'Express', 'Python', 'REST API', 'PostgreSQL', 'MongoDB'],
+        skills: [
+            { name: 'Node.js',    abbr: 'NOD' },
+            { name: 'Express',    abbr: 'EXP' },
+            { name: 'Python',     abbr: 'PY'  },
+            { name: 'REST API',   abbr: 'API' },
+            { name: 'PostgreSQL', abbr: 'SQL' },
+            { name: 'MongoDB',    abbr: 'MDB' },
+        ],
     },
     {
         label: t.value.skills.tools,
-        skills: ['Git', 'Docker', 'Linux', 'Figma', 'CI/CD', 'VS Code'],
+        skills: [
+            { name: 'Git',        abbr: 'GIT' },
+            { name: 'Docker',     abbr: 'DCK' },
+            { name: 'Linux',      abbr: 'LNX' },
+            { name: 'Figma',      abbr: 'FIG' },
+            { name: 'CI/CD',      abbr: 'CI'  },
+            { name: 'VS Code',    abbr: 'VSC' },
+        ],
     },
 ])
 </script>
@@ -131,33 +155,63 @@ const categories = computed(() => [
     width: fit-content;
 }
 
-/* Right: tags */
+/* Right: tech cards */
 .skill-tags {
     list-style: none;
-    padding: 0.6rem 0 0;
+    padding: 0.4rem 0 0;
     margin: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.6rem;
 }
 
 .skill-tag {
     background-color: #fff;
     border: 2px solid #000;
-    padding: 0.4rem 0.9rem;
-    font-weight: 600;
-    font-size: 0.82rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
+    box-shadow: 3px 3px 0 #000;
+    padding: 0.7rem 0.6rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 68px;
     cursor: default;
-    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease, color 0.1s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
 .skill-tag:hover {
     background-color: #000;
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.35);
+}
+
+.skill-abbr {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1;
+    color: #000;
+    transition: color 0.15s ease;
+}
+
+.skill-tag:hover .skill-abbr {
     color: #e9ff70;
-    transform: translate(-1px, -1px);
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.skill-name {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    color: #000;
+    opacity: 0.6;
+    transition: color 0.15s ease, opacity 0.15s ease;
+}
+
+.skill-tag:hover .skill-name {
+    color: #fff;
+    opacity: 0.65;
 }
 
 /* Tablet */
@@ -166,6 +220,8 @@ const categories = computed(() => [
     .section-heading { font-size: 2rem; }
     .skill-row { grid-template-columns: 140px 1fr; gap: 1.5rem; padding: 1.8rem 0; }
     .skill-num { font-size: 3.5rem; }
+    .skill-tag { min-width: 60px; padding: 0.6rem 0.5rem 0.4rem; }
+    .skill-abbr { font-size: 1.1rem; }
 }
 
 /* Mobile — stack */
@@ -182,12 +238,16 @@ const categories = computed(() => [
     .skills { padding: 2.5rem 1rem; }
     .section-heading { font-size: 1.8rem; padding: 0.2rem 0.8rem; }
     .skill-num { font-size: 2.5rem; }
-    .skill-tag { font-size: 0.76rem; padding: 0.32rem 0.7rem; }
+    .skill-tag { min-width: 56px; padding: 0.55rem 0.45rem 0.4rem; }
+    .skill-abbr { font-size: 1rem; }
+    .skill-name { font-size: 0.6rem; }
 }
 
 @media (max-width: 375px) {
     .skills { padding: 2rem 0.85rem; }
     .skill-num { font-size: 2.2rem; }
-    .skill-tag { font-size: 0.72rem; padding: 0.28rem 0.55rem; }
+    .skill-tag { min-width: 50px; }
+    .skill-abbr { font-size: 0.9rem; }
+    .skill-name { font-size: 0.58rem; }
 }
 </style>

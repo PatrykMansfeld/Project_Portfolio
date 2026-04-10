@@ -51,14 +51,13 @@ const menuOpen = ref(false)
 const activeSection = ref('hero')
 const isScrolled = ref(false)
 
-const sectionIds = ['hero', 'about', 'experience', 'education', 'skills', 'techstack', 'projects', 'certificates', 'contact']
+const sectionIds = ['hero', 'about', 'experience', 'education', 'skills', 'projects', 'certificates', 'contact']
 
 const navItems = computed(() => [
     { id: 'about',        label: t.value.nav.about },
     { id: 'experience',   label: t.value.nav.experience },
     { id: 'education',    label: t.value.nav.education },
     { id: 'skills',       label: t.value.nav.skills },
-    { id: 'techstack',    label: t.value.nav.techstack },
     { id: 'projects',     label: t.value.nav.projects },
     { id: 'certificates', label: t.value.nav.certificates },
     { id: 'contact',      label: t.value.nav.contact },

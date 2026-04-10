@@ -287,7 +287,7 @@ function scrollToContact() {
 }
 
 .hero-photo {
-    width: 220px;
+    width: 260px;
     background-color: #fff;
     border: 3px solid #000;
     box-shadow: 10px 10px 0 #000;
@@ -341,11 +341,11 @@ function scrollToContact() {
 }
 
 .hero-stats {
-    width: 220px;
+    width: 260px;
     background-color: #fff;
     border: 3px solid #000;
     box-shadow: 6px 6px 0 #000;
-    padding: 1rem 0.8rem;
+    padding: 1rem 1rem;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -391,13 +391,13 @@ function scrollToContact() {
         padding: 3rem 2rem;
     }
     .hero-photo {
-        width: 190px;
+        width: 220px;
     }
     .photo-inner {
         height: 210px;
     }
     .hero-stats {
-        width: 190px;
+        width: 220px;
     }
 }
 
@@ -416,14 +416,15 @@ function scrollToContact() {
         gap: 1.2rem;
     }
     .hero-photo {
-        width: 160px;
+        width: 180px;
     }
     .photo-inner {
-        height: 175px;
+        height: 195px;
         font-size: 3rem;
     }
     .hero-stats {
-        width: 160px;
+        width: 200px;
+        padding: 0.9rem 0.8rem;
     }
     .hero-firstname,
     .hero-lastname {

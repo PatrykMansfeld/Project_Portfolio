@@ -17,7 +17,6 @@ const translations = {
       experience: 'Doświadczenie',
       education: 'Edukacja',
       skills: 'Umiejętności',
-      techstack: 'Technologie',
       projects: 'Projekty',
       certificates: 'Certyfikaty',
       contact: 'Kontakt',
@@ -91,9 +90,6 @@ const translations = {
       backend: 'Backend',
       tools: 'Narzędzia',
     },
-    techStack: {
-      heading: 'Technologie',
-    },
     projects: {
       heading: 'Projekty',
       demo: 'Demo',
@@ -160,7 +156,6 @@ const translations = {
       experience: 'Experience',
       education: 'Education',
       skills: 'Skills',
-      techstack: 'Tech Stack',
       projects: 'Projects',
       certificates: 'Certificates',
       contact: 'Contact',
@@ -233,9 +228,6 @@ const translations = {
       frontend: 'Frontend',
       backend: 'Backend',
       tools: 'Tools',
-    },
-    techStack: {
-      heading: 'Tech Stack',
     },
     projects: {
       heading: 'Projects',
