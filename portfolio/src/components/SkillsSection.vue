@@ -1,17 +1,32 @@
+<!--
+  SkillsSection.vue — sekcja "Umiejętności".
+  Wyświetla technologie pogrupowane w 3 kategorie (Frontend, Backend, Narzędzia).
+  Każda kategoria to wiersz z numerem, etykietą kategorii i mini-kartami technologii.
+  Mini-karty mają skrót (abbr) i pełną nazwę — styl neobrutalist.
+  Hover: czarne tło + żółty skrót.
+  Żeby dodać/usunąć technologię, edytuj tablicę skills danej kategorii poniżej.
+-->
 <template>
     <section id="skills" class="skills">
         <div class="section-container">
             <h2 class="section-heading">{{ t.skills.heading }}</h2>
 
+            <!-- Lista kategorii — każda to osobny wiersz -->
             <div class="skills-list">
                 <div class="skill-row" v-for="(cat, i) in categories" :key="i">
+                    <!-- Lewa kolumna: numer + etykieta kategorii -->
                     <div class="skill-row-left">
+                        <!-- Duży numer kategorii (01, 02, 03) — efekt outline -->
                         <span class="skill-num">{{ String(i + 1).padStart(2, '0') }}</span>
+                        <!-- Czarna etykieta (Frontend / Backend / Narzędzia) -->
                         <h3 class="skill-cat">{{ cat.label }}</h3>
                     </div>
+                    <!-- Prawa kolumna: siatka mini-kart technologii -->
                     <ul class="skill-tags">
                         <li class="skill-tag" v-for="skill in cat.skills" :key="skill.name">
+                            <!-- Skrót: JS, TS, VUE, NOD... — duży, bold -->
                             <span class="skill-abbr">{{ skill.abbr }}</span>
+                            <!-- Pełna nazwa technologii — mała, pod skrótem -->
                             <span class="skill-name">{{ skill.name }}</span>
                         </li>
                     </ul>
@@ -27,6 +42,10 @@ import { useLang } from '../composables/useLang.js'
 
 const { t } = useLang()
 
+// Lista kategorii z technologiami.
+// Etykiety kategorii (label) pobierane z tłumaczeń — zmieniają się z PL/EN.
+// Żeby dodać technologię: dodaj { name: 'Nazwa', abbr: 'SKR' } do odpowiedniej tablicy.
+// Żeby zmienić skrót — edytuj pole abbr.
 const categories = computed(() => [
     {
         label: t.value.skills.frontend,
@@ -65,6 +84,7 @@ const categories = computed(() => [
 </script>
 
 <style scoped>
+/* Czerwone tło sekcji */
 .skills {
     position: relative;
     min-height: 100vh;
@@ -76,6 +96,7 @@ const categories = computed(() => [
     justify-content: center;
 }
 
+/* Siatka kropek w tle */
 .skills::before {
     content: '';
     position: absolute;
@@ -94,6 +115,7 @@ const categories = computed(() => [
     width: 100%;
 }
 
+/* Nagłówek sekcji — biały z neobrutalist cieniem */
 .section-heading {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
@@ -107,15 +129,16 @@ const categories = computed(() => [
     box-shadow: 6px 6px 0 #000;
 }
 
-/* List */
+/* ── Lista kategorii ── */
 .skills-list {
     display: flex;
     flex-direction: column;
 }
 
+/* Jeden wiersz kategorii — 2-kolumnowy grid: numer+etykieta | karty technologii */
 .skill-row {
     display: grid;
-    grid-template-columns: 180px 1fr;
+    grid-template-columns: 180px 1fr; /* lewa: stała szerokość, prawa: reszta */
     gap: 2rem;
     padding: 2rem 0;
     border-top: 3px solid #000;
@@ -123,16 +146,17 @@ const categories = computed(() => [
 }
 
 .skill-row:last-child {
-    border-bottom: 3px solid #000;
+    border-bottom: 3px solid #000; /* dolna linia tylko dla ostatniego wiersza */
 }
 
-/* Left: number + label */
+/* ── Lewa kolumna: numer + etykieta ── */
 .skill-row-left {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
+/* Duży numer kategorii — efekt outline (transparentny fill, widać obrys) */
 .skill-num {
     font-size: 4.5rem;
     font-weight: 700;
@@ -143,6 +167,7 @@ const categories = computed(() => [
     user-select: none;
 }
 
+/* Etykieta kategorii — czarne tło, biały tekst */
 .skill-cat {
     font-size: 0.82rem;
     font-weight: 700;
@@ -155,16 +180,17 @@ const categories = computed(() => [
     width: fit-content;
 }
 
-/* Right: tech cards */
+/* ── Prawa kolumna: mini-karty technologii ── */
 .skill-tags {
     list-style: none;
     padding: 0.4rem 0 0;
     margin: 0;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* zawijanie do kolejnych linii */
     gap: 0.6rem;
 }
 
+/* Mini-karta technologii — biała z neobrutalist cieniem */
 .skill-tag {
     background-color: #fff;
     border: 2px solid #000;
@@ -179,12 +205,14 @@ const categories = computed(() => [
     transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
+/* Hover: czarne tło, karta "unosi się" */
 .skill-tag:hover {
     background-color: #000;
     transform: translate(-2px, -2px);
     box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.35);
 }
 
+/* Duży skrót (JS, TS, VUE...) */
 .skill-abbr {
     font-size: 1.3rem;
     font-weight: 700;
@@ -194,10 +222,12 @@ const categories = computed(() => [
     transition: color 0.15s ease;
 }
 
+/* Hover: skrót staje się żółty */
 .skill-tag:hover .skill-abbr {
     color: #e9ff70;
 }
 
+/* Mała nazwa technologii pod skrótem */
 .skill-name {
     font-size: 0.65rem;
     font-weight: 600;
@@ -209,12 +239,14 @@ const categories = computed(() => [
     transition: color 0.15s ease, opacity 0.15s ease;
 }
 
+/* Hover: nazwa staje się biała */
 .skill-tag:hover .skill-name {
     color: #fff;
     opacity: 0.65;
 }
 
-/* Tablet */
+/* ── Responsive ── */
+
 @media (max-width: 768px) {
     .skills { padding: 3.5rem 1.5rem; }
     .section-heading { font-size: 2rem; }
@@ -224,11 +256,12 @@ const categories = computed(() => [
     .skill-abbr { font-size: 1.1rem; }
 }
 
-/* Mobile — stack */
+/* Mobile — lewa i prawa kolumna stają się jedną (stack) */
 @media (max-width: 600px) {
     .skills { padding: 3rem 1rem; }
     .section-heading { font-size: 1.8rem; }
     .skill-row { grid-template-columns: 1fr; gap: 0.8rem; padding: 1.5rem 0; }
+    /* Numer i etykieta obok siebie na mobile */
     .skill-row-left { flex-direction: row; align-items: center; gap: 1rem; }
     .skill-num { font-size: 3rem; letter-spacing: -2px; }
     .skill-tags { padding-top: 0; }

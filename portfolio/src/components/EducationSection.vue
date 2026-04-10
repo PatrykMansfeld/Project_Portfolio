@@ -1,3 +1,9 @@
+<!--
+  EducationSection.vue — sekcja "Edukacja".
+  Wyświetla karty edukacji w siatce 2-kolumnowej.
+  Dane edytujesz w useLang.js → education.items (PL) i education.items (EN).
+  Każdy wpis ma: date, title, school, description.
+-->
 <template>
     <section id="education" class="education">
         <div class="section-container">
@@ -6,12 +12,16 @@
                 <h2 class="section-heading">{{ t.education.heading }}</h2>
             </div>
 
+            <!-- Siatka kart — 2 kolumny na desktop, 1 na mobile -->
             <div class="edu-grid">
                 <div class="edu-card" v-for="(edu, index) in t.education.items" :key="index">
+                    <!-- Nagłówek karty: skrót (MSc/BSc) + badge z datą -->
                     <div class="edu-card-header">
+                        <!-- Skrót wyznaczany automatycznie na podstawie tytułu -->
                         <span class="edu-abbr">{{ getAbbr(edu.title) }}</span>
                         <span class="edu-date-badge">{{ edu.date }}</span>
                     </div>
+                    <!-- Treść karty -->
                     <div class="edu-card-body">
                         <p class="edu-school">{{ edu.school }}</p>
                         <h3 class="edu-title">{{ edu.title }}</h3>
@@ -29,15 +39,19 @@ import { useLang } from '../composables/useLang.js'
 
 const { t } = useLang()
 
+// Wyznacza skrót (MSc/BSc/EDU) na podstawie tytułu stopnia.
+// Obsługuje zarówno polskie jak i angielskie tytuły.
+// Żeby dodać nowe skróty, rozszerz warunki if.
 function getAbbr(title) {
     const lower = title.toLowerCase()
     if (lower.includes('magister') || lower.includes('msc')) return 'MSc'
     if (lower.includes('licencjat') || lower.includes('bsc')) return 'BSc'
-    return 'EDU'
+    return 'EDU' // domyślny skrót dla innych tytułów
 }
 </script>
 
 <style scoped>
+/* Białe tło sekcji */
 .education {
     position: relative;
     min-height: 100vh;
@@ -49,6 +63,7 @@ function getAbbr(title) {
     justify-content: center;
 }
 
+/* Subtelna siatka kropek w tle */
 .education::before {
     content: '';
     position: absolute;
@@ -71,6 +86,7 @@ function getAbbr(title) {
     margin-bottom: 2.5rem;
 }
 
+/* Nagłówek z fioletowym tłem */
 .section-heading {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
@@ -83,15 +99,15 @@ function getAbbr(title) {
     box-shadow: 6px 6px 0 #000;
 }
 
-/* Grid */
+/* ── Siatka kart ── */
 .edu-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr; /* 2 karty obok siebie */
     gap: 2rem;
     align-items: start;
 }
 
-/* Card */
+/* Karta edukacji — biała z cieniem neobrutalist */
 .edu-card {
     border: 3px solid #000;
     box-shadow: 8px 8px 0 #000;
@@ -100,12 +116,13 @@ function getAbbr(title) {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
+/* Efekt "uniesienia" karty na hover */
 .edu-card:hover {
     transform: translate(-3px, -3px);
     box-shadow: 11px 11px 0 #000;
 }
 
-/* Card header with big abbr */
+/* Nagłówek karty — fioletowe tło z dużym skrótem (MSc/BSc) */
 .edu-card-header {
     background-color: #a78bfa;
     border-bottom: 3px solid #000;
@@ -116,6 +133,7 @@ function getAbbr(title) {
     gap: 1rem;
 }
 
+/* Duży skrót tytułu — efekt outline (tylko obrys liter) */
 .edu-abbr {
     font-size: 5rem;
     font-weight: 700;
@@ -126,6 +144,7 @@ function getAbbr(title) {
     user-select: none;
 }
 
+/* Badge z zakresem dat — czarne tło, żółty tekst */
 .edu-date-badge {
     font-size: 0.68rem;
     font-weight: 700;
@@ -135,10 +154,10 @@ function getAbbr(title) {
     color: #e9ff70;
     padding: 0.2rem 0.6rem;
     white-space: nowrap;
-    align-self: flex-start;
+    align-self: flex-start; /* przyklejony do góry nagłówka */
 }
 
-/* Card body */
+/* Treść karty */
 .edu-card-body {
     padding: 1.8rem;
     display: flex;
@@ -155,6 +174,7 @@ function getAbbr(title) {
     margin: 0;
 }
 
+/* Tytuł stopnia — oddzielony cienką linią od opisu */
 .edu-title {
     font-size: 1rem;
     font-weight: 700;
@@ -173,12 +193,12 @@ function getAbbr(title) {
     opacity: 0.65;
 }
 
-/* Tablet landscape */
+/* ── Responsive ── */
+
 @media (max-width: 1024px) {
     .edu-grid { gap: 1.5rem; }
 }
 
-/* Tablet portrait */
 @media (max-width: 768px) {
     .education { padding: 4rem 1.5rem; }
     .section-heading { font-size: 2rem; }
@@ -187,7 +207,7 @@ function getAbbr(title) {
     .edu-card-body { padding: 1.4rem; }
 }
 
-/* Mobile — 1 col */
+/* Mobile — przechodzi na 1 kolumnę */
 @media (max-width: 640px) {
     .education { padding: 3rem 1rem; }
     .section-heading { font-size: 1.8rem; }

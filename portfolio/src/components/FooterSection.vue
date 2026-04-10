@@ -1,22 +1,32 @@
+<!--
+  FooterSection.vue — stopka strony.
+  Zawiera: logo PM (klik → powrót na górę), linki social, copyright, przycisk "↑".
+  WAŻNE: zaktualizuj href linków na swoje dane (GitHub, LinkedIn, email)!
+  Rok w copyright jest pobierany automatycznie (new Date().getFullYear()).
+-->
 <template>
     <footer class="footer">
         <div class="footer-inner">
+            <!-- Logo + imię — klik przewija na górę -->
             <div class="footer-left">
                 <button class="footer-logo" @click="scrollTop">PM</button>
                 <span class="footer-name">Patryk Mansfeld</span>
             </div>
 
+            <!-- Linki do social media — ZMIEŃ href na swoje dane -->
             <div class="footer-links">
                 <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="footer-link">GitHub</a>
                 <a href="https://linkedin.com/in/twojanazwa" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>
                 <a href="mailto:twoj@email.com" class="footer-link">Email</a>
             </div>
 
+            <!-- Copyright z automatycznym rokiem -->
             <div class="footer-right">
                 <p class="footer-copy">© {{ year }} {{ t.footer.rights }}</p>
             </div>
         </div>
 
+        <!-- Przycisk powrotu na górę — unosi się nad stopką (position: absolute) -->
         <button class="back-to-top" @click="scrollTop" :title="lang === 'pl' ? 'Wróć na górę' : 'Back to top'">↑</button>
     </footer>
 </template>
@@ -25,22 +35,27 @@
 import { useLang } from '../composables/useLang.js'
 
 const { lang, t } = useLang()
+
+// Aktualny rok — automatycznie aktualizuje się każdego roku
 const year = new Date().getFullYear()
 
+// Płynne przewijanie do góry strony (sekcja hero)
 function scrollTop() {
     document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' })
 }
 </script>
 
 <style scoped>
+/* Czarny pasek stopki z żółtą górną krawędzią */
 .footer {
     background-color: #000;
     color: #fff;
     border-top: 3px solid #e9ff70;
     padding: 1.5rem 2rem;
-    position: relative;
+    position: relative; /* potrzebne dla .back-to-top z position: absolute */
 }
 
+/* Wewnętrzny flex-kontener: logo | linki | copyright */
 .footer-inner {
     max-width: 960px;
     margin: 0 auto;
@@ -57,6 +72,7 @@ function scrollTop() {
     gap: 0.8rem;
 }
 
+/* Logo PM — żółte, klikiem przewija na górę */
 .footer-logo {
     background-color: #e9ff70;
     color: #000;
@@ -70,11 +86,13 @@ function scrollTop() {
     transition: background-color 0.15s ease, color 0.15s ease;
 }
 
+/* Hover: inwersja — czarne tło, żółty tekst */
 .footer-logo:hover {
     background-color: #000;
     color: #e9ff70;
 }
 
+/* Imię obok logo — małe i półprzezroczyste */
 .footer-name {
     font-size: 0.82rem;
     font-weight: 600;
@@ -83,6 +101,7 @@ function scrollTop() {
     opacity: 0.5;
 }
 
+/* Linki social media w środku stopki */
 .footer-links {
     display: flex;
     gap: 1.5rem;
@@ -99,11 +118,13 @@ function scrollTop() {
     transition: opacity 0.15s ease, color 0.15s ease;
 }
 
+/* Hover: pełna widoczność, żółty kolor */
 .footer-link:hover {
     opacity: 1;
     color: #e9ff70;
 }
 
+/* Tekst copyright po prawej */
 .footer-copy {
     font-size: 0.75rem;
     font-weight: 500;
@@ -111,9 +132,10 @@ function scrollTop() {
     letter-spacing: 0.5px;
 }
 
+/* Przycisk powrotu na górę — "przyklejony" nad stopką (ujemna wartość top) */
 .back-to-top {
     position: absolute;
-    top: -22px;
+    top: -22px; /* wystaje ponad stopkę */
     right: 2rem;
     width: 44px;
     height: 44px;
@@ -130,16 +152,20 @@ function scrollTop() {
     transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
+/* Efekt "uniesienia" przycisku na hover */
 .back-to-top:hover {
     transform: translate(-2px, -2px);
     box-shadow: 6px 6px 0 #000;
 }
+
+/* ── Responsive ── */
 
 @media (max-width: 768px) {
     .footer { padding: 1.5rem 1.5rem; }
     .back-to-top { right: 1.5rem; }
 }
 
+/* Mobile — wszystko ustawione pionowo */
 @media (max-width: 600px) {
     .footer-inner {
         flex-direction: column;
@@ -150,6 +176,7 @@ function scrollTop() {
     .back-to-top { right: 1rem; width: 40px; height: 40px; font-size: 1rem; }
 }
 
+/* Bardzo małe — chowamy imię żeby oszczędzić miejsce */
 @media (max-width: 375px) {
     .footer { padding: 1.2rem 0.85rem; }
     .footer-name { display: none; }

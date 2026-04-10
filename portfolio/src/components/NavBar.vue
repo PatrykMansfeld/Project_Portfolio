@@ -1,8 +1,18 @@
+<!--
+  NavBar.vue — stały pasek nawigacji przyklejony do góry ekranu.
+  Funkcje:
+  - Podświetla aktywną sekcję podczas scrollowania (IntersectionObserver)
+  - Zmienia tło i cień po przewinięciu poniżej 20px (klasa 'scrolled')
+  - Zawiera przełącznik języka PL/EN
+  - Na mobile (<900px) zamienia linki na hamburger menu
+-->
 <template>
     <nav class="navbar" :class="{ scrolled: isScrolled }">
         <div class="navbar-inner">
+            <!-- Logo — klik przewija na górę (sekcja hero) -->
             <button class="navbar-logo" @click="scrollTo('hero')">PM</button>
 
+            <!-- Linki nawigacyjne — ukryte na mobile, zastąpione hamburgerem -->
             <ul class="navbar-links" :class="{ open: menuOpen }">
                 <li v-for="item in navItems" :key="item.id">
                     <button
@@ -14,11 +24,13 @@
             </ul>
 
             <div class="navbar-actions">
+                <!-- Przełącznik języka — zmienia globalny stan w useLang.js -->
                 <button class="lang-btn" @click="toggleLang" :title="lang === 'pl' ? 'Switch to English' : 'Zmień na Polski'">
                     <span :class="{ 'lang-active': lang === 'pl' }">PL</span>
                     <span class="lang-sep">/</span>
                     <span :class="{ 'lang-active': lang === 'en' }">EN</span>
                 </button>
+                <!-- Hamburger — widoczny tylko na mobile -->
                 <button class="hamburger" :class="{ open: menuOpen }" @click="menuOpen = !menuOpen" aria-label="Menu">
                     <span></span>
                     <span></span>
@@ -27,6 +39,7 @@
             </div>
         </div>
 
+        <!-- Mobile menu — pojawia się po kliknięciu hamburgera -->
         <div v-if="menuOpen" class="mobile-menu">
             <ul>
                 <li v-for="item in navItems" :key="item.id">
@@ -47,12 +60,14 @@ import { useLang } from '../composables/useLang.js'
 
 const { lang, t, toggleLang } = useLang()
 
-const menuOpen = ref(false)
-const activeSection = ref('hero')
-const isScrolled = ref(false)
+const menuOpen = ref(false)       // czy hamburger menu jest otwarte
+const activeSection = ref('hero') // id aktualnie widocznej sekcji (podświetlana w nav)
+const isScrolled = ref(false)     // czy użytkownik przewinął poniżej 20px
 
+// Lista id sekcji obserwowanych przez IntersectionObserver
 const sectionIds = ['hero', 'about', 'experience', 'education', 'skills', 'projects', 'certificates', 'contact']
 
+// Elementy menu — etykiety pobierane z tłumaczeń, żeby działały z PL/EN
 const navItems = computed(() => [
     { id: 'about',        label: t.value.nav.about },
     { id: 'experience',   label: t.value.nav.experience },
@@ -63,6 +78,7 @@ const navItems = computed(() => [
     { id: 'contact',      label: t.value.nav.contact },
 ])
 
+// Płynne przewijanie do danej sekcji i zamknięcie mobile menu
 function scrollTo(id) {
     const el = document.getElementById(id)
     if (el) el.scrollIntoView({ behavior: 'smooth' })
@@ -71,12 +87,17 @@ function scrollTo(id) {
 
 let sectionObserver = null
 
+// Ustawia isScrolled na true gdy użytkownik przewinął więcej niż 20px
 function handleScroll() {
     isScrolled.value = window.scrollY > 20
 }
 
 onMounted(() => {
     window.addEventListener('scroll', handleScroll, { passive: true })
+
+    // IntersectionObserver śledzi która sekcja jest aktualnie w centrum ekranu.
+    // rootMargin: '-45% 0px -55% 0px' oznacza że sekcja jest "aktywna"
+    // gdy jej środkowy obszar (od 45% do 55% okna) jest widoczny.
     sectionObserver = new IntersectionObserver(
         entries => {
             entries.forEach(entry => {
@@ -91,6 +112,7 @@ onMounted(() => {
     })
 })
 
+// Czyszczenie event listenerów przy niszczeniu komponentu
 onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll)
     if (sectionObserver) sectionObserver.disconnect()
@@ -98,6 +120,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* Navbar przyklejony na górze z blur-glass efektem */
 .navbar {
     position: fixed;
     top: 0;
@@ -107,10 +130,11 @@ onBeforeUnmount(() => {
     background-color: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 2px solid transparent;
+    border-bottom: 2px solid transparent; /* przezroczysty border — pojawia się po scrollu */
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
+/* Po przewinięciu: solidna linia i cień */
 .navbar.scrolled {
     border-bottom-color: #000;
     box-shadow: 0 4px 0 #000;
@@ -128,6 +152,7 @@ onBeforeUnmount(() => {
     gap: 1rem;
 }
 
+/* Logo PM — przycisk przewijający do początku strony */
 .navbar-logo {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 1.1rem;
@@ -147,6 +172,7 @@ onBeforeUnmount(() => {
     color: #000;
 }
 
+/* Lista linków nawigacyjnych — wyświetlana tylko na desktop */
 .navbar-links {
     display: flex;
     align-items: center;
@@ -172,6 +198,7 @@ onBeforeUnmount(() => {
     white-space: nowrap;
 }
 
+/* Czerwona podkreślenie — pojawia się na hover i dla aktywnej sekcji */
 .nav-link::after {
     content: '';
     position: absolute;
@@ -206,6 +233,7 @@ onBeforeUnmount(() => {
     flex-shrink: 0;
 }
 
+/* Przycisk PL/EN z żółtym tłem neobrutalist */
 .lang-btn {
     background-color: #e9ff70;
     border: 2px solid #000;
@@ -229,12 +257,13 @@ onBeforeUnmount(() => {
 
 .lang-sep { opacity: 0.35; }
 
+/* Aktywny język wyróżniony czerwonym kolorem */
 .lang-active {
     color: #ff5c5c;
     font-weight: 700;
 }
 
-/* Hamburger */
+/* Hamburger — 3 kreseczki, ukryty na desktop */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -253,11 +282,12 @@ onBeforeUnmount(() => {
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
+/* Animacja hamburger → X po otwarciu menu */
 .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* Mobile menu */
+/* Mobile menu — lista linków pod passkiem, widoczna po kliknięciu hamburgera */
 .mobile-menu {
     border-top: 2px solid #000;
     background-color: #fff;
@@ -296,20 +326,20 @@ onBeforeUnmount(() => {
     padding-left: 0.6rem;
 }
 
-/* Tablet landscape — collapse nav links */
+/* ── Responsive ── */
+
+/* Tablet landscape — chowamy linki, pokazujemy hamburger */
 @media (max-width: 900px) {
     .navbar-links { display: none; }
     .hamburger { display: flex; }
 }
 
-/* Tablet portrait */
 @media (max-width: 768px) {
     .navbar-inner { padding: 0 1.2rem; gap: 0.7rem; }
     .mobile-menu { padding: 0.8rem 1.2rem 1.2rem; }
     .mobile-nav-link { font-size: 0.95rem; padding: 0.65rem 0; }
 }
 
-/* Mobile */
 @media (max-width: 480px) {
     .navbar-inner { height: 56px; padding: 0 1rem; }
     .navbar-logo { font-size: 1rem; padding: 0.25rem 0.65rem; }
@@ -318,7 +348,6 @@ onBeforeUnmount(() => {
     .mobile-nav-link { font-size: 0.88rem; }
 }
 
-/* Very small phones */
 @media (max-width: 375px) {
     .navbar-inner { height: 52px; padding: 0 0.85rem; }
     .navbar-logo { font-size: 0.92rem; padding: 0.2rem 0.55rem; }

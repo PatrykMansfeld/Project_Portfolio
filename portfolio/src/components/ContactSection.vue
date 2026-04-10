@@ -1,27 +1,41 @@
+<!--
+  ContactSection.vue — sekcja "Kontakt".
+  Wyświetla linki do Email / GitHub / LinkedIn oraz pulsującą odznakę dostępności.
+  WAŻNE: zaktualizuj href linków na swoje dane kontaktowe!
+  Linki do zmiany:
+    - mailto:twoj@email.com → twój email
+    - github.com/PatrykMansfeld → twój profil GitHub
+    - linkedin.com/in/twojanazwa → twój profil LinkedIn
+-->
 <template>
     <section id="contact" class="contact">
         <div class="section-container">
             <h2 class="section-heading">{{ t.contact.heading }}</h2>
 
             <div class="contact-grid">
-                <!-- Links -->
+                <!-- Kolumna z linkami kontaktowymi -->
                 <div class="contact-links-col">
                     <p class="col-label">{{ t.contact.findMe }}</p>
+                    <!-- Linki do kontaktu — każdy ma etykietę i wartość -->
                     <div class="links-stack">
+                        <!-- ZMIEŃ: swój adres email -->
                         <a href="mailto:twoj@email.com" class="contact-link">
                             <span class="link-label">Email</span>
                             <span class="link-value">twoj@email.com ↗</span>
                         </a>
+                        <!-- ZMIEŃ: swój GitHub -->
                         <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="contact-link">
                             <span class="link-label">GitHub</span>
                             <span class="link-value">PatrykMansfeld ↗</span>
                         </a>
+                        <!-- ZMIEŃ: swój LinkedIn -->
                         <a href="https://linkedin.com/in/twojanazwa" target="_blank" rel="noopener" class="contact-link">
                             <span class="link-label">LinkedIn</span>
                             <span class="link-value">twojanazwa ↗</span>
                         </a>
                     </div>
 
+                    <!-- Badge "Dostępny do pracy" z pulsującą zieloną kropką -->
                     <div class="availability-box">
                         <span class="avail-dot"></span>
                         <span>{{ t.hero.available }}</span>
@@ -34,11 +48,12 @@
 
 <script setup>
 import { useLang } from '../composables/useLang.js'
-
+// t — tłumaczenia dla aktualnego języka
 const { t } = useLang()
 </script>
 
 <style scoped>
+/* Czarne tło sekcji kontaktowej */
 .contact {
     position: relative;
     min-height: 100vh;
@@ -50,6 +65,7 @@ const { t } = useLang()
     justify-content: center;
 }
 
+/* Delikatna siatka kropek (biała, słabo widoczna na czarnym) */
 .contact::before {
     content: '';
     position: absolute;
@@ -68,6 +84,7 @@ const { t } = useLang()
     width: 100%;
 }
 
+/* Nagłówek z żółtym tłem (kontrast z czarną sekcją) */
 .section-heading {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
@@ -79,9 +96,10 @@ const { t } = useLang()
     color: #000;
     padding: 0.3rem 1.2rem;
     border: 3px solid #e9ff70;
-    box-shadow: 6px 6px 0 #e9ff70;
+    box-shadow: 6px 6px 0 #e9ff70; /* żółty cień na czarnym tle */
 }
 
+/* Grid z jedną kolumną (wcześniej była też kolumna z formularzem) */
 .contact-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -90,6 +108,7 @@ const { t } = useLang()
     align-items: start;
 }
 
+/* Etykieta nad listą linków ("Znajdź mnie tutaj") */
 .col-label {
     font-size: 0.72rem;
     font-weight: 700;
@@ -99,19 +118,20 @@ const { t } = useLang()
     margin-bottom: 1.2rem;
 }
 
-/* Links column */
+/* Stos linków kontaktowych — bez gap, podzielone linią */
 .links-stack {
     display: flex;
     flex-direction: column;
     gap: 0;
 }
 
+/* Jeden link kontaktowy — etykieta po lewej, wartość po prawej */
 .contact-link {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #222; /* subtelna linia między linkami */
     text-decoration: none;
     color: #fff;
     transition: color 0.15s ease, padding-left 0.15s ease;
@@ -119,14 +139,16 @@ const { t } = useLang()
 }
 
 .contact-link:first-child {
-    border-top: 1px solid #222;
+    border-top: 1px solid #222; /* linia nad pierwszym linkiem */
 }
 
+/* Hover: żółty kolor + lekkie wcięcie */
 .contact-link:hover {
     color: #e9ff70;
     padding-left: 0.5rem;
 }
 
+/* Mała etykieta po lewej (Email, GitHub, LinkedIn) */
 .link-label {
     font-size: 0.72rem;
     font-weight: 700;
@@ -136,12 +158,14 @@ const { t } = useLang()
     flex-shrink: 0;
 }
 
+/* Wartość linku po prawej (adres/nazwa) */
 .link-value {
     font-size: 0.9rem;
     font-weight: 600;
     text-align: right;
 }
 
+/* Badge "Dostępny do pracy" — ciemne tło, zielony tekst */
 .availability-box {
     margin-top: 2rem;
     display: flex;
@@ -154,9 +178,10 @@ const { t } = useLang()
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #4ade80;
+    color: #4ade80; /* zielony — kolor "dostępności" */
 }
 
+/* Pulsująca zielona kropka (ta sama animacja co w HeroSection) */
 .avail-dot {
     width: 8px;
     height: 8px;
@@ -170,6 +195,8 @@ const { t } = useLang()
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
 }
+
+/* ── Responsive ── */
 
 @media (max-width: 768px) {
     .contact { padding: 4rem 1.5rem; }

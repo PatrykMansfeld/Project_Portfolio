@@ -1,3 +1,9 @@
+<!--
+  App.vue — główny plik aplikacji
+  Importuje i układa wszystkie sekcje strony w odpowiedniej kolejności.
+  IntersectionObserver dodaje klasę 'in-view' gdy sekcja wchodzi w pole widzenia
+  (animacje wejścia sterowane są przez CSS w style.css).
+-->
 <script setup>
 import { onMounted } from 'vue'
 import NavBar from './components/NavBar.vue'
@@ -13,12 +19,15 @@ import ContactSection from './components/ContactSection.vue'
 import FooterSection from './components/FooterSection.vue'
 
 onMounted(() => {
+  // Obserwuje sekcje i dodaje klasę 'in-view' gdy są widoczne w oknie przeglądarki.
+  // Hero jest pominięty — jest zawsze widoczny na starcie.
+  // threshold: 0.05 oznacza że animacja startuje gdy 5% sekcji wejdzie w widok.
   const observer = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('in-view')
-          observer.unobserve(entry.target)
+          observer.unobserve(entry.target) // obserwujemy tylko raz
         }
       })
     },
@@ -30,15 +39,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <NavBar />
-  <HeroSection />
-  <MarqueeBanner />
-  <AboutSection />
-  <ExperienceSection />
-  <EducationSection />
-  <SkillsSection />
-  <ProjectsSection />
-  <CertificatesSection />
-  <ContactSection />
-  <FooterSection />
+  <NavBar />         <!-- Stały pasek nawigacji na górze -->
+  <HeroSection />    <!-- Sekcja powitalna (pełny ekran) -->
+  <MarqueeBanner />  <!-- Animowany pasek z technologiami (auto-scroll) -->
+  <AboutSection />   <!-- O mnie — zdjęcie, bio, statystyki -->
+  <ExperienceSection /> <!-- Doświadczenie — lista rozwijanych wpisów -->
+  <EducationSection />  <!-- Edukacja — siatka kart -->
+  <SkillsSection />     <!-- Umiejętności — technologie pogrupowane kategoriami -->
+  <ProjectsSection />   <!-- Projekty — karty z efektem rozwijania na hover -->
+  <CertificatesSection /> <!-- Certyfikaty — lista z rokiem i wydawcą -->
+  <ContactSection />    <!-- Kontakt — linki do GitHub/LinkedIn/Email -->
+  <FooterSection />     <!-- Stopka z powrotem na górę -->
 </template>

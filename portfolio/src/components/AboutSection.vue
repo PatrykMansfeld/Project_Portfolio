@@ -1,37 +1,52 @@
+<!--
+  AboutSection.vue — sekcja "O mnie".
+  Layout: lewa kolumna (zdjęcie + przyciski social), prawa kolumna (bio + statystyki).
+  Żeby wstawić prawdziwe zdjęcie zamień .photo-top na background-image.
+  Żeby zmienić linki do GitHub/LinkedIn edytuj href w .about-socials.
+-->
 <template>
     <section id="about" class="about">
+        <!-- Tło z siatką kropek -->
         <div class="about-container">
 
+            <!-- Nagłówek z naklejką dekoracyjną -->
             <div class="about-header">
                 <h2 class="about-heading">{{ t.about.heading }}</h2>
+                <!-- Dekoracyjna naklejka — ukryta na mobile -->
                 <div class="about-sticker">FRONTEND<br>DEV ✦</div>
             </div>
 
             <div class="about-main">
-                <!-- Left -->
+                <!-- ── Lewa kolumna: zdjęcie + przyciski ── -->
                 <div class="about-left">
+                    <!-- Zdjęcie profilowe — zamień .photo-top na img lub background-image -->
                     <div class="about-photo">
                         <div class="photo-top">PM</div>
                         <div class="photo-label">{{ t.hero.role }}</div>
                     </div>
+                    <!-- Przyciski do mediów społecznościowych — zaktualizuj href! -->
                     <div class="about-socials">
                         <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="social-btn">GitHub ↗</a>
                         <a href="https://linkedin.com/in/twojanazwa" target="_blank" rel="noopener" class="social-btn">LinkedIn ↗</a>
                     </div>
                 </div>
 
-                <!-- Right -->
+                <!-- ── Prawa kolumna: teksty + statystyki ── -->
                 <div class="about-right">
+                    <!-- Główny cytat / statement — tekst z lewą czerwoną kreską -->
                     <p class="about-statement">{{ t.about.card1Text }}</p>
 
+                    <!-- Dekoracyjny separator (linia + gwiazdka + linia) -->
                     <div class="about-rule">
                         <span class="rule-line"></span>
                         <span class="rule-star">✦</span>
                         <span class="rule-line"></span>
                     </div>
 
+                    <!-- Drugi akapit z opisem -->
                     <p class="about-body">{{ t.about.card2Text }}</p>
 
+                    <!-- Czarny pasek ze statystykami (lata / projekty / technologie) -->
                     <div class="about-facts">
                         <div class="fact-block">
                             <span class="fact-num">3+</span>
@@ -57,10 +72,12 @@
 
 <script setup>
 import { useLang } from '../composables/useLang.js'
+// t — tłumaczenia dla aktualnego języka (PL/EN)
 const { t } = useLang()
 </script>
 
 <style scoped>
+/* Białe tło, pełna wysokość ekranu */
 .about {
     position: relative;
     min-height: 100vh;
@@ -72,6 +89,7 @@ const { t } = useLang()
     justify-content: center;
 }
 
+/* Subtelna siatka kropek w tle */
 .about::before {
     content: '';
     position: absolute;
@@ -84,19 +102,20 @@ const { t } = useLang()
 
 .about-container {
     position: relative;
-    z-index: 1;
+    z-index: 1; /* nad siatką kropek */
     max-width: 1000px;
     margin: 0 auto;
     width: 100%;
 }
 
-/* Header */
+/* ── Nagłówek ── */
 .about-header {
     position: relative;
     margin-bottom: 3rem;
     display: inline-block;
 }
 
+/* Nagłówek sekcji z czerwonym tłem i neobrutalist cieniem */
 .about-heading {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
@@ -109,10 +128,11 @@ const { t } = useLang()
     box-shadow: 6px 6px 0 #000;
 }
 
+/* Naklejka z lewej strony nagłówka — obrócona, pojawia się przy hover */
 .about-sticker {
     position: absolute;
     top: -1.2rem;
-    left: calc(100% + 1.2rem);
+    left: calc(100% + 1.2rem); /* przyklejona tuż za nagłówkiem */
     background-color: #000;
     color: #e9ff70;
     padding: 0.5rem 0.75rem;
@@ -133,27 +153,33 @@ const { t } = useLang()
     transform: rotate(0deg) scale(1.06);
 }
 
-/* Main layout */
+/* ── Layout główny: 2 kolumny ── */
 .about-main {
     display: grid;
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 220px 1fr; /* lewa: stała szerokość zdjęcia, prawa: reszta */
     gap: 4rem;
     align-items: start;
 }
 
-/* Photo */
+/* ── Lewa kolumna: zdjęcie + social ── */
 .about-left {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
+/* Kontener zdjęcia z neobrutalist cieniem */
 .about-photo {
     border: 3px solid #000;
     box-shadow: 8px 8px 0 #000;
     overflow: hidden;
 }
 
+/* Placeholder zdjęcia — fioletowe tło z inicjałami.
+   Żeby wstawić prawdziwe zdjęcie, zamień na:
+     background-image: url('/photo.jpg');
+     background-size: cover;
+     background-position: center; */
 .photo-top {
     height: 220px;
     background-color: #a78bfa;
@@ -167,6 +193,7 @@ const { t } = useLang()
     color: rgba(0, 0, 0, 0.2);
 }
 
+/* Podpis pod zdjęciem */
 .photo-label {
     padding: 0.6rem 1rem;
     font-size: 0.72rem;
@@ -177,6 +204,7 @@ const { t } = useLang()
     background-color: #fff;
 }
 
+/* Przyciski do social media — żółte z neobrutalist cieniem */
 .about-socials {
     display: flex;
     flex-direction: column;
@@ -199,12 +227,13 @@ const { t } = useLang()
     transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
+/* Efekt "wciśnięcia" przycisku */
 .social-btn:hover {
     transform: translate(2px, 2px);
     box-shadow: 1px 1px 0 #000;
 }
 
-/* Right content */
+/* ── Prawa kolumna: treść ── */
 .about-right {
     display: flex;
     flex-direction: column;
@@ -212,6 +241,7 @@ const { t } = useLang()
     padding-top: 0.4rem;
 }
 
+/* Główny cytat — wyróżniony lewą czerwoną kreską */
 .about-statement {
     font-size: clamp(1.05rem, 2vw, 1.25rem);
     font-weight: 600;
@@ -221,6 +251,7 @@ const { t } = useLang()
     padding-left: 1.2rem;
 }
 
+/* Separator poziomy (linia - gwiazdka - linia) */
 .about-rule {
     display: flex;
     align-items: center;
@@ -239,6 +270,7 @@ const { t } = useLang()
     opacity: 0.35;
 }
 
+/* Drugi akapit — ciemniejszy, mniejszy */
 .about-body {
     font-size: 0.97rem;
     line-height: 1.75;
@@ -246,7 +278,7 @@ const { t } = useLang()
     opacity: 0.7;
 }
 
-/* Facts bar */
+/* Czarny pasek ze statystykami */
 .about-facts {
     display: flex;
     align-items: center;
@@ -263,9 +295,10 @@ const { t } = useLang()
     flex-direction: column;
     align-items: center;
     gap: 0.15rem;
-    flex: 1;
+    flex: 1; /* każdy blok zajmuje równą szerokość */
 }
 
+/* Żółta liczba na czarnym tle */
 .fact-num {
     font-size: 1.8rem;
     font-weight: 700;
@@ -283,21 +316,24 @@ const { t } = useLang()
     text-align: center;
 }
 
+/* Pionowy separator między statystykami */
 .fact-divider {
     width: 2px;
     height: 36px;
     background-color: rgba(255, 255, 255, 0.15);
 }
 
-/* Tablet landscape */
+/* ── Responsive ── */
+
+/* Tablet landscape — węższa lewa kolumna */
 @media (max-width: 1024px) {
     .about-main { grid-template-columns: 190px 1fr; gap: 2.5rem; }
 }
 
-/* Tablet portrait */
+/* Tablet portrait — jedna kolumna, zdjęcie i social obok siebie */
 @media (max-width: 768px) {
     .about { padding: 4rem 1.5rem; }
-    .about-sticker { display: none; }
+    .about-sticker { display: none; } /* za mało miejsca dla naklejki */
     .about-main { grid-template-columns: 1fr; gap: 2rem; }
     .about-left {
         flex-direction: row;
@@ -316,10 +352,10 @@ const { t } = useLang()
 /* Mobile */
 @media (max-width: 600px) {
     .about { padding: 3rem 1rem; }
-    .about-left { flex-direction: column; }
+    .about-left { flex-direction: column; } /* zdjęcie nad social */
     .about-photo { width: 130px; }
     .photo-top { height: 130px; }
-    .about-socials { flex-direction: row; }
+    .about-socials { flex-direction: row; } /* przyciski obok siebie */
     .about-statement { font-size: 1rem; }
 }
 

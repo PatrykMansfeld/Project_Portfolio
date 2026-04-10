@@ -1,3 +1,9 @@
+<!--
+  ExperienceSection.vue — sekcja "Doświadczenie".
+  Wyświetla listę miejsc pracy. Kliknięcie w wiersz (lub hover na desktop)
+  rozwija opis stanowiska.
+  Dane edytujesz w useLang.js → experience.jobs (PL) i experience.jobs (EN).
+-->
 <template>
     <section id="experience" class="experience">
         <div class="section-container">
@@ -6,6 +12,7 @@
                 <h2 class="section-heading">{{ t.experience.heading }}</h2>
             </div>
 
+            <!-- Lista wpisów doświadczenia — iteracja po tablicy z tłumaczeń -->
             <div class="jobs-list">
                 <div
                     class="job-row"
@@ -14,19 +21,24 @@
                     :class="{ expanded: activeIndex === index }"
                     @click="toggle(index)"
                 >
+                    <!-- Duży numer wiersza (01, 02, ...) — outline gdy zaznaczony -->
                     <div class="job-num">{{ String(index + 1).padStart(2, '0') }}</div>
 
                     <div class="job-content">
+                        <!-- Meta: data + nazwa firmy -->
                         <div class="job-meta">
                             <span class="job-date">{{ job.date }}</span>
                             <span class="job-company">{{ job.company }}</span>
                         </div>
+                        <!-- Tytuł stanowiska -->
                         <h3 class="job-title">{{ job.title }}</h3>
+                        <!-- Opis — ukryty, pojawia się po kliknięciu / hover -->
                         <p class="job-desc" :class="{ visible: activeIndex === index }">
                             {{ job.description }}
                         </p>
                     </div>
 
+                    <!-- Przycisk +/− widoczny na mobile (zamiast hover) -->
                     <span class="job-toggle">{{ activeIndex === index ? '−' : '+' }}</span>
                 </div>
             </div>
@@ -40,14 +52,18 @@ import { ref } from 'vue'
 import { useLang } from '../composables/useLang.js'
 
 const { t } = useLang()
+
+// Index aktualnie otwartego wiersza (null = żaden nie jest otwarty)
 const activeIndex = ref(null)
 
+// Toggle: kliknięcie otwartego wiersza zamyka go, kliknięcie innego otwiera go
 function toggle(index) {
     activeIndex.value = activeIndex.value === index ? null : index
 }
 </script>
 
 <style scoped>
+/* Żółte tło sekcji */
 .experience {
     position: relative;
     min-height: 100vh;
@@ -59,6 +75,7 @@ function toggle(index) {
     justify-content: center;
 }
 
+/* Siatka kropek w tle */
 .experience::before {
     content: '';
     position: absolute;
@@ -94,12 +111,13 @@ function toggle(index) {
     margin-bottom: 2rem;
 }
 
-/* Jobs list */
+/* Lista wpisów — pionowa kolumna z separator-liniami */
 .jobs-list {
     display: flex;
     flex-direction: column;
 }
 
+/* Jeden wiersz pracy — 3-kolumnowy grid: numer | treść | toggle */
 .job-row {
     display: grid;
     grid-template-columns: 96px 1fr auto;
@@ -114,13 +132,13 @@ function toggle(index) {
     border-bottom: 3px solid #000;
 }
 
-/* Big outlined number */
+/* Duży numer — domyślnie transparentny, przy zaznaczeniu czerwony */
 .job-num {
     font-size: 4.5rem;
     font-weight: 700;
     letter-spacing: -4px;
     line-height: 1;
-    -webkit-text-stroke: 2px #000;
+    -webkit-text-stroke: 2px #000; /* tylko obrys, fill transparentny */
     color: transparent;
     user-select: none;
     transition: color 0.2s ease, -webkit-text-stroke-color 0.2s ease;
@@ -128,11 +146,13 @@ function toggle(index) {
     flex-shrink: 0;
 }
 
+/* Zaznaczony wiersz — czerwony numer */
 .job-row.expanded .job-num {
     color: #ff5c5c;
     -webkit-text-stroke-color: #ff5c5c;
 }
 
+/* Hover tylko na urządzeniach z myszką (nie ma hover na touch) */
 @media (hover: hover) {
     .job-row:hover .job-num {
         color: #000;
@@ -140,7 +160,7 @@ function toggle(index) {
     }
 }
 
-/* Content */
+/* Blok z datą, firmą, tytułem i opisem */
 .job-content {
     display: flex;
     flex-direction: column;
@@ -155,6 +175,7 @@ function toggle(index) {
     flex-wrap: wrap;
 }
 
+/* Badge z datą — czerwone tło */
 .job-date {
     font-size: 0.7rem;
     font-weight: 700;
@@ -183,6 +204,8 @@ function toggle(index) {
     line-height: 1.1;
 }
 
+/* Opis — domyślnie ukryty (max-height: 0).
+   Klasa 'visible' (lub hover) otwiera go animacją max-height + opacity. */
 .job-desc {
     font-size: 0.95rem;
     line-height: 1.65;
@@ -194,11 +217,12 @@ function toggle(index) {
 }
 
 .job-desc.visible {
-    max-height: 200px;
+    max-height: 200px; /* wystarczająco duże żeby zmieścić opis */
     opacity: 1;
     margin-top: 0.8rem;
 }
 
+/* Na desktop hover też pokazuje opis (bez klikania) */
 @media (hover: hover) {
     .job-row:hover .job-desc {
         max-height: 200px;
@@ -207,7 +231,7 @@ function toggle(index) {
     }
 }
 
-/* Toggle */
+/* Przycisk +/− — tylko na mobile (na desktop jest hover) */
 .job-toggle {
     font-size: 1.4rem;
     font-weight: 300;
@@ -216,7 +240,7 @@ function toggle(index) {
     padding-top: 0.7rem;
     flex-shrink: 0;
     transition: opacity 0.15s ease, color 0.15s ease;
-    display: none;
+    display: none; /* ukryty na desktop */
 }
 
 .job-row.expanded .job-toggle {
@@ -224,7 +248,8 @@ function toggle(index) {
     color: #ff5c5c;
 }
 
-/* Responsive */
+/* ── Responsive ── */
+
 @media (max-width: 768px) {
     .experience { padding: 4rem 1.5rem; }
     .job-row { grid-template-columns: 72px 1fr auto; gap: 1.2rem; }
@@ -238,7 +263,7 @@ function toggle(index) {
     .job-row { grid-template-columns: 56px 1fr auto; gap: 1rem; padding: 1.5rem 0; }
     .job-num { font-size: 2.8rem; letter-spacing: -2px; }
     .job-title { font-size: 1rem; }
-    .job-toggle { display: block; }
+    .job-toggle { display: block; } /* pokazujemy +/− na mobile */
 }
 
 @media (max-width: 480px) {

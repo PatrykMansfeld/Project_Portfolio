@@ -1,21 +1,32 @@
+<!--
+  CertificatesSection.vue — sekcja "Certyfikaty".
+  Wyświetla listę certyfikatów jako pionowy stos kart.
+  Hover: żółte tło + przesunięcie w prawo + animacja gwiazdki.
+  Dane edytujesz w useLang.js → certificates.items (obie wersje językowe).
+  Każdy wpis: { title, issuer, year }
+-->
 <template>
     <section id="certificates" class="certificates">
         <div class="section-container">
             <h2 class="section-heading">{{ t.certificates.heading }}</h2>
 
+            <!-- Stos kart certyfikatów — karty "klejone" razem (bez gap, border-bottom usuwany między kartami) -->
             <div class="certs-grid">
                 <div
                     class="cert-card"
                     v-for="cert in t.certificates.items"
                     :key="cert.title"
                 >
+                    <!-- Lewa kolumna: rok certyfikatu -->
                     <div class="cert-left">
                         <span class="cert-year">{{ cert.year }}</span>
                     </div>
+                    <!-- Środkowa kolumna: nazwa + wydawca -->
                     <div class="cert-right">
                         <h3 class="cert-title">{{ cert.title }}</h3>
                         <p class="cert-issuer">{{ cert.issuer }}</p>
                     </div>
+                    <!-- Dekoracyjna gwiazdka — animowana przy hover (ukryta na mobile) -->
                     <span class="cert-icon">✦</span>
                 </div>
             </div>
@@ -25,11 +36,12 @@
 
 <script setup>
 import { useLang } from '../composables/useLang.js'
-
+// t — tłumaczenia dla aktualnego języka
 const { t } = useLang()
 </script>
 
 <style scoped>
+/* Fioletowe tło sekcji */
 .certificates {
     position: relative;
     min-height: 100vh;
@@ -41,6 +53,7 @@ const { t } = useLang()
     justify-content: center;
 }
 
+/* Siatka kropek w tle */
 .certificates::before {
     content: '';
     position: absolute;
@@ -72,12 +85,14 @@ const { t } = useLang()
     box-shadow: 6px 6px 0 #000;
 }
 
+/* Kontener listy — brak gap, karty "przyklejone" do siebie */
 .certs-grid {
     display: flex;
     flex-direction: column;
     gap: 0;
 }
 
+/* Jedna karta certyfikatu — 3-kolumnowy grid: rok | treść | gwiazdka */
 .cert-card {
     display: grid;
     grid-template-columns: 70px 1fr auto;
@@ -85,34 +100,33 @@ const { t } = useLang()
     gap: 1.5rem;
     background-color: #fff;
     border: 3px solid #000;
-    border-bottom: none;
+    border-bottom: none; /* usuwa duplikowaną linię między kartami */
     padding: 1.2rem 1.6rem;
     transition: background-color 0.15s ease, transform 0.15s ease;
     position: relative;
 }
 
-.cert-card:first-child {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
+/* Ostatnia karta ma border-bottom i cień (tylko dolna karta go potrzebuje) */
 .cert-card:last-child {
     border-bottom: 3px solid #000;
     box-shadow: 6px 6px 0 #000;
 }
 
+/* Hover: żółte tło, lekkie przesunięcie w prawo */
 .cert-card:hover {
     background-color: #e9ff70;
-    z-index: 1;
+    z-index: 1; /* unosi się nad sąsiednimi kartami */
     transform: translateX(4px);
 }
 
+/* Lewa kolumna z rokiem */
 .cert-left {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* Badge z rokiem — czarne tło, żółty tekst */
 .cert-year {
     font-size: 0.72rem;
     font-weight: 700;
@@ -124,6 +138,7 @@ const { t } = useLang()
     white-space: nowrap;
 }
 
+/* Środkowa kolumna: tytuł + wydawca */
 .cert-right {
     display: flex;
     flex-direction: column;
@@ -146,6 +161,7 @@ const { t } = useLang()
     margin: 0;
 }
 
+/* Gwiazdka dekoracyjna — animowana przy hover, ukryta na mobile */
 .cert-icon {
     font-size: 1.4rem;
     opacity: 0.6;
@@ -158,7 +174,8 @@ const { t } = useLang()
     transform: scale(1.15) rotate(-8deg);
 }
 
-/* Tablet */
+/* ── Responsive ── */
+
 @media (max-width: 768px) {
     .certificates { padding: 4rem 1.5rem; }
     .section-heading { font-size: 2rem; }
@@ -166,12 +183,12 @@ const { t } = useLang()
     .cert-title { font-size: 0.9rem; }
 }
 
-/* Mobile */
+/* Mobile — chowamy gwiazdkę, zmniejszamy kolumnę z rokiem */
 @media (max-width: 600px) {
     .certificates { padding: 3rem 1rem; }
     .section-heading { font-size: 1.8rem; }
     .cert-card { grid-template-columns: 56px 1fr; gap: 1rem; padding: 0.95rem 1rem; }
-    .cert-icon { display: none; }
+    .cert-icon { display: none; } /* za mało miejsca na gwiazdkę */
     .cert-title { font-size: 0.85rem; }
     .cert-year { font-size: 0.65rem; padding: 0.2rem 0.45rem; }
 }

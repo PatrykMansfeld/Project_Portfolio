@@ -1,28 +1,39 @@
+<!--
+  HeroSection.vue — sekcja powitalna, pierwsza widoczna po otwarciu strony.
+  Zajmuje pełną wysokość ekranu (100vh).
+  Prawa kolumna (zdjęcie + statystyki) jest zakomentowana — odkomentuj żeby ją przywrócić.
+-->
 <template>
     <section id="hero" class="hero">
-        <!-- Dot grid background -->
+        <!-- Tło z siatką kropek (czysto CSS, bez obrazka) -->
         <div class="hero-dots"></div>
 
         <div class="hero-inner">
-            <!-- Left column -->
+            <!-- ── Lewa kolumna: treść tekstowa ── -->
             <div class="hero-left">
+                <!-- Zielona pulsująca odznaka "dostępny do pracy" -->
                 <div class="hero-badge">
                     <span class="badge-dot"></span>
                     {{ t.hero.available }}
                 </div>
 
+                <!-- Imię i nazwisko — duże typograficzne litery -->
                 <h1 class="hero-name">
                     <span class="hero-greeting">{{ t.hero.greeting }}</span>
                     <span class="hero-firstname">{{ t.hero.firstname }}</span>
+                    <!-- Nazwisko z efektem outline (transparentny fill, widać tylko obrys) -->
                     <span class="hero-lastname">{{ t.hero.lastname }}</span>
                 </h1>
 
+                <!-- Etykieta roli z czerwonym tłem neobrutalist -->
                 <div class="hero-role-wrap">
                     <span class="hero-role">{{ t.hero.role }}</span>
                 </div>
 
+                <!-- Krótki opis / tagline -->
                 <p class="hero-subtitle">{{ t.hero.subtitle }}</p>
 
+                <!-- Przyciski CTA -->
                 <div class="hero-actions">
                     <button class="hero-btn-primary" @click="scrollToProjects">
                         {{ t.hero.btn }} <span class="btn-arrow">↓</span>
@@ -33,8 +44,14 @@
                 </div>
             </div>
 
-            <!-- Right column -->
-            <div class="hero-right">
+            <!-- ── Prawa kolumna: zdjęcie + statystyki (zakomentowana) ──
+                 Odkomentuj blok poniżej żeby przywrócić zdjęcie i statystyki.
+                 W .photo-inner zamień inicjały "PM" na swoje zdjęcie:
+                   background-image: url('/photo.jpg');
+                   background-size: cover;
+                   background-position: center;
+            -->
+            <!-- <div class="hero-right">
                 <div class="hero-card-stack">
                     <div class="hero-photo">
                         <div class="photo-inner">PM</div>
@@ -61,7 +78,7 @@
                         <span class="stat-label">{{ t.hero.statTech }}</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 </template>
@@ -69,21 +86,26 @@
 <script setup>
 import { useLang } from '../composables/useLang.js'
 
+// t — obiekt z tłumaczeniami (PL lub EN zależnie od wybranego języka)
 const { t } = useLang()
 
+// Płynne przewijanie do sekcji projektów
 function scrollToProjects() {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
 }
+
+// Płynne przewijanie do sekcji kontaktowej
 function scrollToContact() {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
 }
 </script>
 
 <style scoped>
+/* Sekcja hero — żółte tło, pełna wysokość ekranu */
 .hero {
     position: relative;
     min-height: 100vh;
-    padding-top: 64px;
+    padding-top: 64px; /* offset za fixed navbar */
     background-color: #e9ff70;
     color: #000;
     overflow: hidden;
@@ -91,15 +113,16 @@ function scrollToContact() {
     align-items: center;
 }
 
-/* Dot grid */
+/* Tło z siatką kropek — wygenerowane w CSS, bez pliku graficznego */
 .hero-dots {
     position: absolute;
     inset: 0;
     background-image: radial-gradient(circle, rgba(0,0,0,0.18) 1.5px, transparent 1.5px);
     background-size: 28px 28px;
-    pointer-events: none;
+    pointer-events: none; /* nie blokuje kliknięć na elementy pod spodem */
 }
 
+/* Wewnętrzny kontener — 2-kolumnowy grid (tekst | zdjęcie) */
 .hero-inner {
     position: relative;
     max-width: 1100px;
@@ -107,18 +130,19 @@ function scrollToContact() {
     padding: 3rem 2rem 3rem;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto; /* lewa kolumna zajmuje resztę, prawa tylko tyle ile potrzebuje */
     gap: 3rem;
     align-items: center;
 }
 
-/* LEFT */
+/* ── Lewa kolumna ── */
 .hero-left {
     display: flex;
     flex-direction: column;
     gap: 1.4rem;
 }
 
+/* Odznaka "Dostępny do pracy" z pulsującą zieloną kropką */
 .hero-badge {
     display: inline-flex;
     align-items: center;
@@ -134,6 +158,7 @@ function scrollToContact() {
     width: fit-content;
 }
 
+/* Zielona pulsująca kropka (animacja opacity) */
 .badge-dot {
     width: 8px;
     height: 8px;
@@ -148,6 +173,7 @@ function scrollToContact() {
     50% { opacity: 0.3; }
 }
 
+/* Blok z imieniem — trzy linie ustawione pionowo */
 .hero-name {
     display: flex;
     flex-direction: column;
@@ -164,6 +190,7 @@ function scrollToContact() {
     line-height: 1;
 }
 
+/* Duże litery imienia i nazwiska — responsywny rozmiar z clamp() */
 .hero-firstname,
 .hero-lastname {
     font-size: clamp(3.5rem, 8vw, 6.5rem);
@@ -174,11 +201,13 @@ function scrollToContact() {
     color: #000;
 }
 
+/* Nazwisko z efektem outline — fill transparentny, widać tylko obrys liter */
 .hero-lastname {
     -webkit-text-stroke: 3px #000;
     color: transparent;
 }
 
+/* Etykieta roli (Full-Stack Developer) z neobrutalist box-shadow */
 .hero-role-wrap {
     display: flex;
     align-items: center;
@@ -206,6 +235,7 @@ function scrollToContact() {
     opacity: 0.75;
 }
 
+/* Rząd przycisków CTA */
 .hero-actions {
     display: flex;
     align-items: center;
@@ -214,6 +244,7 @@ function scrollToContact() {
     margin-top: 0.5rem;
 }
 
+/* Główny przycisk — czarny z żółtym tekstem, neobrutalist shadow */
 .hero-btn-primary {
     display: inline-flex;
     align-items: center;
@@ -227,12 +258,13 @@ function scrollToContact() {
     background-color: #000;
     color: #e9ff70;
     border: 3px solid #000;
-    box-shadow: 6px 6px 0 #000;
+    box-shadow: 6px 6px 0 #000; /* neobrutalist efekt cienia */
     cursor: pointer;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
     outline: none;
 }
 
+/* Efekt "wciśnięcia" — translateX przesuwa przycisk w kierunku cienia */
 .hero-btn-primary:hover {
     transform: translate(3px, 3px);
     box-shadow: 3px 3px 0 #000;
@@ -242,6 +274,7 @@ function scrollToContact() {
     box-shadow: 0 0 0 #000;
 }
 
+/* Strzałka w przycisku — opada lekko przy hover */
 .btn-arrow {
     font-size: 1.1rem;
     transition: transform 0.2s ease;
@@ -250,6 +283,7 @@ function scrollToContact() {
     transform: translateY(3px);
 }
 
+/* Drugi przycisk — transparentne tło, border */
 .hero-btn-secondary {
     display: inline-flex;
     align-items: center;
@@ -274,7 +308,7 @@ function scrollToContact() {
     box-shadow: 3px 3px 0 #000;
 }
 
-/* RIGHT */
+/* ── Prawa kolumna (zakomentowana w template) ── */
 .hero-right {
     display: flex;
     flex-direction: column;
@@ -286,6 +320,7 @@ function scrollToContact() {
     position: relative;
 }
 
+/* Karta ze zdjęciem — biały kontener z czarną ramką */
 .hero-photo {
     width: 260px;
     background-color: #fff;
@@ -294,6 +329,11 @@ function scrollToContact() {
     overflow: hidden;
 }
 
+/* Placeholder zdjęcia — fioletowe tło z inicjałami.
+   Żeby wstawić prawdziwe zdjęcie, usuń background-color i dodaj:
+     background-image: url('/photo.jpg');
+     background-size: cover;
+     background-position: center; */
 .photo-inner {
     height: 240px;
     background-color: #a78bfa;
@@ -304,11 +344,9 @@ function scrollToContact() {
     font-weight: 700;
     letter-spacing: -4px;
     border-bottom: 3px solid #000;
-    /* swap with real photo:
-       background-image: url('/photo.jpg');
-       background-size: cover; background-position: center; */
 }
 
+/* Podpis pod zdjęciem (rola) */
 .photo-label {
     padding: 0.6rem 1rem;
     font-size: 0.75rem;
@@ -318,6 +356,7 @@ function scrollToContact() {
     text-align: center;
 }
 
+/* Naklejka "OPEN TO WORK" — obrócona i przyklejona w rogu zdjęcia */
 .hero-sticker {
     position: absolute;
     top: -18px;
@@ -340,6 +379,7 @@ function scrollToContact() {
     transform: rotate(0deg) scale(1.05);
 }
 
+/* Box ze statystykami pod zdjęciem */
 .hero-stats {
     width: 260px;
     background-color: #fff;
@@ -375,6 +415,7 @@ function scrollToContact() {
     text-align: center;
 }
 
+/* Pionowy separator między statystykami */
 .stat-divider {
     width: 2px;
     height: 36px;
@@ -401,7 +442,7 @@ function scrollToContact() {
     }
 }
 
-/* Tablet portrait — stack layout */
+/* Tablet portrait — jedna kolumna, prawa część obok siebie w wierszu */
 @media (max-width: 860px) {
     .hero-inner {
         grid-template-columns: 1fr;
@@ -432,15 +473,14 @@ function scrollToContact() {
     }
 }
 
-/* Mobile */
+/* Mobile — ukrywa zdjęcie, stats na pełną szerokość */
 @media (max-width: 600px) {
     .hero-inner {
         padding: 2rem 1.2rem 2.5rem;
         gap: 1.5rem;
     }
-    /* Hide photo on small phones, keep stats row */
     .hero-card-stack {
-        display: none;
+        display: none; /* chowamy zdjęcie na małych telefonach */
     }
     .hero-stats {
         width: 100%;
@@ -462,7 +502,7 @@ function scrollToContact() {
     }
 }
 
-/* Small mobile */
+/* Małe telefony */
 @media (max-width: 480px) {
     .hero-inner {
         padding: 1.5rem 1rem 2rem;
@@ -488,7 +528,7 @@ function scrollToContact() {
     .stat-label { font-size: 0.58rem; }
 }
 
-/* Very small phones */
+/* Bardzo małe telefony */
 @media (max-width: 375px) {
     .hero-inner { padding: 1.2rem 0.85rem 1.8rem; }
     .hero-firstname,

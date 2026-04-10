@@ -1,15 +1,36 @@
+// useLang.js — globalny stan języka + wszystkie tłumaczenia
+//
+// Jak używać w komponencie:
+//   import { useLang } from '../composables/useLang.js'
+//   const { t } = useLang()         // t.value.hero.firstname
+//   const { lang, t, toggleLang } = useLang()
+//
+// Jak edytować treść strony:
+//   Zmień wartości w obiektach 'pl' (po polsku) i 'en' (po angielsku).
+//   Klucze muszą być identyczne w obu wersjach językowych.
+//
+// Jak dodać nowy projekt:
+//   Dodaj obiekt do pl.projects.items i en.projects.items (ten sam format).
+
 import { ref, computed } from 'vue'
 
+// Globalny ref języka — jeden dla całej aplikacji (shared state)
+// Zmiana lang.value automatycznie aktualizuje wszystkie komponenty
 const lang = ref('pl')
 
 export function useLang() {
+  // t — computed wrapping tłumaczeń dla aktualnego języka
+  // Reaktywny: gdy lang.value się zmienia, t.value też się zmienia
   const t = computed(() => translations[lang.value])
+
+  // Przełącza język między PL a EN
   function toggleLang() {
     lang.value = lang.value === 'pl' ? 'en' : 'pl'
   }
   return { lang, t, toggleLang }
 }
 
+// Obiekt ze wszystkimi tłumaczeniami — dwie wersje: 'pl' i 'en'
 const translations = {
   pl: {
     nav: {
@@ -100,6 +121,11 @@ const translations = {
           title: 'E-commerce Platform',
           description: 'Pełny sklep internetowy z koszykiem, płatnościami i panelem admina.',
           tags: ['Vue.js', 'Node.js', 'MongoDB'],
+          highlights: [
+            'Integracja płatności Stripe z obsługą webhooków',
+            'Panel admina: zarządzanie produktami, zamówieniami i użytkownikami',
+            'Koszyk z persystencją stanu i synchronizacją z serwerem',
+          ],
           demo: '#',
           github: '#',
         },
@@ -108,6 +134,11 @@ const translations = {
           title: 'Task Manager App',
           description: 'Aplikacja do zarządzania zadaniami z drag & drop i powiadomieniami.',
           tags: ['React', 'Express', 'PostgreSQL'],
+          highlights: [
+            'Drag & drop z live aktualizacją kolejności zadań',
+            'System powiadomień push i e-mail z harmonogramem',
+            'Widok Kanban z filtrami priorytetu i terminu wykonania',
+          ],
           demo: '#',
           github: '#',
         },
@@ -116,6 +147,11 @@ const translations = {
           title: 'Weather Dashboard',
           description: 'Dashboard pogodowy z wykresami, mapami i prognozą na 7 dni.',
           tags: ['JavaScript', 'API', 'CSS'],
+          highlights: [
+            'Dane pogodowe w czasie rzeczywistym z Open-Meteo API',
+            'Wykresy prognozy generowane przez Chart.js',
+            'Geolokalizacja i wyszukiwarka miast z autocomplete',
+          ],
           demo: '#',
           github: '#',
         },
@@ -239,6 +275,11 @@ const translations = {
           title: 'E-commerce Platform',
           description: 'Full online store with cart, payments and admin panel.',
           tags: ['Vue.js', 'Node.js', 'MongoDB'],
+          highlights: [
+            'Stripe payment integration with full webhook support',
+            'Admin panel: manage products, orders and users',
+            'Cart with local state persistence and server sync',
+          ],
           demo: '#',
           github: '#',
         },
@@ -247,6 +288,11 @@ const translations = {
           title: 'Task Manager App',
           description: 'Task management app with drag & drop and notifications.',
           tags: ['React', 'Express', 'PostgreSQL'],
+          highlights: [
+            'Drag & drop with live task order updates',
+            'Push and email notification system with scheduler',
+            'Kanban view with priority and deadline filters',
+          ],
           demo: '#',
           github: '#',
         },
@@ -255,6 +301,11 @@ const translations = {
           title: 'Weather Dashboard',
           description: 'Weather dashboard with charts, maps and 7-day forecast.',
           tags: ['JavaScript', 'API', 'CSS'],
+          highlights: [
+            'Real-time weather data from Open-Meteo API',
+            'Forecast charts generated with Chart.js',
+            'Geolocation and city search with autocomplete',
+          ],
           demo: '#',
           github: '#',
         },
