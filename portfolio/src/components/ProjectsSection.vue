@@ -22,9 +22,9 @@
                     :key="project.num"
                     :style="`--color: ${thumbColors[i]}`"
                     :class="{ 'is-expanded': expanded === i }"
-                    @mouseenter="expanded = i"    <!-- desktop: hover otwiera -->
-                    @mouseleave="expanded = null" <!-- desktop: wyjście zamyka -->
-                    @click="expanded = expanded === i ? null : i" <!-- mobile: tap toggle -->
+                    @mouseenter="expanded = i"
+                    @mouseleave="expanded = null"
+                    @click="expanded = expanded === i ? null : i"
                 >
                     <!-- Kolorowy pasek boczny z numerem projektu -->
                     <div class="project-strip">

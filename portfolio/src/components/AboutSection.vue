@@ -24,10 +24,10 @@
                         <div class="photo-top">PM</div>
                         <div class="photo-label">{{ t.hero.role }}</div>
                     </div>
-                    <!-- Przyciski do mediów społecznościowych — zaktualizuj href! -->
+                    <!-- Przyciski do mediów społecznościowych -->
                     <div class="about-socials">
                         <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="social-btn">GitHub ↗</a>
-                        <a href="https://linkedin.com/in/twojanazwa" target="_blank" rel="noopener" class="social-btn">LinkedIn ↗</a>
+                        <a href="https://www.linkedin.com/in/patrykmansfeld" target="_blank" rel="noopener" class="social-btn">LinkedIn ↗</a>
                     </div>
                 </div>
 
@@ -49,7 +49,7 @@
                     <!-- Czarny pasek ze statystykami (lata / projekty / technologie) -->
                     <div class="about-facts">
                         <div class="fact-block">
-                            <span class="fact-num">3+</span>
+                            <span class="fact-num">4+</span>
                             <span class="fact-label">{{ t.hero.statYears }}</span>
                         </div>
                         <div class="fact-divider"></div>
@@ -59,7 +59,7 @@
                         </div>
                         <div class="fact-divider"></div>
                         <div class="fact-block">
-                            <span class="fact-num">10+</span>
+                            <span class="fact-num">20+</span>
                             <span class="fact-label">{{ t.hero.statTech }}</span>
                         </div>
                     </div>

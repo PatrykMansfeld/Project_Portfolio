@@ -30,14 +30,19 @@ defineProps({
         type: Array,
         default: () => [
             'FULL-STACK DEVELOPER',
-            'VUE.JS',
-            'NODE.JS',
-            'CLEAN CODE',
+            'DEVOPS',
+            'JAVASCRIPT',
             'TYPESCRIPT',
-            'OPEN TO WORK',
-            'POSTGRESQL',
-            'REST API',
+            'VUE.JS',
+            'REACT',
+            'ANGULAR',
+            'NODE.JS',
+            'PYTHON',
             'DOCKER',
+            'KUBERNETES',
+            'AWS',
+            'AI / ML',
+            'OPEN TO WORK',
         ]
     }
 })

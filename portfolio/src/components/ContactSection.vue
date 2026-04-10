@@ -18,20 +18,17 @@
                     <p class="col-label">{{ t.contact.findMe }}</p>
                     <!-- Linki do kontaktu — każdy ma etykietę i wartość -->
                     <div class="links-stack">
-                        <!-- ZMIEŃ: swój adres email -->
-                        <a href="mailto:twoj@email.com" class="contact-link">
+                        <a href="mailto:patryk.mansfeld@gmail.com" class="contact-link">
                             <span class="link-label">Email</span>
-                            <span class="link-value">twoj@email.com ↗</span>
+                            <span class="link-value">patryk.mansfeld@gmail.com ↗</span>
                         </a>
-                        <!-- ZMIEŃ: swój GitHub -->
                         <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="contact-link">
                             <span class="link-label">GitHub</span>
                             <span class="link-value">PatrykMansfeld ↗</span>
                         </a>
-                        <!-- ZMIEŃ: swój LinkedIn -->
-                        <a href="https://linkedin.com/in/twojanazwa" target="_blank" rel="noopener" class="contact-link">
+                        <a href="https://www.linkedin.com/in/patrykmansfeld" target="_blank" rel="noopener" class="contact-link">
                             <span class="link-label">LinkedIn</span>
-                            <span class="link-value">twojanazwa ↗</span>
+                            <span class="link-value">patrykmansfeld ↗</span>
                         </a>
                     </div>
 

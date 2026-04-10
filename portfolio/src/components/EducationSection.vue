@@ -39,14 +39,15 @@ import { useLang } from '../composables/useLang.js'
 
 const { t } = useLang()
 
-// Wyznacza skrót (MSc/BSc/EDU) na podstawie tytułu stopnia.
-// Obsługuje zarówno polskie jak i angielskie tytuły.
-// Żeby dodać nowe skróty, rozszerz warunki if.
+// Wyznacza skrót stopnia naukowego na podstawie tytułu.
+// Obsługuje polskie i angielskie nazwy.
+// Żeby dodać nowy stopień, dodaj kolejny warunek if.
 function getAbbr(title) {
     const lower = title.toLowerCase()
     if (lower.includes('magister') || lower.includes('msc')) return 'MSc'
     if (lower.includes('licencjat') || lower.includes('bsc')) return 'BSc'
-    return 'EDU' // domyślny skrót dla innych tytułów
+    if (lower.includes('inżynier') || lower.includes('beng') || lower.includes('engineer')) return 'BEng'
+    return 'EDU' // domyślny skrót dla nierozpoznanych tytułów
 }
 </script>
 

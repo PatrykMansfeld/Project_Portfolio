@@ -13,11 +13,11 @@
                 <span class="footer-name">Patryk Mansfeld</span>
             </div>
 
-            <!-- Linki do social media — ZMIEŃ href na swoje dane -->
+            <!-- Linki do mediów społecznościowych -->
             <div class="footer-links">
                 <a href="https://github.com/PatrykMansfeld" target="_blank" rel="noopener" class="footer-link">GitHub</a>
-                <a href="https://linkedin.com/in/twojanazwa" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>
-                <a href="mailto:twoj@email.com" class="footer-link">Email</a>
+                <a href="https://www.linkedin.com/in/patrykmansfeld" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>
+                <a href="mailto:patryk.mansfeld@gmail.com" class="footer-link">Email</a>
             </div>
 
             <!-- Copyright z automatycznym rokiem -->
