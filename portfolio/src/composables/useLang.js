@@ -200,6 +200,22 @@ const translations = {
       messagePlaceholder: 'Napisz do mnie...',
       btn: 'Wyślij wiadomość',
     },
+    hobbies: {
+      heading: 'POZA KODEM',
+      sub: 'Zainteresowania które mnie nakręcają',
+      martial: {
+        title: 'SZTUKI WALKI',
+        desc: 'Trening to nie tylko fizyczność — to dyscyplina mentalna i ciągłe doskonalenie. Na macie uczę się tyle samo, co przy klawiaturze.',
+      },
+      racing: {
+        title: 'MOTORSPORT',
+        desc: 'Adrenalina na torze, strategia w boksie. Bolidy F1 i wyścigi to moja pasja od lat — inżynieria, prędkość i precyzja w jednym.',
+      },
+      simracing: {
+        title: 'SIM RACING',
+        desc: 'Symulatory wyścigów to połączenie technologii i pasji motoryzacyjnej. Spędzam godziny doskonaląc technikę jazdy na wirtualnych torach.',
+      },
+    },
     footer: {
       rights: 'Wszelkie prawa zastrzeżone.',
       madeWith: 'Zrobione z użyciem',
@@ -373,6 +389,22 @@ const translations = {
       emailPlaceholder: 'john@example.com',
       messagePlaceholder: 'Write to me...',
       btn: 'Send message',
+    },
+    hobbies: {
+      heading: 'BEYOND CODE',
+      sub: 'Interests that drive me',
+      martial: {
+        title: 'MARTIAL ARTS',
+        desc: 'Training is not just physical — it\'s mental discipline and constant improvement. On the mat I learn as much as at the keyboard.',
+      },
+      racing: {
+        title: 'MOTORSPORT',
+        desc: 'Adrenaline on track, strategy in the pits. F1 and motorsport have been my passion for years — engineering, speed and precision combined.',
+      },
+      simracing: {
+        title: 'SIM RACING',
+        desc: 'Racing simulators bridge technology and motorsport passion. I spend hours perfecting my driving technique on virtual circuits.',
+      },
     },
     footer: {
       rights: 'All rights reserved.',

@@ -44,7 +44,12 @@
                 </div>
             </div>
 
-            <!-- ── Prawa kolumna: zdjęcie + statystyki (zakomentowana) ──
+            <!-- ── Dekoracyjne naklejki hobby (absolutnie pozycjonowane w tle) ── -->
+        <div class="hero-hobby hero-hobby--1" aria-hidden="true">{{ t.hobbies.martial.title }} ✦</div>
+        <div class="hero-hobby hero-hobby--2" aria-hidden="true">{{ t.hobbies.racing.title }} ✦</div>
+        <div class="hero-hobby hero-hobby--3" aria-hidden="true">{{ t.hobbies.simracing.title }} ✦</div>
+
+        <!-- ── Prawa kolumna: zdjęcie + statystyki (zakomentowana) ──
                  Odkomentuj blok poniżej żeby przywrócić zdjęcie i statystyki.
                  W .photo-inner zamień inicjały "PM" na swoje zdjęcie:
                    background-image: url('/photo.jpg');
@@ -306,6 +311,62 @@ function scrollToContact() {
     background-color: #fff;
     transform: translate(3px, 3px);
     box-shadow: 3px 3px 0 #000;
+}
+
+/* ── Dekoracyjne naklejki hobby ── */
+/* Absolutnie pozycjonowane w prawej części hero — widoczne tylko na szerokich ekranach */
+.hero-hobby {
+  position: absolute;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 0.38rem 0.85rem;
+  border: 2px solid #000;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  animation: hobbyFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes hobbyFadeIn {
+  from { opacity: 0; transform: translateY(8px) rotate(var(--r, 0deg)); }
+  to   { opacity: 1; transform: translateY(0)   rotate(var(--r, 0deg)); }
+}
+
+.hero-hobby--1 {
+  top: 22%;
+  right: 7%;
+  background-color: #000;
+  color: #e9ff70;
+  --r: -9deg;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
+  animation-delay: 0.8s;
+}
+
+.hero-hobby--2 {
+  top: 46%;
+  right: 4%;
+  background-color: #ff5c5c;
+  color: #000;
+  --r: 5deg;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
+  animation-delay: 1.1s;
+}
+
+.hero-hobby--3 {
+  bottom: 22%;
+  right: 9%;
+  background-color: #a78bfa;
+  color: #000;
+  --r: -4deg;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
+  animation-delay: 1.4s;
+}
+
+/* Naklejki ukryte na mniejszych ekranach (znikają gdy nie ma na nie miejsca) */
+@media (max-width: 860px) {
+  .hero-hobby { display: none; }
 }
 
 /* ── Prawa kolumna (zakomentowana w template) ── */

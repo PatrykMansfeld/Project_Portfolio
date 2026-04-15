@@ -17,6 +17,7 @@ import ProjectsSection from './components/ProjectsSection.vue'
 import CertificatesSection from './components/CertificatesSection.vue'
 import ContactSection from './components/ContactSection.vue'
 import FooterSection from './components/FooterSection.vue'
+import HobbiesSection from './components/HobbiesSection.vue'
 
 onMounted(() => {
   // Obserwuje sekcje i dodaje klasę 'in-view' gdy są widoczne w oknie przeglądarki.
@@ -48,6 +49,7 @@ onMounted(() => {
   <SkillsSection />     <!-- Umiejętności — technologie pogrupowane kategoriami -->
   <ProjectsSection />   <!-- Projekty — karty z efektem rozwijania na hover -->
   <CertificatesSection /> <!-- Certyfikaty — lista z rokiem i wydawcą -->
+  <HobbiesSection /> <!-- Hobby — sztuki walki, motorsport, sim racing -->
   <ContactSection />    <!-- Kontakt — linki do GitHub/LinkedIn/Email -->
   <FooterSection />     <!-- Stopka z powrotem na górę -->
 </template>
