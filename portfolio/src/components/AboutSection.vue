@@ -6,6 +6,7 @@
 -->
 <template>
     <section id="about" class="about">
+        <div class="section-rule"><span class="section-rule-text">{{ t.about.rule }}</span></div>
         <!-- Tło z siatką kropek -->
         <div class="about-container">
 

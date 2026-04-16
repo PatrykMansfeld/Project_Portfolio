@@ -1,99 +1,109 @@
 <!--
   HobbiesSection.vue — sekcja "Poza kodem" z hobby.
-  Dekoracyjna sekcja z kartami: sztuki walki, motorsport, sim racing.
-  Ikony rysowane jako inline SVG — bez zewnętrznych zależności.
+  Białe tło — wyraźny kontrast z czarną sekcją Contact.
+  Trzy wysokie karty w kolorach żółtym, czerwonym, fioletowym.
+  Dekoracyjne tło-numery (duże, półprzezroczyste) dają głębię każdej karcie.
 -->
 <template>
   <section id="hobbies" class="hobbies">
+    <!-- Górny separator — ta sama klasa co w pozostałych sekcjach -->
+    <div class="section-rule" style="position:relative; z-index:1;">
+      <span class="section-rule-text">{{ t.hobbies.sub }}</span>
+    </div>
+
     <div class="hobbies-container">
 
-      <!-- Nagłówek sekcji -->
+      <!-- Nagłówek -->
       <div class="hobbies-header">
         <h2 class="hobbies-heading">{{ t.hobbies.heading }}</h2>
-        <p class="hobbies-sub">{{ t.hobbies.sub }}</p>
       </div>
 
-      <!-- Siatka trzech kart hobby -->
+      <!-- Siatka trzech kart -->
       <div class="hobbies-grid">
 
         <!-- Karta 1: Sztuki walki -->
         <article class="hobby-card hobby-card--yellow">
-          <span class="hobby-num">01</span>
-          <div class="hobby-icon" aria-hidden="true">
-            <!-- Stylizowana pięść / rękawica -->
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Cztery palce (prostokąty zaokrąglone) -->
-              <rect x="14" y="18" width="10" height="16" rx="5" fill="currentColor"/>
-              <rect x="25" y="14" width="10" height="18" rx="5" fill="currentColor"/>
-              <rect x="36" y="14" width="10" height="18" rx="5" fill="currentColor"/>
-              <rect x="47" y="18" width="10" height="16" rx="5" fill="currentColor"/>
-              <!-- Dłoń / pięść -->
-              <rect x="12" y="30" width="40" height="22" rx="6" fill="currentColor"/>
-              <!-- Kciuk -->
-              <rect x="4"  y="32" width="12" height="14" rx="6" fill="currentColor"/>
-              <!-- Linia kłykci -->
-              <rect x="14" y="28" width="44" height="5"  rx="2" fill="rgba(0,0,0,0.18)"/>
-            </svg>
+          <!-- Dekoracyjny duży numer w tle karty -->
+          <span class="card-bg-num" aria-hidden="true">01</span>
+
+          <div class="card-inner">
+            <div class="hobby-icon" aria-hidden="true">
+              <!-- Pięść -->
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="14" y="18" width="10" height="16" rx="5" fill="currentColor"/>
+                <rect x="25" y="14" width="10" height="18" rx="5" fill="currentColor"/>
+                <rect x="36" y="14" width="10" height="18" rx="5" fill="currentColor"/>
+                <rect x="47" y="18" width="10" height="16" rx="5" fill="currentColor"/>
+                <rect x="12" y="30" width="40" height="22" rx="6" fill="currentColor"/>
+                <rect x="4"  y="32" width="12" height="14" rx="6" fill="currentColor"/>
+                <rect x="14" y="28" width="44" height="5"  rx="2" fill="rgba(0,0,0,0.18)"/>
+              </svg>
+            </div>
+
+            <div class="card-text">
+              <h3 class="hobby-title">{{ t.hobbies.martial.title }}</h3>
+              <p class="hobby-desc">{{ t.hobbies.martial.desc }}</p>
+            </div>
           </div>
-          <h3 class="hobby-title">{{ t.hobbies.martial.title }}</h3>
-          <p class="hobby-desc">{{ t.hobbies.martial.desc }}</p>
-          <!-- Dekoracyjna naklejka w rogu -->
+
           <div class="hobby-sticker">FIGHT ✦</div>
         </article>
 
-        <!-- Karta 2: Motorsport / Bolidy -->
+        <!-- Karta 2: Motorsport -->
         <article class="hobby-card hobby-card--red">
-          <span class="hobby-num">02</span>
-          <div class="hobby-icon hobby-icon--wide" aria-hidden="true">
-            <!-- Bolid F1 — widok z boku, nos skierowany w prawo -->
-            <svg viewBox="0 0 96 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Główny kadłub -->
-              <path d="M14 22 L80 22 L87 28 L80 34 L14 34 L7 28 Z" fill="currentColor"/>
-              <!-- Kokpit / kabina pilota -->
-              <path d="M34 22 L59 22 L55 11 L38 11 Z" fill="currentColor"/>
-              <!-- Przedni spoiler (dolny + górny płat) -->
-              <rect x="78" y="33" width="17" height="4" rx="1" fill="currentColor"/>
-              <rect x="81" y="28" width="10" height="5" rx="1" fill="currentColor"/>
-              <!-- Tylne skrzydło (pionowa belka + pozioma listwa) -->
-              <rect x="8"  y="17" width="14" height="4" rx="1" fill="currentColor"/>
-              <rect x="13" y="17" width="4"  height="17" rx="1" fill="currentColor"/>
-              <!-- Przednie koło -->
-              <circle cx="72" cy="37" r="9"  fill="currentColor"/>
-              <circle cx="72" cy="37" r="5"  fill="rgba(255,255,255,0.22)"/>
-              <circle cx="72" cy="37" r="2"  fill="currentColor"/>
-              <!-- Tylne koło (nieco większe) -->
-              <circle cx="22" cy="37" r="11" fill="currentColor"/>
-              <circle cx="22" cy="37" r="6"  fill="rgba(255,255,255,0.22)"/>
-              <circle cx="22" cy="37" r="2"  fill="currentColor"/>
-            </svg>
+          <span class="card-bg-num" aria-hidden="true">02</span>
+
+          <div class="card-inner">
+            <div class="hobby-icon hobby-icon--wide" aria-hidden="true">
+              <!-- Bolid F1 -->
+              <svg viewBox="0 0 96 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 22 L80 22 L87 28 L80 34 L14 34 L7 28 Z" fill="currentColor"/>
+                <path d="M34 22 L59 22 L55 11 L38 11 Z" fill="currentColor"/>
+                <rect x="78" y="33" width="17" height="4" rx="1" fill="currentColor"/>
+                <rect x="81" y="28" width="10" height="5" rx="1" fill="currentColor"/>
+                <rect x="8"  y="17" width="14" height="4" rx="1" fill="currentColor"/>
+                <rect x="13" y="17" width="4"  height="17" rx="1" fill="currentColor"/>
+                <circle cx="72" cy="37" r="9"  fill="currentColor"/>
+                <circle cx="72" cy="37" r="5"  fill="rgba(255,255,255,0.22)"/>
+                <circle cx="72" cy="37" r="2"  fill="currentColor"/>
+                <circle cx="22" cy="37" r="11" fill="currentColor"/>
+                <circle cx="22" cy="37" r="6"  fill="rgba(255,255,255,0.22)"/>
+                <circle cx="22" cy="37" r="2"  fill="currentColor"/>
+              </svg>
+            </div>
+
+            <div class="card-text">
+              <h3 class="hobby-title">{{ t.hobbies.racing.title }}</h3>
+              <p class="hobby-desc">{{ t.hobbies.racing.desc }}</p>
+            </div>
           </div>
-          <h3 class="hobby-title">{{ t.hobbies.racing.title }}</h3>
-          <p class="hobby-desc">{{ t.hobbies.racing.desc }}</p>
+
           <div class="hobby-sticker">RACE ✦</div>
         </article>
 
         <!-- Karta 3: Sim Racing -->
         <article class="hobby-card hobby-card--purple">
-          <span class="hobby-num">03</span>
-          <div class="hobby-icon" aria-hidden="true">
-            <!-- Kierownica wyścigowa — pierścień + 3 szprychy + piasta -->
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Zewnętrzny pierścień -->
-              <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="7" fill="none"/>
-              <!-- Szprycha górna -->
-              <line x1="32" y1="23" x2="32" y2="8"  stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
-              <!-- Szprycha dolna-lewa -->
-              <line x1="24" y1="37" x2="11" y2="46" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
-              <!-- Szprycha dolna-prawa -->
-              <line x1="40" y1="37" x2="53" y2="46" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
-              <!-- Piasta środkowa -->
-              <circle cx="32" cy="32" r="9" fill="currentColor"/>
-              <!-- Podświetlenie piasty -->
-              <circle cx="32" cy="32" r="5" fill="rgba(255,255,255,0.35)"/>
-            </svg>
+          <span class="card-bg-num" aria-hidden="true">03</span>
+
+          <div class="card-inner">
+            <div class="hobby-icon" aria-hidden="true">
+              <!-- Kierownica -->
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="7" fill="none"/>
+                <line x1="32" y1="23" x2="32" y2="8"  stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+                <line x1="24" y1="37" x2="11" y2="46" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+                <line x1="40" y1="37" x2="53" y2="46" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+                <circle cx="32" cy="32" r="9" fill="currentColor"/>
+                <circle cx="32" cy="32" r="5" fill="rgba(255,255,255,0.35)"/>
+              </svg>
+            </div>
+
+            <div class="card-text">
+              <h3 class="hobby-title">{{ t.hobbies.simracing.title }}</h3>
+              <p class="hobby-desc">{{ t.hobbies.simracing.desc }}</p>
+            </div>
           </div>
-          <h3 class="hobby-title">{{ t.hobbies.simracing.title }}</h3>
-          <p class="hobby-desc">{{ t.hobbies.simracing.desc }}</p>
+
           <div class="hobby-sticker">SIM ✦</div>
         </article>
 
@@ -109,29 +119,22 @@ const { t } = useLang()
 </script>
 
 <style scoped>
-/* Sekcja — czarne tło, kontrast z sąsiednimi białymi sekcjami */
+/* ── Sekcja: białe tło, wyraźna granica z czarnym Contact ── */
 .hobbies {
-  background-color: #000;
-  color: #fff;
-  padding: 5rem 2rem;
+  background-color: #fff;
+  color: #000;
+  padding: 0 0 5rem;
   position: relative;
-  overflow: hidden;
+  border-bottom: 3px solid #000;
 }
 
-/* Subtelna siatka kropek w tle (jaśniejsza wersja na czarnym) */
-.hobbies::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1.5px, transparent 1.5px);
-  background-size: 28px 28px;
-  pointer-events: none;
-}
+/* Pasek górny obsługiwany przez globalną klasę .section-rule w style.css */
 
+/* ── Kontener treści ── */
 .hobbies-container {
-  position: relative;
   max-width: 1100px;
   margin: 0 auto;
+  padding: 4rem 2rem 0;
   width: 100%;
 }
 
@@ -141,120 +144,116 @@ const { t } = useLang()
 }
 
 .hobbies-heading {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: -1px;
   display: inline-block;
-  background-color: #e9ff70;
+  background-color: #ff5c5c;
   color: #000;
   padding: 0.3rem 1.2rem;
-  border: 3px solid #e9ff70;
-  box-shadow: 6px 6px 0 rgba(233,255,112,0.35);
-  margin-bottom: 0.8rem;
-}
-
-.hobbies-sub {
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  opacity: 0.45;
-  margin-top: 0.6rem;
+  border: 3px solid #000;
+  box-shadow: 6px 6px 0 #000;
 }
 
 /* ── Siatka kart ── */
 .hobbies-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 /* ── Karta bazowa ── */
 .hobby-card {
   position: relative;
   border: 3px solid #000;
-  padding: 2rem 1.8rem 2.2rem;
+  padding: 2.4rem 2rem 3rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  min-height: 380px;
+  overflow: hidden;
   cursor: default;
   transition: transform 0.12s ease, box-shadow 0.12s ease;
-  overflow: hidden;
 }
 
-/* Kolor tła — żółty */
+/* Kolory i cienie — każda karta ma własny czarny cień neobrutalist */
 .hobby-card--yellow {
   background-color: #e9ff70;
-  color: #000;
-  box-shadow: 8px 8px 0 #e9ff70;
+  box-shadow: 10px 10px 0 #000;
 }
-
-/* Kolor tła — czerwony */
 .hobby-card--red {
   background-color: #ff5c5c;
-  color: #000;
-  box-shadow: 8px 8px 0 #ff5c5c;
+  box-shadow: 10px 10px 0 #000;
 }
-
-/* Kolor tła — fioletowy */
 .hobby-card--purple {
   background-color: #a78bfa;
-  color: #000;
-  box-shadow: 8px 8px 0 #a78bfa;
+  box-shadow: 10px 10px 0 #000;
 }
 
-/* Hover — efekt "wciśnięcia" w kierunku cienia */
+/* Hover — karta "wciska się" w kierunku cienia */
 .hobby-card:hover {
-  transform: translate(4px, 4px);
-  box-shadow: 4px 4px 0 currentColor;
+  transform: translate(5px, 5px);
+  box-shadow: 5px 5px 0 #000;
 }
 
-.hobby-card--yellow:hover { box-shadow: 4px 4px 0 #e9ff70; }
-.hobby-card--red:hover    { box-shadow: 4px 4px 0 #ff5c5c; }
-.hobby-card--purple:hover { box-shadow: 4px 4px 0 #a78bfa; }
-
-/* Numer karty — duży, półprzezroczysty */
-.hobby-num {
-  font-size: 0.72rem;
+/* Dekoracyjny duży numer w tle karty */
+.card-bg-num {
+  position: absolute;
+  bottom: -0.6rem;
+  right: 0.5rem;
+  font-size: 8rem;
   font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  opacity: 0.4;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.08);
+  letter-spacing: -6px;
+  user-select: none;
+  pointer-events: none;
 }
 
-/* Kontener ikony SVG */
+/* Wewnętrzny flex — ikona nad tekstem */
+.card-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  flex: 1;
+}
+
+/* ── Ikona SVG ── */
 .hobby-icon {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   color: #000;
+  flex-shrink: 0;
 }
 
-/* Szerszy wariant dla ikony bolidu */
 .hobby-icon--wide {
-  width: 110px;
-  height: 60px;
+  width: 130px;
+  height: 72px;
 }
 
-.hobby-icon svg,
-.hobby-icon--wide svg {
+.hobby-icon svg {
   width: 100%;
   height: 100%;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Lekkie odbicie ikony przy hover na karcie */
 .hobby-card:hover .hobby-icon svg {
-  transform: scale(1.1) rotate(-3deg);
+  transform: scale(1.12) rotate(-4deg);
 }
 
 .hobby-card:hover .hobby-icon--wide svg {
-  transform: scale(1.08) translateX(4px);
+  transform: scale(1.1) translateX(6px);
 }
 
-/* Tytuł hobby */
+/* ── Tekst ── */
+.card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
 .hobby-title {
-  font-size: 1.3rem;
+  font-size: 1.45rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: -0.5px;
@@ -262,70 +261,68 @@ const { t } = useLang()
   margin: 0;
 }
 
-/* Opis */
 .hobby-desc {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   line-height: 1.65;
   margin: 0;
-  opacity: 0.75;
-  flex: 1;
+  opacity: 0.72;
+  max-width: 26ch;
 }
 
-/* Dekoracyjna naklejka w prawym dolnym rogu karty */
+/* ── Naklejka w rogu ── */
 .hobby-sticker {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 1.2rem;
+  right: 1.2rem;
   font-size: 0.6rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   background-color: #000;
   color: #e9ff70;
-  padding: 0.25rem 0.6rem;
+  padding: 0.28rem 0.65rem;
+  border: 2px solid #000;
   transform: rotate(4deg);
   transition: transform 0.2s ease;
   user-select: none;
 }
 
 .hobby-card:hover .hobby-sticker {
-  transform: rotate(0deg) scale(1.08);
+  transform: rotate(0deg) scale(1.1);
 }
 
 /* ── Responsive ── */
 
-/* Tablet — dwie kolumny, trzecia pod spodem */
 @media (max-width: 900px) {
   .hobbies-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
   .hobby-card:nth-child(3) {
     grid-column: 1 / -1;
-    max-width: 460px;
   }
+  .hobby-desc { max-width: none; }
 }
 
-/* Mobile — jedna kolumna */
 @media (max-width: 600px) {
-  .hobbies { padding: 3.5rem 1.2rem; }
+  .hobbies { padding-bottom: 3.5rem; }
+  .hobbies-container { padding: 3rem 1.2rem 0; }
 
   .hobbies-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
+  .hobby-card:nth-child(3) { grid-column: auto; }
+  .hobby-card { min-height: auto; padding: 2rem 1.6rem 2.6rem; }
 
-  .hobby-card:nth-child(3) {
-    grid-column: auto;
-    max-width: none;
-  }
-
-  .hobby-icon { width: 64px; height: 64px; }
-  .hobby-icon--wide { width: 90px; height: 50px; }
-  .hobby-title { font-size: 1.1rem; }
+  .hobby-icon { width: 76px; height: 76px; }
+  .hobby-icon--wide { width: 100px; height: 56px; }
+  .hobby-title { font-size: 1.2rem; }
+  .card-bg-num { font-size: 6rem; }
 }
 
 @media (max-width: 480px) {
-  .hobbies { padding: 2.5rem 1rem; }
-  .hobbies-header { margin-bottom: 2rem; }
+  .hobbies-container { padding: 2.5rem 1rem 0; }
+  .hobbies-grid { gap: 1.2rem; }
+  .hobby-card { padding: 1.6rem 1.4rem 2.2rem; }
 }
 </style>

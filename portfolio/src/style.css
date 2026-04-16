@@ -46,6 +46,27 @@ section {
   section { scroll-margin-top: 52px; }
 }
 
+/* ── Czarny pasek informacyjny nad każdą sekcją ── */
+.section-rule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #000;
+  border-bottom: 3px solid #000;
+  padding: 0.6rem 2rem;
+  z-index: 2;
+}
+
+.section-rule-text {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #e9ff70;
+  opacity: 0.75;
+}
+
 /* Scroll reveal animation */
 section:not(#hero),
 .marquee-strip {

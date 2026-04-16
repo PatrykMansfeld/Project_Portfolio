@@ -9,6 +9,7 @@
 -->
 <template>
     <section id="projects" class="projects">
+        <div class="section-rule"><span class="section-rule-text">{{ t.projects.rule }}</span></div>
         <div class="section-container">
             <div class="section-header">
                 <h2 class="section-heading">{{ t.projects.heading }}</h2>

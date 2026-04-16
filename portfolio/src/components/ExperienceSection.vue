@@ -6,6 +6,7 @@
 -->
 <template>
     <section id="experience" class="experience">
+        <div class="section-rule"><span class="section-rule-text">{{ t.experience.rule }}</span></div>
         <div class="section-container">
 
             <div class="section-header">

@@ -7,6 +7,7 @@
 -->
 <template>
     <section id="certificates" class="certificates">
+        <div class="section-rule"><span class="section-rule-text">{{ t.certificates.rule }}</span></div>
         <div class="section-container">
             <h2 class="section-heading">{{ t.certificates.heading }}</h2>
 

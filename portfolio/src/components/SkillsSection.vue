@@ -8,6 +8,7 @@
 -->
 <template>
     <section id="skills" class="skills">
+        <div class="section-rule"><span class="section-rule-text">{{ t.skills.rule }}</span></div>
         <div class="section-container">
             <h2 class="section-heading">{{ t.skills.heading }}</h2>
 

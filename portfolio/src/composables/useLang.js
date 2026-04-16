@@ -58,6 +58,7 @@ const translations = {
     },
     about: {
       heading: 'O mnie',
+      rule: 'Poznaj mnie bliżej',
       card1Title: 'Kim jestem',
       card1Text: 'Specjalizuję się w tworzeniu aplikacji mobilnych i webowych z wykorzystaniem JavaScript, Javy oraz Pythona. Posiadam solidne doświadczenie DevOps, w tym automatyzację CI/CD, konteneryzację z Dockerem oraz pracę z AWS i Kubernetes.',
       card2Title: 'Co robię',
@@ -65,6 +66,7 @@ const translations = {
     },
     experience: {
       heading: 'Doświadczenie',
+      rule: 'Historia zawodowa',
       tapHint: 'Dotknij, aby zobaczyć więcej',
       jobs: [
         {
@@ -107,6 +109,7 @@ const translations = {
     },
     education: {
       heading: 'Edukacja',
+      rule: 'Ścieżka edukacji',
       tapHint: 'Dotknij, aby zobaczyć więcej',
       items: [
         {
@@ -131,6 +134,7 @@ const translations = {
     },
     skills: {
       heading: 'Umiejętności',
+      rule: 'Technologie i narzędzia',
       frontend: 'Frontend',
       backend: 'Backend',
       devops: 'DevOps',
@@ -138,6 +142,7 @@ const translations = {
     },
     projects: {
       heading: 'Projekty',
+      rule: 'Wybrane realizacje',
       demo: 'Demo',
       github: 'GitHub',
       items: [
@@ -184,12 +189,14 @@ const translations = {
     },
     certificates: {
       heading: 'Certyfikaty',
+      rule: 'Certyfikaty i kursy',
       items: [
         { title: 'JavaScript Developer', issuer: 'CodersLab', year: '2021' },
       ],
     },
     contact: {
       heading: 'Kontakt',
+      rule: 'Porozmawiajmy',
       findMe: 'Znajdź mnie tutaj',
       writeMe: 'Napisz do mnie',
       name: 'Imię i nazwisko',
@@ -248,6 +255,7 @@ const translations = {
     },
     about: {
       heading: 'About me',
+      rule: 'Get to know me',
       card1Title: 'Who I am',
       card1Text: 'I specialize in building mobile and web applications using JavaScript, Java, and Python. I have solid DevOps experience, including CI/CD automation with Jenkins and GitHub Actions, Docker containerization, and work with AWS and Kubernetes.',
       card2Title: 'What I do',
@@ -255,6 +263,7 @@ const translations = {
     },
     experience: {
       heading: 'Experience',
+      rule: 'Professional history',
       tapHint: 'Tap to see more',
       jobs: [
         {
@@ -297,6 +306,7 @@ const translations = {
     },
     education: {
       heading: 'Education',
+      rule: 'Academic path',
       tapHint: 'Tap to see more',
       items: [
         {
@@ -321,6 +331,7 @@ const translations = {
     },
     skills: {
       heading: 'Skills',
+      rule: 'Technologies & tools',
       frontend: 'Frontend',
       backend: 'Backend',
       devops: 'DevOps',
@@ -328,6 +339,7 @@ const translations = {
     },
     projects: {
       heading: 'Projects',
+      rule: 'Selected works',
       demo: 'Demo',
       github: 'GitHub',
       items: [
@@ -374,12 +386,14 @@ const translations = {
     },
     certificates: {
       heading: 'Certificates',
+      rule: 'Certificates & courses',
       items: [
         { title: 'JavaScript Developer', issuer: 'CodersLab', year: '2021' },
       ],
     },
     contact: {
       heading: 'Contact',
+      rule: "Let's talk",
       findMe: 'Find me here',
       writeMe: 'Write to me',
       name: 'Full name',
