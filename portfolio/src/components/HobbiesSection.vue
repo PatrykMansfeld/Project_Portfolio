@@ -7,7 +7,7 @@
 <template>
   <section id="hobbies" class="hobbies">
     <!-- Górny separator — ta sama klasa co w pozostałych sekcjach -->
-    <div class="section-rule" style="position:relative; z-index:1;">
+    <div class="section-rule">
       <span class="section-rule-text">{{ t.hobbies.sub }}</span>
     </div>
 

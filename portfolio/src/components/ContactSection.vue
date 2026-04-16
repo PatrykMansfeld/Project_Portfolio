@@ -93,8 +93,8 @@ const { t } = useLang()
     background-color: #e9ff70;
     color: #000;
     padding: 0.3rem 1.2rem;
-    border: 3px solid #e9ff70;
-    box-shadow: 6px 6px 0 #e9ff70; /* żółty cień na czarnym tle */
+    border: 3px solid #000;
+    box-shadow: 6px 6px 0 rgba(255, 255, 255, 0.25);
 }
 
 /* Grid z jedną kolumną (wcześniej była też kolumna z formularzem) */

@@ -23,8 +23,6 @@
                     :key="project.num"
                     :style="`--color: ${thumbColors[i]}`"
                     :class="{ 'is-expanded': expanded === i }"
-                    @mouseenter="expanded = i"
-                    @mouseleave="expanded = null"
                     @click="expanded = expanded === i ? null : i"
                 >
                     <!-- Kolorowy pasek boczny z numerem projektu -->
