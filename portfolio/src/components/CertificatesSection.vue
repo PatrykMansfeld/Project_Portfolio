@@ -1,10 +1,3 @@
-<!--
-  CertificatesSection.vue — sekcja "Certyfikaty".
-  Wyświetla listę certyfikatów jako pionowy stos kart.
-  Hover: żółte tło + przesunięcie w prawo + animacja gwiazdki.
-  Dane edytujesz w useLang.js → certificates.items (obie wersje językowe).
-  Każdy wpis: { title, issuer, year }
--->
 <template>
     <section id="certificates" class="certificates">
         <div class="section-rule"><span class="section-rule-text">{{ t.certificates.rule }}</span></div>

@@ -1,9 +1,3 @@
-<!--
-  HobbiesSection.vue — sekcja "Poza kodem" z hobby.
-  Białe tło — wyraźny kontrast z czarną sekcją Contact.
-  Trzy wysokie karty w kolorach żółtym, czerwonym, fioletowym.
-  Dekoracyjne tło-numery (duże, półprzezroczyste) dają głębię każdej karcie.
--->
 <template>
   <section id="hobbies" class="hobbies">
     <!-- Górny separator — ta sama klasa co w pozostałych sekcjach -->

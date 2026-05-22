@@ -1,9 +1,3 @@
-<!--
-  EducationSection.vue — sekcja "Edukacja".
-  Wyświetla karty edukacji w siatce 2-kolumnowej.
-  Dane edytujesz w useLang.js → education.items (PL) i education.items (EN).
-  Każdy wpis ma: date, title, school, description.
--->
 <template>
     <section id="education" class="education">
         <div class="section-rule"><span class="section-rule-text">{{ t.education.rule }}</span></div>

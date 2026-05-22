@@ -1,8 +1,3 @@
-<!--
-  HeroSection.vue — sekcja powitalna, pierwsza widoczna po otwarciu strony.
-  Zajmuje pełną wysokość ekranu (100vh).
-  Prawa kolumna (zdjęcie + statystyki) jest zakomentowana — odkomentuj żeby ją przywrócić.
--->
 <template>
     <section id="hero" class="hero">
         <!-- Tło z siatką kropek (czysto CSS, bez obrazka) -->

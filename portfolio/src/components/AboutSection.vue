@@ -1,9 +1,3 @@
-<!--
-  AboutSection.vue — sekcja "O mnie".
-  Layout: lewa kolumna (zdjęcie + przyciski social), prawa kolumna (bio + statystyki).
-  Żeby wstawić prawdziwe zdjęcie zamień .photo-top na background-image.
-  Żeby zmienić linki do GitHub/LinkedIn edytuj href w .about-socials.
--->
 <template>
     <section id="about" class="about">
         <div class="section-rule"><span class="section-rule-text">{{ t.about.rule }}</span></div>
