@@ -1,17 +1,3 @@
-// useLang.js — globalny stan języka + wszystkie tłumaczenia
-//
-// Jak używać w komponencie:
-//   import { useLang } from '../composables/useLang.js'
-//   const { t } = useLang()         // t.value.hero.firstname
-//   const { lang, t, toggleLang } = useLang()
-//
-// Jak edytować treść strony:
-//   Zmień wartości w obiektach 'pl' (po polsku) i 'en' (po angielsku).
-//   Klucze muszą być identyczne w obu wersjach językowych.
-//
-// Jak dodać nowy projekt:
-//   Dodaj obiekt do pl.projects.items i en.projects.items (ten sam format).
-
 import { ref, computed } from 'vue'
 
 // Globalny ref języka — jeden dla całej aplikacji (shared state)

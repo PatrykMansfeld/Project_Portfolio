@@ -1,9 +1,3 @@
-<!--
-  App.vue — główny plik aplikacji
-  Importuje i układa wszystkie sekcje strony w odpowiedniej kolejności.
-  IntersectionObserver dodaje klasę 'in-view' gdy sekcja wchodzi w pole widzenia
-  (animacje wejścia sterowane są przez CSS w style.css).
--->
 <script setup>
 import { onMounted } from 'vue'
 import NavBar from './components/NavBar.vue'

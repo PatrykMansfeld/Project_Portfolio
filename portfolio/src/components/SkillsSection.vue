@@ -1,11 +1,3 @@
-<!--
-  SkillsSection.vue — sekcja "Umiejętności".
-  Wyświetla technologie pogrupowane w 3 kategorie (Frontend, Backend, Narzędzia).
-  Każda kategoria to wiersz z numerem, etykietą kategorii i mini-kartami technologii.
-  Mini-karty mają skrót (abbr) i pełną nazwę — styl neobrutalist.
-  Hover: czarne tło + żółty skrót.
-  Żeby dodać/usunąć technologię, edytuj tablicę skills danej kategorii poniżej.
--->
 <template>
     <section id="skills" class="skills">
         <div class="section-rule"><span class="section-rule-text">{{ t.skills.rule }}</span></div>

@@ -1,12 +1,3 @@
-<!--
-  ProjectsSection.vue — sekcja "Projekty".
-  Wyświetla karty projektów z efektem rozwijania:
-    - Desktop: hover → rozwija się panel z highlights + linkami
-    - Mobile: tap → toggle rozwinięcia
-  Dane edytujesz w useLang.js → projects.items (PL i EN).
-  Każdy projekt: { num, title, description, tags, highlights, demo, github }
-  Żeby zmienić kolor paska bocznego — edytuj tablicę thumbColors.
--->
 <template>
     <section id="projects" class="projects">
         <div class="section-rule"><span class="section-rule-text">{{ t.projects.rule }}</span></div>

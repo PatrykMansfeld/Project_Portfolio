@@ -1,9 +1,3 @@
-<!--
-  ExperienceSection.vue — sekcja "Doświadczenie".
-  Wyświetla listę miejsc pracy. Kliknięcie w wiersz (lub hover na desktop)
-  rozwija opis stanowiska.
-  Dane edytujesz w useLang.js → experience.jobs (PL) i experience.jobs (EN).
--->
 <template>
     <section id="experience" class="experience">
         <div class="section-rule"><span class="section-rule-text">{{ t.experience.rule }}</span></div>

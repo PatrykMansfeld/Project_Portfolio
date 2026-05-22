@@ -1,12 +1,3 @@
-<!--
-  ContactSection.vue — sekcja "Kontakt".
-  Wyświetla linki do Email / GitHub / LinkedIn oraz pulsującą odznakę dostępności.
-  WAŻNE: zaktualizuj href linków na swoje dane kontaktowe!
-  Linki do zmiany:
-    - mailto:twoj@email.com → twój email
-    - github.com/PatrykMansfeld → twój profil GitHub
-    - linkedin.com/in/twojanazwa → twój profil LinkedIn
--->
 <template>
     <section id="contact" class="contact">
         <div class="section-rule"><span class="section-rule-text">{{ t.contact.rule }}</span></div>

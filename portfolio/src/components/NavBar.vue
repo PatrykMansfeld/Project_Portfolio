@@ -1,11 +1,3 @@
-<!--
-  NavBar.vue — stały pasek nawigacji przyklejony do góry ekranu.
-  Funkcje:
-  - Podświetla aktywną sekcję podczas scrollowania (IntersectionObserver)
-  - Zmienia tło i cień po przewinięciu poniżej 20px (klasa 'scrolled')
-  - Zawiera przełącznik języka PL/EN
-  - Na mobile (<900px) zamienia linki na hamburger menu
--->
 <template>
     <nav class="navbar" :class="{ scrolled: isScrolled }">
         <div class="navbar-inner">

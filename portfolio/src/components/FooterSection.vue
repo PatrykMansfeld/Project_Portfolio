@@ -1,9 +1,3 @@
-<!--
-  FooterSection.vue — stopka strony.
-  Zawiera: logo PM (klik → powrót na górę), linki social, copyright, przycisk "↑".
-  WAŻNE: zaktualizuj href linków na swoje dane (GitHub, LinkedIn, email)!
-  Rok w copyright jest pobierany automatycznie (new Date().getFullYear()).
--->
 <template>
     <footer class="footer">
         <div class="footer-inner">
