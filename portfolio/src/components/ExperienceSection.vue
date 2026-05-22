@@ -1,276 +1,118 @@
 <template>
-    <section id="experience" class="experience">
-        <div class="section-rule"><span class="section-rule-text">{{ t.experience.rule }}</span></div>
-        <div class="section-container">
-
-            <div class="section-header">
-                <h2 class="section-heading">{{ t.experience.heading }}</h2>
-            </div>
-
-            <!-- Lista wpisów doświadczenia — iteracja po tablicy z tłumaczeń -->
-            <div class="jobs-list">
-                <div
-                    class="job-row"
-                    v-for="(job, index) in t.experience.jobs"
-                    :key="index"
-                    :class="{ expanded: activeIndex === index }"
-                    @click="toggle(index)"
-                >
-                    <!-- Duży numer wiersza (01, 02, ...) — outline gdy zaznaczony -->
-                    <div class="job-num">{{ String(index + 1).padStart(2, '0') }}</div>
-
-                    <div class="job-content">
-                        <!-- Meta: data + nazwa firmy -->
-                        <div class="job-meta">
-                            <span class="job-date">{{ job.date }}</span>
-                            <span class="job-company">{{ job.company }}</span>
-                        </div>
-                        <!-- Tytuł stanowiska -->
-                        <h3 class="job-title">{{ job.title }}</h3>
-                        <!-- Opis — ukryty, pojawia się po kliknięciu / hover -->
-                        <p class="job-desc" :class="{ visible: activeIndex === index }">
-                            {{ job.description }}
-                        </p>
-                    </div>
-
-                    <!-- Przycisk +/− widoczny na mobile (zamiast hover) -->
-                    <span class="job-toggle">{{ activeIndex === index ? '−' : '+' }}</span>
-                </div>
-            </div>
-
+  <section id="experience" class="mf-sec">
+    <div class="mf-sec-marker">▸ II · {{ t.nav.experience }}</div>
+    <div class="mf-exp">
+      <div
+        class="mf-exp-row"
+        v-for="(job, i) in t.experience.jobs"
+        :key="i"
+      >
+        <div class="mf-exp-num">{{ String(i + 1).padStart(2, '0') }}</div>
+        <div class="mf-exp-title">
+          {{ job.title }}<br />
+          <span class="mf-exp-company">@ {{ job.company }}</span>
         </div>
-    </section>
+        <div class="mf-exp-desc">{{ job.description }}</div>
+        <div class="mf-exp-meta">
+          <span class="date">{{ job.date }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useLang } from '../composables/useLang.js'
 
 const { t } = useLang()
-
-// Index aktualnie otwartego wiersza (null = żaden nie jest otwarty)
-const activeIndex = ref(null)
-
-// Toggle: kliknięcie otwartego wiersza zamyka go, kliknięcie innego otwiera go
-function toggle(index) {
-    activeIndex.value = activeIndex.value === index ? null : index
-}
 </script>
 
 <style scoped>
-/* Żółte tło sekcji */
-.experience {
-    position: relative;
-    min-height: 100vh;
-    padding: 5rem 2rem;
-    background-color: #e9ff70;
-    color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.mf-exp { display: flex; flex-direction: column; }
+
+.mf-exp-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr 200px;
+  gap: 24px;
+  padding: 26px 0;
+  border-top: 1px solid var(--line);
+  align-items: baseline;
+  cursor: default;
+  transition: padding-left 0.2s ease;
+  position: relative;
 }
 
-/* Siatka kropek w tle */
-.experience::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.12) 1.5px, transparent 1.5px);
-    background-size: 28px 28px;
-    pointer-events: none;
-    z-index: 0;
+.mf-exp-row:last-child { border-bottom: 1px solid var(--line); }
+.mf-exp-row:hover { padding-left: 18px; }
+
+.mf-exp-row::before {
+  content: '▸';
+  position: absolute;
+  left: -28px;
+  top: 36px;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  font-family: 'Anton', sans-serif;
+  font-size: 22px;
 }
 
-.section-container {
-    position: relative;
-    z-index: 1;
-    max-width: 860px;
-    margin: 0 auto;
-    width: 100%;
+.mf-exp-row:hover::before { opacity: 1; }
+
+.mf-exp-num {
+  font-family: 'Anton', sans-serif;
+  font-size: 64px;
+  line-height: 0.85;
+  letter-spacing: -2px;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ink);
+  font-weight: 400;
+  transition: color 0.2s ease, -webkit-text-stroke-color 0.2s ease;
 }
 
-.section-header {
-    margin-bottom: 0;
+.mf-exp-row:hover .mf-exp-num {
+  color: var(--accent);
+  -webkit-text-stroke-color: var(--accent);
 }
 
-.section-heading {
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: -1px;
-    display: inline-block;
-    background-color: #fff;
-    padding: 0.3rem 1.2rem;
-    border: 3px solid #000;
-    box-shadow: 6px 6px 0 #000;
-    margin-bottom: 2rem;
+.mf-exp-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 32px;
+  line-height: 0.95;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
-/* Lista wpisów — pionowa kolumna z separator-liniami */
-.jobs-list {
-    display: flex;
-    flex-direction: column;
+.mf-exp-company { color: var(--accent); }
+
+.mf-exp-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--dim);
 }
 
-/* Jeden wiersz pracy — 3-kolumnowy grid: numer | treść | toggle */
-.job-row {
-    display: grid;
-    grid-template-columns: 96px 1fr auto;
-    align-items: start;
-    gap: 1.8rem;
-    padding: 2rem 0;
-    border-top: 3px solid #000;
-    cursor: pointer;
+.mf-exp-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--dim2);
+  text-align: right;
+  line-height: 1.6;
 }
 
-.job-row:last-child {
-    border-bottom: 3px solid #000;
+.mf-exp-meta .date {
+  color: var(--ink);
+  display: block;
+  margin-bottom: 6px;
 }
 
-/* Duży numer — domyślnie transparentny, przy zaznaczeniu czerwony */
-.job-num {
-    font-size: 4.5rem;
-    font-weight: 700;
-    letter-spacing: -4px;
-    line-height: 1;
-    -webkit-text-stroke: 2px #000; /* tylko obrys, fill transparentny */
-    color: transparent;
-    user-select: none;
-    transition: color 0.2s ease, -webkit-text-stroke-color 0.2s ease;
-    padding-top: 0.15rem;
-    flex-shrink: 0;
-}
-
-/* Zaznaczony wiersz — czerwony numer */
-.job-row.expanded .job-num {
-    color: #ff5c5c;
-    -webkit-text-stroke-color: #ff5c5c;
-}
-
-/* Hover tylko na urządzeniach z myszką (nie ma hover na touch) */
-@media (hover: hover) {
-    .job-row:hover .job-num {
-        color: #000;
-        -webkit-text-stroke-color: #000;
-    }
-}
-
-/* Blok z datą, firmą, tytułem i opisem */
-.job-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    padding-top: 0.6rem;
-}
-
-.job-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-}
-
-/* Badge z datą — czerwone tło */
-.job-date {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    background-color: #ff5c5c;
-    color: #000;
-    padding: 0.15rem 0.6rem;
-    border: 2px solid #000;
-}
-
-.job-company {
-    font-size: 0.82rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    opacity: 0.5;
-}
-
-.job-title {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: -0.5px;
-    margin: 0.1rem 0 0;
-    line-height: 1.1;
-}
-
-/* Opis — domyślnie ukryty (max-height: 0).
-   Klasa 'visible' (lub hover) otwiera go animacją max-height + opacity. */
-.job-desc {
-    font-size: 0.95rem;
-    line-height: 1.65;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    margin-top: 0;
-    transition: max-height 0.35s ease, opacity 0.25s ease, margin-top 0.25s ease;
-}
-
-.job-desc.visible {
-    max-height: 200px; /* wystarczająco duże żeby zmieścić opis */
-    opacity: 1;
-    margin-top: 0.8rem;
-}
-
-/* Na desktop hover też pokazuje opis (bez klikania) */
-@media (hover: hover) {
-    .job-row:hover .job-desc {
-        max-height: 200px;
-        opacity: 1;
-        margin-top: 0.8rem;
-    }
-}
-
-/* Przycisk +/− — tylko na mobile (na desktop jest hover) */
-.job-toggle {
-    font-size: 1.4rem;
-    font-weight: 300;
-    line-height: 1;
-    opacity: 0.35;
-    padding-top: 0.7rem;
-    flex-shrink: 0;
-    transition: opacity 0.15s ease, color 0.15s ease;
-    display: none; /* ukryty na desktop */
-}
-
-.job-row.expanded .job-toggle {
-    opacity: 1;
-    color: #ff5c5c;
-}
-
-/* ── Responsive ── */
-
-@media (max-width: 768px) {
-    .experience { padding: 4rem 1.5rem; }
-    .job-row { grid-template-columns: 72px 1fr auto; gap: 1.2rem; }
-    .job-num { font-size: 3.5rem; }
-    .section-heading { font-size: 2rem; }
-}
-
-@media (max-width: 600px) {
-    .experience { padding: 3rem 1rem; }
-    .section-heading { font-size: 1.8rem; }
-    .job-row { grid-template-columns: 56px 1fr auto; gap: 1rem; padding: 1.5rem 0; }
-    .job-num { font-size: 2.8rem; letter-spacing: -2px; }
-    .job-title { font-size: 1rem; }
-    .job-toggle { display: block; } /* pokazujemy +/− na mobile */
-}
-
-@media (max-width: 480px) {
-    .experience { padding: 2.5rem 1rem; }
-    .job-row { grid-template-columns: 48px 1fr auto; gap: 0.8rem; }
-    .job-num { font-size: 2.4rem; }
-}
-
-@media (max-width: 375px) {
-    .experience { padding: 2rem 0.85rem; }
-    .job-row { grid-template-columns: 40px 1fr auto; gap: 0.7rem; }
-    .job-num { font-size: 2rem; letter-spacing: -1.5px; }
-    .job-title { font-size: 0.93rem; }
+@media (max-width: 1024px) {
+  .mf-exp-row { grid-template-columns: 60px 1fr; gap: 14px; }
+  .mf-exp-num { font-size: 36px; }
+  .mf-exp-title { font-size: 22px; grid-column: 2; }
+  .mf-exp-desc { grid-column: 2; }
+  .mf-exp-meta { grid-column: 2; text-align: left; }
 }
 </style>

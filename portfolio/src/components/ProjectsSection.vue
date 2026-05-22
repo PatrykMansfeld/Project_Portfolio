@@ -1,404 +1,168 @@
 <template>
-    <section id="projects" class="projects">
-        <div class="section-rule"><span class="section-rule-text">{{ t.projects.rule }}</span></div>
-        <div class="section-container">
-            <div class="section-header">
-                <h2 class="section-heading">{{ t.projects.heading }}</h2>
-            </div>
-
-            <!-- Lista kart projektów -->
-            <div class="projects-list">
-                <div
-                    class="project-item"
-                    v-for="(project, i) in t.projects.items"
-                    :key="project.num"
-                    :style="`--color: ${thumbColors[i]}`"
-                    :class="{ 'is-expanded': expanded === i }"
-                    @click="expanded = expanded === i ? null : i"
-                >
-                    <!-- Kolorowy pasek boczny z numerem projektu -->
-                    <div class="project-strip">
-                        <!-- Siatka kropek na pasku (czysto CSS) -->
-                        <div class="strip-dots"></div>
-                        <!-- Duży numer (01, 02, 03) — efekt outline -->
-                        <span class="project-num">{{ project.num }}</span>
-                    </div>
-
-                    <!-- Prawa część: treść projektu -->
-                    <div class="project-body">
-                        <!-- Nagłówek: tytuł + tagi technologii -->
-                        <div class="project-top">
-                            <h3 class="project-title">{{ project.title }}</h3>
-                            <!-- Tagi (Vue.js, Node.js, ...) — żółte badgey -->
-                            <div class="project-tags">
-                                <span class="project-tag" v-for="tag in project.tags" :key="tag">{{ tag }}</span>
-                            </div>
-                        </div>
-                        <!-- Krótki opis z kolorową lewą krawędzią (kolor = kolor paska) -->
-                        <p class="project-desc">{{ project.description }}</p>
-
-                        <!-- ── Panel rozwijany (hover/tap) ──
-                             Używa grid-template-rows: 0fr → 1fr dla płynnej animacji.
-                             Jest to nowoczesna technika CSS — nie wymaga JavaScript do obliczania wysokości. -->
-                        <div class="project-expand">
-                            <div class="project-expand-inner">
-                                <!-- Lista kluczowych funkcji projektu (highlights) -->
-                                <ul class="project-highlights">
-                                    <li v-for="h in project.highlights" :key="h">{{ h }}</li>
-                                </ul>
-                                <!-- Przyciski Demo i GitHub — @click.stop zapobiega zamknięciu karty przy kliknięciu linku -->
-                                <div class="project-links">
-                                    <a :href="project.demo" class="project-btn project-btn--primary" @click.stop>
-                                        {{ t.projects.demo }} ↗
-                                    </a>
-                                    <a :href="project.github" class="project-btn project-btn--ghost" target="_blank" rel="noopener" @click.stop>
-                                        {{ t.projects.github }} ↗
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Strzałka wskazująca że karta jest rozwijana — obraca się przy hover/expand -->
-                        <span class="expand-arrow">↓</span>
-                    </div>
-                </div>
-            </div>
+  <section id="projects" class="mf-sec">
+    <div class="mf-sec-marker">▸ V · {{ t.nav.projects }}</div>
+    <div class="mf-projects">
+      <article class="mf-proj" v-for="(project, i) in t.projects.items" :key="project.num">
+        <div class="mf-proj-l">
+          <div class="mf-proj-num">{{ project.num }}</div>
+          <div class="meta">▸ {{ projectYears[i] }} · {{ project.tags.length }} stack</div>
         </div>
-    </section>
+        <div class="mf-proj-r">
+          <h3>{{ project.title }}<span class="it">.</span></h3>
+          <p>{{ project.description }}</p>
+          <ul>
+            <li v-for="h in project.highlights" :key="h">{{ h }}</li>
+          </ul>
+          <div class="mf-proj-tags">
+            <span v-for="tag in project.tags" :key="tag">{{ tag }}</span>
+          </div>
+          <div class="mf-proj-links">
+            <a :href="project.demo" class="mf-btn-sm">{{ t.projects.demo }} ↗</a>
+            <a :href="project.github" class="mf-btn-sm ghost" target="_blank" rel="noopener">{{ t.projects.github }} ↗</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useLang } from '../composables/useLang.js'
 
 const { t } = useLang()
-
-// Kolory pasków bocznych dla kolejnych projektów (fioletowy, czerwony, żółty)
-// Zmień żeby dopasować do swojego gustu
-const thumbColors = ['#a78bfa', '#ff5c5c', '#e9ff70']
-
-// Index aktualnie rozwiniętej karty (null = żadna nie jest rozwinięta)
-// Kontroluje zarówno hover (mouseenter/leave) jak i tap (click)
-const expanded = ref(null)
+const projectYears = ['2025', '2024', '2024']
 </script>
 
 <style scoped>
-/* Żółte tło sekcji */
-.projects {
-    position: relative;
-    min-height: 100vh;
-    padding: 5rem 2rem;
-    background-color: #e9ff70;
-    color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.mf-projects { display: flex; flex-direction: column; }
+
+.mf-proj {
+  padding: 50px 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1.2fr 2fr;
+  gap: 40px;
+  align-items: start;
 }
 
-/* Siatka kropek w tle */
-.projects::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.12) 1.5px, transparent 1.5px);
-    background-size: 28px 28px;
-    pointer-events: none;
-    z-index: 0;
+.mf-proj:last-child { border-bottom: 1px solid var(--line); }
+
+.mf-proj-l {
+  position: sticky;
+  top: 80px;
 }
 
-.section-container {
-    position: relative;
-    z-index: 1;
-    max-width: 900px;
-    margin: 0 auto;
-    width: 100%;
+.mf-proj-num {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(96px, 14vw, 220px);
+  line-height: 0.82;
+  letter-spacing: -8px;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent);
+  font-weight: 400;
+  margin: 0;
 }
 
-.section-header {
-    margin-bottom: 2rem;
+.mf-proj-l .meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-top: 16px;
 }
 
-/* Nagłówek z czerwonym tłem */
-.section-heading {
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: -1px;
-    display: inline-block;
-    background-color: #ff5c5c;
-    padding: 0.3rem 1.2rem;
-    border: 3px solid #000;
-    box-shadow: 6px 6px 0 #000;
+.mf-proj-r h3 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(48px, 6.5vw, 96px);
+  line-height: 0.92;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+  font-weight: 400;
 }
 
-/* ── Lista projektów ── */
-.projects-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+.mf-proj-r h3 .it {
+  font-style: italic;
+  color: var(--accent);
 }
 
-/* Karta projektu — 2-kolumnowy grid: kolorowy pasek | treść */
-.project-item {
-    display: grid;
-    grid-template-columns: 130px 1fr; /* pasek: stała szerokość, treść: reszta */
-    background-color: #fff;
-    border: 3px solid #000;
-    box-shadow: 8px 8px 0 #000;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.mf-proj-r p {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--dim);
+  margin: 0 0 22px;
+  max-width: 720px;
 }
 
-/* Hover/expand: karta "unosi się" w lewo-górę */
-.project-item:hover,
-.project-item.is-expanded {
-    transform: translate(-3px, -3px);
-    box-shadow: 11px 11px 0 #000;
+.mf-proj-r ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* ── Kolorowy pasek boczny ──
-   Kolor kontrolowany przez CSS custom property --color (ustawiane przez Vue :style) */
-.project-strip {
-    position: relative;
-    background-color: var(--color, #a78bfa); /* domyślnie fioletowy */
-    border-right: 3px solid #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    flex-shrink: 0;
+.mf-proj-r li {
+  font-family: 'Anton', sans-serif;
+  font-size: 22px;
+  letter-spacing: -0.3px;
+  text-transform: uppercase;
+  color: var(--dim);
+  font-weight: 400;
+  display: grid;
+  grid-template-columns: 32px 1fr;
 }
 
-/* Siatka małych kropek na pasku */
-.strip-dots {
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.12) 1px, transparent 1px);
-    background-size: 18px 18px;
+.mf-proj-r li::before {
+  content: '/';
+  color: var(--accent);
+  font-style: italic;
 }
 
-/* Numer projektu — efekt outline (tylko obrys, bez fill) */
-.project-num {
-    font-size: 5.5rem;
-    font-weight: 700;
-    letter-spacing: -5px;
-    line-height: 1;
-    -webkit-text-stroke: 2.5px #000;
-    color: transparent;
-    position: relative;
-    z-index: 1; /* nad siatką kropek */
-    user-select: none;
-    transition: color 0.2s ease;
+.mf-proj-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
 }
 
-/* Hover/expand: numer delikatnie się pojawia (półprzezroczysty fill) */
-.project-item:hover .project-num,
-.project-item.is-expanded .project-num {
-    color: rgba(0, 0, 0, 0.15);
+.mf-proj-tags span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
 }
 
-/* ── Treść projektu (prawa strona karty) ── */
-.project-body {
-    position: relative; /* dla strzałki z position: absolute */
-    padding: 1.8rem 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-    justify-content: center;
+.mf-proj-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-/* Nagłówek: tytuł + tagi w jednej linii */
-.project-top {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
+.mf-btn-sm {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  background: var(--accent);
+  color: var(--bg);
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.project-title {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: -0.5px;
-    margin: 0;
-    line-height: 1.1;
-}
+.mf-btn-sm:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.mf-btn-sm.ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+.mf-btn-sm.ghost:hover { background: var(--ink); color: var(--bg); }
 
-/* Tagi technologii (Vue.js, React...) — żółte badgey */
-.project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    flex-shrink: 0;
-}
-
-.project-tag {
-    background-color: #e9ff70;
-    border: 2px solid #000;
-    padding: 0.18rem 0.6rem;
-    font-weight: 600;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-}
-
-/* Opis projektu z kolorową lewą krawędzią (kolor paska bocznego) */
-.project-desc {
-    font-size: 0.93rem;
-    line-height: 1.65;
-    margin: 0;
-    opacity: 0.65;
-    border-left: 3px solid var(--color, #a78bfa);
-    padding-left: 0.9rem;
-}
-
-/* ── Strzałka wskazująca rozwijanie ── */
-.expand-arrow {
-    position: absolute;
-    right: 1.2rem;
-    bottom: 1rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    opacity: 0.25;
-    transition: transform 0.35s ease, opacity 0.25s ease;
-    pointer-events: none; /* nie blokuje kliknięć */
-    line-height: 1;
-}
-
-/* Hover/expand: strzałka obraca się do góry (↑) */
-.project-item:hover .expand-arrow,
-.project-item.is-expanded .expand-arrow {
-    opacity: 0.5;
-    transform: rotate(180deg);
-}
-
-/* ── Panel rozwijany z highlights ──
-   Technika: grid-template-rows: 0fr → 1fr
-   To pozwala animować do 'auto' wysokości bez JavaScript.
-   Działa bo 0fr = 0px, 1fr = tyle ile potrzebuje zawartość. */
-.project-expand {
-    display: grid;
-    grid-template-rows: 0fr; /* domyślnie zwinięty */
-    transition: grid-template-rows 0.35s ease;
-}
-
-/* Hover lub klasa is-expanded: panel się rozwija */
-.project-item:hover .project-expand,
-.project-item.is-expanded .project-expand {
-    grid-template-rows: 1fr;
-}
-
-/* Wewnętrzny wrapper — overflow: hidden konieczne dla techniki grid-template-rows */
-.project-expand-inner {
-    overflow: hidden; /* WAŻNE: bez tego animacja nie działa */
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-}
-
-/* ── Lista kluczowych funkcji (highlights) ── */
-.project-highlights {
-    list-style: none;
-    padding: 0.85rem 0 0;
-    margin: 0;
-    border-top: 2px dashed rgba(0, 0, 0, 0.18); /* przerywana linia jako separator */
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-}
-
-.project-highlights li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
-    font-size: 0.87rem;
-    line-height: 1.5;
-    opacity: 0.8;
-}
-
-/* Kolorowa strzałka → przed każdym punktem (kolor paska bocznego) */
-.project-highlights li::before {
-    content: '→';
-    color: var(--color, #a78bfa);
-    font-weight: 700;
-    flex-shrink: 0; /* strzałka nie kurczy się gdy tekst jest długi */
-}
-
-/* ── Przyciski Demo i GitHub ── */
-.project-links {
-    display: flex;
-    gap: 0.7rem;
-    padding-bottom: 0.2rem;
-}
-
-.project-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 1.1rem;
-    font-family: inherit;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-decoration: none;
-    color: #000;
-    border: 2px solid #000;
-    box-shadow: 3px 3px 0 #000;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
-}
-
-/* Efekt wciśnięcia przycisku */
-.project-btn:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 #000;
-}
-
-/* Główny przycisk (Demo) — czarne tło, żółty tekst */
-.project-btn--primary {
-    background-color: #000;
-    color: #e9ff70;
-}
-
-/* Drugi przycisk (GitHub) — transparentne tło */
-.project-btn--ghost {
-    background-color: transparent;
-}
-
-/* ── Responsive ── */
-
-@media (max-width: 768px) {
-    .projects { padding: 4rem 1.5rem; }
-    .section-heading { font-size: 2rem; }
-    .project-item { grid-template-columns: 100px 1fr; }
-    .project-num { font-size: 4rem; letter-spacing: -3px; }
-    .project-body { padding: 1.4rem 1.6rem; gap: 0.7rem; }
-    .project-top { flex-direction: column; gap: 0.5rem; }
-}
-
-@media (max-width: 600px) {
-    .projects { padding: 3rem 1rem; }
-    .section-heading { font-size: 1.8rem; }
-    .projects-list { gap: 1.2rem; }
-    .project-item { grid-template-columns: 76px 1fr; box-shadow: 5px 5px 0 #000; }
-    .project-num { font-size: 3rem; letter-spacing: -2px; }
-    .project-body { padding: 1.2rem; gap: 0.6rem; }
-    .project-title { font-size: 1rem; }
-    .project-btn { font-size: 0.74rem; padding: 0.4rem 0.8rem; }
-    .project-highlights li { font-size: 0.82rem; }
-}
-
-@media (max-width: 480px) {
-    .projects { padding: 2.5rem 1rem; }
-    .project-item { grid-template-columns: 62px 1fr; }
-    .project-num { font-size: 2.4rem; letter-spacing: -1.5px; -webkit-text-stroke-width: 2px; }
-    .project-desc { font-size: 0.87rem; }
-}
-
-@media (max-width: 375px) {
-    .projects { padding: 2rem 0.85rem; }
-    .project-item { grid-template-columns: 52px 1fr; }
-    .project-num { font-size: 2rem; }
+@media (max-width: 1024px) {
+  .mf-proj { grid-template-columns: 1fr; gap: 20px; }
+  .mf-proj-l { position: static; }
 }
 </style>
