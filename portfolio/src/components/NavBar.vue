@@ -52,13 +52,13 @@ function scrollTo(id) {
 .bar-inner {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 18px 32px;
+  padding: 15px 15px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
-  letter-spacing: 1.6px;
+  font-size: 13px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
 }
 
@@ -70,6 +70,7 @@ function scrollTo(id) {
 .bc {
   text-align: center;
   color: var(--dim);
+  width: 800px;
 }
 
 .br {

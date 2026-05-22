@@ -52,7 +52,7 @@ body {
 
 .mf-sec-marker {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--accent);
