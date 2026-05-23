@@ -11,7 +11,19 @@
       <div class="br">
         <span>{{ t.hero.available }}</span>
         <span class="sep"> · </span>
-        <button class="lang-btn" @click="toggleLang">{{ lang.toUpperCase() }}</button>
+        <div class="lang-switcher">
+          <button
+            class="lang-opt"
+            :class="{ active: lang === 'pl' }"
+            @click="lang === 'en' && toggleLang()"
+          >PL</button>
+          <span class="lang-sep">/</span>
+          <button
+            class="lang-opt"
+            :class="{ active: lang === 'en' }"
+            @click="lang === 'pl' && toggleLang()"
+          >EN</button>
+        </div>
       </div>
     </div>
   </div>
@@ -81,11 +93,31 @@ function scrollTo(id) {
   justify-content: flex-end;
 }
 
-.bc a,
-.lang-btn {
+.bc a {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
+}
+
+.bc a:hover {
+  color: var(--ink);
+}
+
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--line);
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+.lang-sep {
+  color: var(--dim2);
+  font-size: 11px;
+}
+
+.lang-opt {
   background: none;
   border: none;
   font-family: inherit;
@@ -93,10 +125,17 @@ function scrollTo(id) {
   letter-spacing: inherit;
   text-transform: inherit;
   padding: 0;
+  cursor: pointer;
+  color: var(--dim2);
+  transition: color 0.15s ease;
 }
 
-.bc a:hover,
-.lang-btn:hover {
+.lang-opt.active {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.lang-opt:not(.active):hover {
   color: var(--ink);
 }
 
