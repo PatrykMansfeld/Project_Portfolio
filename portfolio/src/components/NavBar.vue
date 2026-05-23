@@ -1,348 +1,58 @@
 <template>
-    <nav class="navbar" :class="{ scrolled: isScrolled }">
-        <div class="navbar-inner">
-            <!-- Logo — klik przewija na górę (sekcja hero) -->
-            <button class="navbar-logo" @click="scrollTo('hero')">PM</button>
-
-            <!-- Linki nawigacyjne — ukryte na mobile, zastąpione hamburgerem -->
-            <ul class="navbar-links" :class="{ open: menuOpen }">
-                <li v-for="item in navItems" :key="item.id">
-                    <button
-                        class="nav-link"
-                        :class="{ active: activeSection === item.id }"
-                        @click="scrollTo(item.id)"
-                    >{{ item.label }}</button>
-                </li>
-            </ul>
-
-            <div class="navbar-actions">
-                <!-- Przełącznik języka — zmienia globalny stan w useLang.js -->
-                <button class="lang-btn" @click="toggleLang" :title="lang === 'pl' ? 'Switch to English' : 'Zmień na Polski'">
-                    <span :class="{ 'lang-active': lang === 'pl' }">PL</span>
-                    <span class="lang-sep">/</span>
-                    <span :class="{ 'lang-active': lang === 'en' }">EN</span>
-                </button>
-                <!-- Hamburger — widoczny tylko na mobile -->
-                <button class="hamburger" :class="{ open: menuOpen }" @click="menuOpen = !menuOpen" aria-label="Menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile menu — pojawia się po kliknięciu hamburgera -->
-        <div v-if="menuOpen" class="mobile-menu">
-            <ul>
-                <li v-for="item in navItems" :key="item.id">
-                    <button
-                        class="mobile-nav-link"
-                        :class="{ active: activeSection === item.id }"
-                        @click="scrollTo(item.id)"
-                    >{{ item.label }}</button>
-                </li>
-            </ul>
-        </div>
-    </nav>
+  <nav class="cn-rail">
+    <div class="cn-rail-l">
+      <span class="mark">PM</span>
+      <span>PATRYK <span class="red">MANSFELD</span></span>
+    </div>
+    <div class="cn-rail-c">
+      <a v-for="item in navItems" :key="item.id" @click="scrollTo(item.id)">
+        <span class="n">{{ item.n }}</span>{{ item.label }}
+      </a>
+    </div>
+    <div class="cn-rail-r">
+      <span class="dot" />
+      <span>{{ t.hero.available }}</span>
+      <span style="opacity:0.5">·</span>
+      <button class="lang-toggle" @click="toggleLang">{{ lang.toUpperCase() }}</button>
+    </div>
+  </nav>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { computed } from 'vue'
 import { useLang } from '../composables/useLang.js'
 
 const { lang, t, toggleLang } = useLang()
 
-const menuOpen = ref(false)       // czy hamburger menu jest otwarte
-const activeSection = ref('hero') // id aktualnie widocznej sekcji (podświetlana w nav)
-const isScrolled = ref(false)     // czy użytkownik przewinął poniżej 20px
-
-// Lista id sekcji obserwowanych przez IntersectionObserver
-const sectionIds = ['hero', 'about', 'experience', 'education', 'skills', 'projects', 'certificates', 'contact']
-
-// Elementy menu — etykiety pobierane z tłumaczeń, żeby działały z PL/EN
 const navItems = computed(() => [
-    { id: 'about',        label: t.value.nav.about },
-    { id: 'experience',   label: t.value.nav.experience },
-    { id: 'education',    label: t.value.nav.education },
-    { id: 'skills',       label: t.value.nav.skills },
-    { id: 'projects',     label: t.value.nav.projects },
-    { id: 'certificates', label: t.value.nav.certificates },
-    { id: 'contact',      label: t.value.nav.contact },
+  { id: 'about',        n: '01', label: t.value.nav.about },
+  { id: 'experience',   n: '02', label: t.value.nav.experience },
+  { id: 'education',    n: '03', label: t.value.nav.education },
+  { id: 'skills',       n: '04', label: t.value.nav.skills },
+  { id: 'projects',     n: '05', label: t.value.nav.projects },
+  { id: 'certificates', n: '06', label: t.value.nav.certificates },
+  { id: 'hobbies',      n: '07', label: t.value.nav.hobbies },
+  { id: 'contact',      n: '08', label: t.value.nav.contact },
 ])
 
-// Płynne przewijanie do danej sekcji i zamknięcie mobile menu
 function scrollTo(id) {
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-    menuOpen.value = false
+  const el = document.getElementById(id)
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
 }
-
-let sectionObserver = null
-
-// Ustawia isScrolled na true gdy użytkownik przewinął więcej niż 20px
-function handleScroll() {
-    isScrolled.value = window.scrollY > 20
-}
-
-onMounted(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true })
-
-    // IntersectionObserver śledzi która sekcja jest aktualnie w centrum ekranu.
-    // rootMargin: '-45% 0px -55% 0px' oznacza że sekcja jest "aktywna"
-    // gdy jej środkowy obszar (od 45% do 55% okna) jest widoczny.
-    sectionObserver = new IntersectionObserver(
-        entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) activeSection.value = entry.target.id
-            })
-        },
-        { threshold: 0, rootMargin: '-45% 0px -55% 0px' }
-    )
-    sectionIds.forEach(id => {
-        const el = document.getElementById(id)
-        if (el) sectionObserver.observe(el)
-    })
-})
-
-// Czyszczenie event listenerów przy niszczeniu komponentu
-onBeforeUnmount(() => {
-    window.removeEventListener('scroll', handleScroll)
-    if (sectionObserver) sectionObserver.disconnect()
-})
 </script>
 
 <style scoped>
-/* Navbar przyklejony na górze z blur-glass efektem */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background-color: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 2px solid transparent; /* przezroczysty border — pojawia się po scrollu */
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+.lang-toggle {
+  background: none;
+  border: none;
+  color: var(--cream);
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
 }
-
-/* Po przewinięciu: solidna linia i cień */
-.navbar.scrolled {
-    border-bottom-color: #000;
-    box-shadow: 0 4px 0 #000;
-    background-color: #fff;
-}
-
-.navbar-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-}
-
-/* Logo PM — przycisk przewijający do początku strony */
-.navbar-logo {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: -1px;
-    background-color: #000;
-    color: #e9ff70;
-    border: 2px solid #000;
-    padding: 0.3rem 0.8rem;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.navbar-logo:hover {
-    background-color: #e9ff70;
-    color: #000;
-}
-
-/* Lista linków nawigacyjnych — wyświetlana tylko na desktop */
-.navbar-links {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.nav-link {
-    background: none;
-    border: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    cursor: pointer;
-    padding: 0.35rem 0.6rem;
-    color: #555;
-    position: relative;
-    transition: color 0.15s ease;
-    white-space: nowrap;
-}
-
-/* Czerwona podkreślenie — pojawia się na hover i dla aktywnej sekcji */
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0.6rem;
-    right: 0.6rem;
-    height: 2px;
-    background-color: #ff5c5c;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.2s ease;
-}
-
-.nav-link:hover {
-    color: #000;
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-    transform: scaleX(1);
-}
-
-.nav-link.active {
-    color: #000;
-    font-weight: 700;
-}
-
-.navbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    flex-shrink: 0;
-}
-
-/* Przycisk PL/EN z żółtym tłem neobrutalist */
-.lang-btn {
-    background-color: #e9ff70;
-    border: 2px solid #000;
-    box-shadow: 2px 2px 0 #000;
-    padding: 0.25rem 0.65rem;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 1px;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
-    display: flex;
-    gap: 0.25rem;
-    align-items: center;
-}
-
-.lang-btn:hover {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0 #000;
-}
-
-.lang-sep { opacity: 0.35; }
-
-/* Aktywny język wyróżniony czerwonym kolorem */
-.lang-active {
-    color: #ff5c5c;
-    font-weight: 700;
-}
-
-/* Hamburger — 3 kreseczki, ukryty na desktop */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-}
-
-.hamburger span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background-color: #000;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-/* Animacja hamburger → X po otwarciu menu */
-.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.hamburger.open span:nth-child(2) { opacity: 0; }
-.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-/* Mobile menu — lista linków pod passkiem, widoczna po kliknięciu hamburgera */
-.mobile-menu {
-    border-top: 2px solid #000;
-    background-color: #fff;
-    padding: 1rem 1.5rem 1.5rem;
-}
-
-.mobile-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.mobile-nav-link {
-    background: none;
-    border: none;
-    border-bottom: 1px solid #eee;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
-    padding: 0.7rem 0;
-    color: #000;
-    text-align: left;
-    width: 100%;
-    letter-spacing: 0.5px;
-    transition: color 0.15s ease, padding-left 0.15s ease;
-}
-
-.mobile-nav-link:hover,
-.mobile-nav-link.active {
-    color: #ff5c5c;
-    padding-left: 0.6rem;
-}
-
-/* ── Responsive ── */
-
-/* Tablet landscape — chowamy linki, pokazujemy hamburger */
-@media (max-width: 900px) {
-    .navbar-links { display: none; }
-    .hamburger { display: flex; }
-}
-
-@media (max-width: 768px) {
-    .navbar-inner { padding: 0 1.2rem; gap: 0.7rem; }
-    .mobile-menu { padding: 0.8rem 1.2rem 1.2rem; }
-    .mobile-nav-link { font-size: 0.95rem; padding: 0.65rem 0; }
-}
-
-@media (max-width: 480px) {
-    .navbar-inner { height: 56px; padding: 0 1rem; }
-    .navbar-logo { font-size: 1rem; padding: 0.25rem 0.65rem; }
-    .lang-btn { font-size: 0.68rem; padding: 0.22rem 0.55rem; }
-    .mobile-menu { padding: 0.7rem 1rem 1.1rem; }
-    .mobile-nav-link { font-size: 0.88rem; }
-}
-
-@media (max-width: 375px) {
-    .navbar-inner { height: 52px; padding: 0 0.85rem; }
-    .navbar-logo { font-size: 0.92rem; padding: 0.2rem 0.55rem; }
-    .hamburger span { width: 20px; }
-}
+.lang-toggle:hover { color: var(--red); }
 </style>
