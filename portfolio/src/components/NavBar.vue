@@ -10,9 +10,9 @@
       </a>
     </div>
     <div class="cn-navbar-right">
-      <span class="dot" />
+      <span class="dot cn-navbar-avail" />
       <span class="cn-navbar-status">{{ t.hero.available }}</span>
-      <span style="opacity:0.5">·</span>
+      <span class="cn-navbar-sep" style="opacity:0.5">·</span>
       <button class="lang-toggle" @click="toggleLang">{{ lang.toUpperCase() }}</button>
       <button class="hamburger" :class="{ open: menuOpen }" @click="menuOpen = !menuOpen" aria-label="Menu">
         <span /><span /><span />
@@ -196,7 +196,7 @@ function scrollTo(id) {
 @media (max-width: 1024px) {
   .cn-navbar-center { display: none; }
   .hamburger { display: flex; }
-  .cn-navbar-status { display: none; }
+  .cn-navbar-status, .cn-navbar-avail, .cn-navbar-sep { display: none; }
 }
 @media (max-width: 720px) { .cn-navbar { padding: 0 14px; } }
 </style>
