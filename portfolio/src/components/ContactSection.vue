@@ -20,27 +20,10 @@
       <div class="cn-contact">
         <div class="cn-contact-left">
           <h3>
-            <template v-if="lang === 'pl'">▶ ZBUDUJMY <span class="red">COŚ.</span></template>
-            <template v-else>▶ LET'S BUILD <span class="red">SOMETHING.</span></template>
+            <template v-if="lang === 'pl'">▶ DOSTĘPNY <span class="red">DO PRACY.</span></template>
+            <template v-else>▶ OPEN <span class="red">TO WORK.</span></template>
           </h3>
           <p>{{ t.contact.lead }}</p>
-          <form class="cn-contact-form" @submit.prevent>
-            <div>
-              <label>01 / {{ t.contact.form.name }}</label>
-              <input :placeholder="t.contact.form.namePh" />
-            </div>
-            <div>
-              <label>02 / {{ t.contact.form.email }}</label>
-              <input type="email" :placeholder="t.contact.form.emailPh" />
-            </div>
-            <div>
-              <label>03 / {{ t.contact.form.message }}</label>
-              <textarea rows="3" :placeholder="t.contact.form.messagePh" />
-            </div>
-            <button type="submit" class="cn-button">
-              <span>▶ {{ t.contact.form.btn }}</span>
-            </button>
-          </form>
         </div>
         <div class="cn-contact-right">
           <div class="head">▶ {{ lang === 'pl' ? 'KANAŁY BEZPOŚREDNIE' : 'DIRECT CHANNELS' }}</div>
@@ -111,30 +94,6 @@ const { lang, t } = useLang()
   opacity: 0.85;
   position: relative;
 }
-.cn-contact-form { display: flex; flex-direction: column; gap: 14px; position: relative; }
-.cn-contact-form label {
-  font-family: 'Archivo Narrow', sans-serif;
-  font-size: 11px;
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-  color: var(--red);
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.cn-contact-form input, .cn-contact-form textarea {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid var(--cream);
-  padding: 8px 0;
-  font-family: 'Archivo', sans-serif;
-  font-size: 18px;
-  color: var(--cream);
-  resize: none;
-}
-.cn-contact-form input::placeholder, .cn-contact-form textarea::placeholder { color: rgba(239,233,216,0.4); }
-.cn-contact-form input:focus, .cn-contact-form textarea:focus { outline: none; border-bottom-color: var(--red); }
-.cn-contact-form button { margin-top: 8px; align-self: flex-start; }
 .cn-contact-right { padding: 36px 32px; }
 .cn-contact-right .head {
   font-family: 'Archivo Narrow', sans-serif;

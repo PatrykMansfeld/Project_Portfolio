@@ -235,7 +235,7 @@ const translations = {
     },
     contact: {
       kicker: 'TRANSMISJA',
-      lead: 'Mam otwarty umysł na nowe projekty, współpracę i ciekawe wyzwania. Napisz do mnie — odpiszę tak szybko, jak to możliwe.',
+      lead: 'Aktywnie szukam nowych możliwości zawodowych — pełny etat, kontrakt lub projekt freelance. Sprawdź moje kanały i odezwij się.',
       form: {
         name: 'Imię i nazwisko',
         namePh: 'Jan Kowalski',
@@ -480,7 +480,7 @@ const translations = {
     },
     contact: {
       kicker: 'TRANSMISSION',
-      lead: 'I have an open mind for new projects, collaboration and interesting challenges. Write to me — I\'ll reply as soon as possible.',
+      lead: 'Actively looking for new professional opportunities — full-time, contract, or freelance. Check my channels and get in touch.',
       form: {
         name: 'Full name',
         namePh: 'John Doe',

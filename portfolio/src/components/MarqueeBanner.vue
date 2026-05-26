@@ -12,7 +12,7 @@
         <span class="sym tri" />
         <span>POZNAŃ</span>
         <span class="sym cir" />
-        <span>20+ {{ lang === 'pl' ? 'PROJEKTÓW' : 'PROJECTS' }}</span>
+        <span>10+ {{ lang === 'pl' ? 'PROJEKTÓW' : 'PROJECTS' }}</span>
         <span class="sym tri" />
       </span>
     </div>

@@ -25,15 +25,7 @@
             <div class="meta">▶ {{ cat.items.length }} {{ lang === 'pl' ? 'POZYCJI' : 'ITEMS' }}</div>
           </div>
           <div class="cn-skill-right">
-            <div v-for="s in cat.items" :key="s.abbr" class="cn-skill-item">
-              <div class="name">
-                <span class="n">{{ s.name }}</span>
-                <span class="lvl">{{ s.level }}</span>
-              </div>
-              <div class="cn-skill-bar">
-                <div :style="{ width: s.level + '%' }" />
-              </div>
-            </div>
+            <span v-for="s in cat.items" :key="s.abbr" class="cn-skill-tag">{{ s.name }}</span>
           </div>
         </div>
       </div>
@@ -92,56 +84,26 @@ const { lang, t } = useLang()
   font-weight: 700;
 }
 .cn-skill-right {
-  padding: 24px 26px;
+  padding: 20px 26px;
   border-bottom: 1px solid var(--line);
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 18px 28px;
-}
-.cn-skill-item { display: flex; flex-direction: column; gap: 6px; }
-.cn-skill-item .name {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  flex-wrap: wrap;
   gap: 8px;
+  align-content: flex-start;
 }
-.cn-skill-item .name .n {
+.cn-skill-tag {
   font-family: 'Archivo Narrow', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-.cn-skill-item .name .lvl {
-  font-family: 'Archivo', sans-serif;
-  font-weight: 900;
-  font-size: 14px;
-  color: var(--red);
-  letter-spacing: -0.5px;
-}
-.cn-skill-bar {
-  height: 6px;
-  background: rgba(20,17,13,0.10);
-  position: relative;
-  overflow: hidden;
-}
-.cn-skill-bar > div {
-  height: 100%;
-  background: var(--ink);
-  position: relative;
-}
-.cn-skill-bar > div::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(45deg, transparent 0 4px, var(--red) 4px 5px);
-  opacity: 0.5;
+  padding: 5px 12px;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  white-space: nowrap;
 }
 
 @media (max-width: 1024px) {
   .cn-skills { grid-template-columns: 1fr; }
   .cn-skill-left { border-right: none; border-bottom: 2px solid var(--ink); }
-  .cn-skill-right { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 720px) { .cn-skill-right { grid-template-columns: 1fr; } }
 </style>

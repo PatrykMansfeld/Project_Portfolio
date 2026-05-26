@@ -49,12 +49,12 @@
           </div>
           <div class="cn-stat-block dark">
             <div class="lbl">{{ t.hero.statProjects }}</div>
-            <div class="val">20+</div>
+            <div class="val">10+</div>
             <div class="sub">{{ lang === 'pl' ? 'dostarczonych' : 'shipped' }}</div>
           </div>
           <div class="cn-stat-block">
             <div class="lbl">{{ t.hero.statTech }}</div>
-            <div class="val">20+</div>
+            <div class="val">19+</div>
             <div class="sub">{{ lang === 'pl' ? 'w aktywnym użyciu' : 'in active use' }}</div>
           </div>
         </div>
