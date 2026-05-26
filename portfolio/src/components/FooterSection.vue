@@ -37,4 +37,9 @@ footer {
 }
 .cn-footer .c { text-align: center; color: var(--red); }
 .cn-footer .r { text-align: right; }
+
+@media (max-width: 720px) {
+  .cn-footer { grid-template-columns: 1fr; gap: 4px; padding: 18px 0; }
+  .cn-footer .c, .cn-footer .r { text-align: left; }
+}
 </style>

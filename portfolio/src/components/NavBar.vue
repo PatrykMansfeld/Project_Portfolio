@@ -11,18 +11,36 @@
     </div>
     <div class="cn-navbar-right">
       <span class="dot" />
-      <span>{{ t.hero.available }}</span>
+      <span class="cn-navbar-status">{{ t.hero.available }}</span>
       <span style="opacity:0.5">·</span>
       <button class="lang-toggle" @click="toggleLang">{{ lang.toUpperCase() }}</button>
+      <button class="hamburger" :class="{ open: menuOpen }" @click="menuOpen = !menuOpen" aria-label="Menu">
+        <span /><span /><span />
+      </button>
     </div>
   </nav>
+  <div class="cn-mobile-menu" :class="{ open: menuOpen }" @click.self="menuOpen = false">
+    <div class="cn-mobile-menu-inner">
+      <a
+        v-for="item in navItems"
+        :key="item.id"
+        class="cn-mobile-nav-item"
+        @click="scrollTo(item.id)"
+      >
+        <span class="n">{{ item.n }}</span>
+        <span class="lbl">{{ item.label }}</span>
+        <span class="arr">▶</span>
+      </a>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useLang } from '../composables/useLang.js'
 
 const { lang, t, toggleLang } = useLang()
+const menuOpen = ref(false)
 
 const navItems = computed(() => [
   { id: 'about',        n: '01', label: t.value.nav.about },
@@ -38,6 +56,7 @@ const navItems = computed(() => [
 function scrollTo(id) {
   const el = document.getElementById(id)
   if (el) el.scrollIntoView({ behavior: 'smooth' })
+  menuOpen.value = false
 }
 </script>
 
@@ -109,7 +128,76 @@ function scrollTo(id) {
 }
 .cn-navbar-right .dot { width: 8px; height: 8px; background: var(--red); border-radius: 50%; }
 
-@media (max-width: 1024px) { .cn-navbar-center { display: none; } }
+/* hamburger — hidden on desktop */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
+}
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: var(--cream);
+  transition: transform 0.22s ease, opacity 0.15s ease;
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* mobile slide-down menu */
+.cn-mobile-menu {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: var(--ink);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cn-mobile-menu.open { max-height: 640px; }
+.cn-mobile-menu-inner {
+  border-top: 3px solid var(--red);
+  display: flex;
+  flex-direction: column;
+}
+.cn-mobile-nav-item {
+  display: grid;
+  grid-template-columns: 36px 1fr 24px;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(239,233,216,0.10);
+  color: var(--cream);
+  text-decoration: none;
+  cursor: pointer;
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  transition: background 0.15s, padding-left 0.15s;
+}
+.cn-mobile-nav-item:last-child { border-bottom: none; }
+.cn-mobile-nav-item:hover { background: rgba(216,40,26,0.15); padding-left: 28px; }
+.cn-mobile-nav-item .n { color: var(--red); font-size: 11px; }
+.cn-mobile-nav-item .lbl { font-size: 13px; }
+.cn-mobile-nav-item .arr { color: var(--red); opacity: 0.6; justify-self: end; }
+
+@media (max-width: 1024px) {
+  .cn-navbar-center { display: none; }
+  .hamburger { display: flex; }
+  .cn-navbar-status { display: none; }
+}
 @media (max-width: 720px) { .cn-navbar { padding: 0 14px; } }
 </style>
 

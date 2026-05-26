@@ -290,7 +290,15 @@ function scrollTo(id) {
   .cn-shape-circle-big { width: 320px; height: 320px; right: -100px; top: 60px; }
 }
 @media (max-width: 720px) {
-  .cn-hero-display { font-size: clamp(50px, 16vw, 90px); letter-spacing: -3px; }
+  .cn-hero-content { padding-top: calc(48px + 36px); padding-bottom: 36px; }
+  .cn-hero-display { font-size: clamp(44px, 15vw, 80px); letter-spacing: -3px; }
   .cn-hero-actions { width: 100%; flex-direction: column; }
+  .cn-hero-shapes { opacity: 0.3; }
+  .cn-hero-issue-badge { width: 60px; height: 60px; top: calc(48px + 10px); right: 12px; }
+  .cn-hero-issue-badge .num { font-size: 24px; }
+  .cn-hero-right { flex-direction: row; }
+  .cn-stat-block { flex: 1; padding: 16px 14px; }
+  .cn-stat-block .val { font-size: 38px; }
+  .cn-stat-block + .cn-stat-block { border-top: 3px solid var(--ink); border-left: none; }
 }
 </style>

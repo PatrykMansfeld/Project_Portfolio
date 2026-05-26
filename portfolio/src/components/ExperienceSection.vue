@@ -18,13 +18,8 @@
         <div class="cn-section-meta">{{ t.experience.jobs.length }} ROLES</div>
       </div>
       <div class="cn-experience">
-        <div
-          v-for="(job, i) in t.experience.jobs"
-          :key="i"
-          class="cn-experience-row"
-          :class="{ open: openIdx === i }"
-          @click="openIdx = openIdx === i ? null : i"
-        >
+        <div v-for="(job, i) in t.experience.jobs" :key="i" class="cn-experience-row" :class="{ open: openIdx === i }"
+          @click="openIdx = openIdx === i ? null : i">
           <div class="num">
             <span class="pre">→</span>
             {{ String(i + 1).padStart(2, '0') }}
@@ -57,7 +52,11 @@ const openIdx = ref(null)
 </script>
 
 <style>
-.cn-experience { display: flex; flex-direction: column; }
+.cn-experience {
+  display: flex;
+  flex-direction: column;
+}
+
 .cn-experience-row {
   display: grid;
   grid-template-columns: 110px 200px 1fr 1fr 50px;
@@ -69,12 +68,34 @@ const openIdx = ref(null)
   transition: background 0.15s ease;
   position: relative;
 }
-.cn-experience-row:last-child { border-bottom: 3px solid var(--ink); }
-.cn-experience-row:hover { background: rgba(216,40,26,0.06); }
-.cn-experience-row.open { background: var(--ink); color: var(--cream); }
-.cn-experience-row.open .num { color: var(--red); }
-.cn-experience-row.open .date { color: var(--cream); }
-.cn-experience-row.open .desc { max-height: 200px; margin-top: 12px; opacity: 1; }
+
+.cn-experience-row:last-child {
+  border-bottom: 3px solid var(--ink);
+}
+
+.cn-experience-row:hover {
+  background: rgba(216, 40, 26, 0.06);
+}
+
+.cn-experience-row.open {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.cn-experience-row.open .num {
+  color: var(--red);
+}
+
+.cn-experience-row.open .date {
+  color: var(--cream);
+}
+
+.cn-experience-row.open .desc {
+  max-height: 200px;
+  margin-top: 12px;
+  opacity: 1;
+}
+
 .cn-experience-row .num {
   font-family: 'Archivo', sans-serif;
   font-weight: 900;
@@ -83,6 +104,7 @@ const openIdx = ref(null)
   line-height: 0.85;
   color: var(--ink);
 }
+
 .cn-experience-row .num .pre {
   display: block;
   font-family: 'Archivo Narrow', sans-serif;
@@ -92,6 +114,7 @@ const openIdx = ref(null)
   color: var(--red);
   margin-bottom: 4px;
 }
+
 .cn-experience-row .date {
   font-family: 'Archivo Narrow', sans-serif;
   font-size: 13px;
@@ -100,6 +123,7 @@ const openIdx = ref(null)
   text-transform: uppercase;
   padding-top: 8px;
 }
+
 .cn-experience-row .date .loc {
   display: block;
   font-size: 10px;
@@ -108,7 +132,11 @@ const openIdx = ref(null)
   margin-top: 6px;
   font-weight: 500;
 }
-.cn-experience-row .body { padding-top: 8px; }
+
+.cn-experience-row .body {
+  padding-top: 8px;
+}
+
 .cn-experience-row .body h3 {
   font-family: 'Archivo', sans-serif;
   font-size: 22px;
@@ -118,6 +146,7 @@ const openIdx = ref(null)
   margin: 0 0 4px;
   text-transform: uppercase;
 }
+
 .cn-experience-row .body .company {
   font-family: 'Archivo Narrow', sans-serif;
   font-size: 13px;
@@ -126,6 +155,7 @@ const openIdx = ref(null)
   text-transform: uppercase;
   font-weight: 700;
 }
+
 .cn-experience-row .body .desc {
   font-size: 14px;
   line-height: 1.6;
@@ -134,6 +164,7 @@ const openIdx = ref(null)
   opacity: 0;
   transition: max-height 0.3s ease, margin 0.2s ease, opacity 0.2s ease;
 }
+
 .cn-experience-row .tech {
   display: flex;
   flex-wrap: wrap;
@@ -141,6 +172,7 @@ const openIdx = ref(null)
   align-content: flex-start;
   padding-top: 14px;
 }
+
 .cn-experience-row .tech span {
   font-family: 'Archivo Narrow', sans-serif;
   font-size: 10px;
@@ -150,6 +182,7 @@ const openIdx = ref(null)
   padding: 3px 8px;
   border: 2px solid currentColor;
 }
+
 .cn-experience-row .arr {
   font-size: 28px;
   font-weight: 900;
@@ -157,11 +190,68 @@ const openIdx = ref(null)
   align-self: center;
   transition: transform 0.2s;
 }
-.cn-experience-row.open .arr { transform: rotate(90deg); color: var(--red); }
+
+.cn-experience-row.open .arr {
+  transform: rotate(90deg);
+  color: var(--red);
+}
 
 @media (max-width: 1024px) {
-  .cn-experience-row { grid-template-columns: 80px 1fr 40px; gap: 16px; }
-  .cn-experience-row .date, .cn-experience-row .tech { grid-column: 1 / -1; padding-top: 0; }
-  .cn-experience-row .date { padding-left: 96px; }
+  .cn-experience-row {
+    grid-template-columns: 80px 1fr 40px;
+    gap: 16px;
+  }
+
+  .cn-experience-row .date,
+  .cn-experience-row .tech {
+    grid-column: 1 / -1;
+    padding-top: 0;
+  }
+
+  .cn-experience-row .date {
+    padding-left: 96px;
+  }
+}
+
+@media (max-width: 720px) {
+  .cn-experience-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px 0;
+    position: relative;
+  }
+
+  .cn-experience-row .num {
+    font-size: 46px;
+    letter-spacing: -2px;
+    padding-right: 44px;
+  }
+
+  .cn-experience-row .date {
+    padding-left: 0;
+    padding-top: 0;
+  }
+
+  .cn-experience-row .body {
+    padding-top: 2px;
+  }
+
+  .cn-experience-row .body h3 {
+    font-size: 18px;
+  }
+
+  .cn-experience-row .tech {
+    padding-top: 8px;
+  }
+
+  .cn-experience-row .arr {
+    position: absolute;
+    top: 18px;
+    right: 0;
+    font-size: 22px;
+    text-align: unset;
+    align-self: unset;
+  }
 }
 </style>
