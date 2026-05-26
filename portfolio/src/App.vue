@@ -25,7 +25,7 @@ onMounted(() => {
     },
     { threshold: 0.05 }
   )
-  document.querySelectorAll('.cn-sec, .cn-marquee').forEach(el => observer.observe(el))
+  document.querySelectorAll('.cn-section, .cn-marquee').forEach(el => observer.observe(el))
 })
 </script>
 

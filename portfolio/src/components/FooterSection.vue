@@ -1,7 +1,7 @@
 <template>
   <footer>
-    <div class="cn-wrap">
-      <div class="cn-foot">
+    <div class="cn-wrapper">
+      <div class="cn-footer">
         <span>© {{ year }} PATRYK MANSFELD</span>
         <span class="c">▶ {{ t.footer.rights }}</span>
         <span class="r">{{ lang === 'pl' ? 'WYD. 04' : 'ISSUE 04' }} · {{ year }}</span>
@@ -23,4 +23,18 @@ footer {
   background: var(--bg);
   border-top: 3px solid var(--ink);
 }
+.cn-footer {
+  padding: 24px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 22px;
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink);
+}
+.cn-footer .c { text-align: center; color: var(--red); }
+.cn-footer .r { text-align: right; }
 </style>
