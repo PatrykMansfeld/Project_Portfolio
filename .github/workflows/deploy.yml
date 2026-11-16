@@ -22,15 +22,21 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
           cache-dependency-path: portfolio/package-lock.json
 
-      - name: Install & Build
+      - name: Install
         working-directory: portfolio
-        run: |
-          npm ci
-          npm run build
+        run: npm ci
+
+      - name: Lint
+        working-directory: portfolio
+        run: npm run lint
+
+      - name: Build
+        working-directory: portfolio
+        run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
         with:

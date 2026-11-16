@@ -1,191 +1,184 @@
 <template>
-  <section id="projects" class="cn-section">
-    <div class="cn-wrapper">
-      <div class="cn-section-head">
-        <div class="cn-section-number">
-          05
-          <span class="sub">▶ PROJEKTY</span>
+  <section id="projects" class="section container reveal">
+    <header class="section-head">
+      <h2>{{ t.projects.title }}</h2>
+      <span class="mono">{{ String(t.projects.items.length).padStart(2, '0') }}</span>
+    </header>
+
+    <div class="bento">
+      <article
+        v-for="(p, i) in t.projects.items"
+        :key="p.num"
+        class="card project"
+        :class="i === 0 ? 'featured span-2 row-2' : 'span-2'"
+      >
+        <div class="top">
+          <span v-if="i === 0" class="chip accent">{{ t.projects.featured }}</span>
+          <span v-else class="project-icon"><AppIcon :name="p.icon" :size="20" /></span>
+          <span class="mono">{{ p.num }} · {{ p.year }}</span>
         </div>
-        <h2 class="cn-section-title">
-          <span class="kick">{{ t.projects.kicker }}</span>
-          <template v-if="lang === 'pl'">
-            <span class="ko">WYBRANE</span> <span>DZIEŁA</span>
-          </template>
-          <template v-else>
-            <span class="ko">SELECTED</span> <span>WORKS</span>
-          </template>
-        </h2>
-        <div class="cn-section-meta">{{ t.projects.items.length }} POSTERS</div>
-      </div>
-      <div class="cn-projects">
-        <article v-for="(p, i) in t.projects.items" :key="p.num" class="cn-project">
-          <div class="cn-project-poster">
-            <div>
-              <div class="cn-project-number">{{ p.num }}</div>
-            </div>
-            <div>
-              <div class="year">▶ {{ p.year }}</div>
-              <div class="tags">
-                <span v-for="tag in p.tags" :key="tag">{{ tag }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="cn-project-body">
-            <div class="kick">▶ → {{ p.num }} / {{ String(t.projects.items.length).padStart(2, '0') }}</div>
-            <h3>{{ p.title }}</h3>
-            <div class="tagline">— {{ p.tagline }}</div>
-            <p>{{ p.description }}</p>
-            <ul>
-              <li v-for="(h, j) in p.highlights" :key="j">{{ h }}</li>
-            </ul>
-          </div>
-        </article>
-      </div>
+
+        <div v-if="i === 0" class="visual" aria-hidden="true">
+          <AppIcon :name="p.icon" :size="44" />
+        </div>
+
+        <div class="body">
+          <h3>{{ p.title }}</h3>
+          <p class="tagline">{{ p.tagline }}</p>
+          <p class="desc">{{ p.description }}</p>
+          <ul v-if="p.highlights" class="highlights">
+            <li v-for="(h, j) in p.highlights" :key="j">{{ h }}</li>
+          </ul>
+        </div>
+
+        <div class="chips">
+          <span v-for="tag in p.tags" :key="tag" class="chip">{{ tag }}</span>
+        </div>
+
+        <div v-if="projectLinks[p.num]?.repo || projectLinks[p.num]?.demo" class="project-links">
+          <a
+            v-if="projectLinks[p.num].repo"
+            class="btn sm"
+            :href="projectLinks[p.num].repo"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <AppIcon name="github" :size="16" />
+            {{ t.projects.code }}
+          </a>
+          <a
+            v-if="projectLinks[p.num].demo"
+            class="btn sm"
+            :href="projectLinks[p.num].demo"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ t.projects.demo }}
+            <AppIcon name="arrow-up-right" :size="16" />
+          </a>
+        </div>
+      </article>
     </div>
   </section>
 </template>
 
 <script setup>
-import { useLang } from '../composables/useLang.js'
-const { lang, t } = useLang()
+import AppIcon from './AppIcon.vue'
+import { useLang, projectLinks } from '../composables/useLang.js'
+
+const { t } = useLang()
 </script>
 
-<style>
-.cn-projects { display: flex; flex-direction: column; }
-.cn-project {
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 0;
-  border-top: 3px solid var(--ink);
-  position: relative;
-}
-.cn-project:last-child { border-bottom: 3px solid var(--ink); }
-.cn-project-poster {
-  background: var(--ink);
-  color: var(--cream);
-  padding: 32px 30px;
+<style scoped>
+.project {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  border-right: 3px solid var(--ink);
-  position: relative;
-  overflow: hidden;
-  min-height: 320px;
+  gap: 18px;
 }
-.cn-project:nth-child(odd) .cn-project-poster { background: var(--red); }
-.cn-project-poster::before {
-  content: '';
-  position: absolute;
-  width: 200px; height: 200px;
-  border: 8px solid var(--cream);
-  border-radius: 50%;
-  right: -60px; bottom: -60px;
-  opacity: 0.18;
-}
-.cn-project:nth-child(2) .cn-project-poster::before {
-  border-radius: 0;
-  border: none;
-  background: linear-gradient(45deg, transparent 48%, var(--cream) 48%, var(--cream) 52%, transparent 52%);
-  width: 220px; height: 220px;
-  right: -40px; bottom: -40px;
-}
-.cn-project:nth-child(3) .cn-project-poster::before {
-  border: none;
-  background: var(--cream);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  width: 180px; height: 180px;
-  right: 30px; bottom: 30px;
-  border-radius: 0;
-}
-.cn-project-number {
-  font-family: 'Archivo', sans-serif;
-  font-weight: 900;
-  font-size: clamp(80px, 8vw, 130px);
-  letter-spacing: -6px;
-  line-height: 0.85;
-  position: relative;
-}
-.cn-project-poster .year {
-  font-family: 'Archivo Narrow', sans-serif;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  opacity: 0.6;
-  font-weight: 700;
-  position: relative;
-}
-.cn-project-poster .tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
-  position: relative;
-}
-.cn-project-poster .tags span {
-  font-family: 'Archivo Narrow', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border: 2px solid var(--cream);
-}
-.cn-project-body { padding: 32px 32px 28px; }
-.cn-project-body .kick {
-  font-family: 'Archivo Narrow', sans-serif;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--red);
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  font-weight: 700;
+
+.top {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-.cn-project-body .kick::after {
-  content: '';
-  flex: 1;
-  height: 2px;
-  background: var(--ink);
-}
-.cn-project-body h3 {
-  font-family: 'Archivo', sans-serif;
-  font-size: 38px;
-  font-weight: 900;
-  letter-spacing: -1.5px;
-  text-transform: uppercase;
-  margin: 0 0 6px;
-  line-height: 1;
-}
-.cn-project-body .tagline {
-  font-family: 'Archivo Narrow', sans-serif;
-  font-size: 14px;
-  font-style: italic;
-  color: var(--dim);
-  margin-bottom: 18px;
-}
-.cn-project-body p { font-size: 15px; line-height: 1.65; margin: 0 0 16px; }
-.cn-project-body ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
-.cn-project-body li {
-  display: grid;
-  grid-template-columns: 36px 1fr;
+  justify-content: space-between;
   gap: 8px;
-  font-size: 13.5px;
-  padding: 8px 0;
-  border-top: 1px dashed var(--line);
-  align-items: baseline;
-  line-height: 1.5;
 }
-.cn-project-body li:last-child { border-bottom: 1px dashed var(--line); }
-.cn-project-body li::before { content: '▶'; color: var(--red); font-size: 12px; }
 
-@media (max-width: 1024px) {
-  .cn-project { grid-template-columns: 1fr; }
-  .cn-project-poster { border-right: none; border-bottom: 3px solid var(--ink); min-height: 200px; }
+.project-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--acc-soft);
+  color: var(--acc);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-@media (max-width: 720px) {
-  .cn-project-body { padding: 24px; }
-  .cn-project-body h3 { font-size: 28px; }
+
+.visual {
+  flex: 1;
+  min-height: 160px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--acc);
+  background:
+    radial-gradient(
+      circle at center,
+      color-mix(in srgb, var(--acc) 20%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(circle, color-mix(in srgb, var(--acc) 32%, transparent) 1px, transparent 1.6px)
+      0 0 / 18px 18px,
+    var(--card-2);
+}
+
+.body {
+  flex: 1;
+}
+.featured .body {
+  flex: none;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+.featured h3 {
+  font-size: 26px;
+}
+
+.tagline {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--acc-text);
+}
+.desc {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.highlights {
+  margin-top: 16px;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.highlights li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 14px;
+}
+.highlights li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background: var(--acc);
+}
+
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 560px) {
+  .featured h3 {
+    font-size: 22px;
+  }
+  .visual {
+    min-height: 130px;
+  }
 }
 </style>

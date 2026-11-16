@@ -1,177 +1,149 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 
-const lang = ref('pl')
+const STORAGE_KEY = 'lang'
+
+function readStoredLang() {
+  try {
+    const value = localStorage.getItem(STORAGE_KEY)
+    return value === 'pl' || value === 'en' ? value : null
+  } catch {
+    return null
+  }
+}
+
+// Browser's first preferred language: Polish → 'pl', anything else → 'en'.
+const suggestedLang = (navigator.languages?.[0] || navigator.language || 'pl')
+  .toLowerCase()
+  .startsWith('pl')
+  ? 'pl'
+  : 'en'
+
+const storedLang = readStoredLang()
+const lang = ref(storedLang ?? suggestedLang)
+// false until the visitor picks a language (LanguagePicker shows meanwhile)
+const langChosen = ref(storedLang !== null)
+
+watchEffect(() => {
+  document.documentElement.lang = lang.value
+})
+
+function setLang(value) {
+  lang.value = value
+  langChosen.value = true
+  try {
+    localStorage.setItem(STORAGE_KEY, value)
+  } catch {
+    // storage blocked — choice still applies for this visit
+  }
+}
 
 export function useLang() {
   const t = computed(() => translations[lang.value])
   function toggleLang() {
-    lang.value = lang.value === 'pl' ? 'en' : 'pl'
+    setLang(lang.value === 'pl' ? 'en' : 'pl')
   }
-  return { lang, t, toggleLang }
+  return { lang, t, toggleLang, setLang, langChosen, suggestedLang }
 }
+
+// Polish plural: 1 rok, 2–4 lata, 5+ lat (12–14 also "many")
+function plPlural(n, one, few, many) {
+  if (n === 1) return one
+  const d = n % 10
+  const dd = n % 100
+  return d >= 2 && d <= 4 && (dd < 12 || dd > 14) ? few : many
+}
+const enPlural = (n, one, many) => (n === 1 ? one : many)
+
+// ── Language-independent content ──
+
+export const CAREER_START = 2022
+
+export const links = {
+  github: 'https://github.com/patrykmansfeld',
+  linkedin: 'https://www.linkedin.com/in/patrykmansfeld',
+  email: 'patryk.mansfeld@gmail.com',
+}
+
+// Project links — paste full URLs here. Empty string = button hidden.
+// Keys match the project `num` in the translations below.
+export const projectLinks = {
+  '01': { repo: '', demo: '' },
+  '02': { repo: '', demo: '' },
+  '03': { repo: '', demo: '' },
+}
+
+// CV — put the PDF(s) in portfolio/public/cv/ and set the path here,
+// e.g. 'cv/Patryk_Mansfeld_CV_PL.pdf'. Empty string = button hidden.
+// If only one language is filled in, it is used for both.
+export const cv = {
+  pl: '',
+  en: '',
+}
+
+export function cvUrl(language) {
+  const file = cv[language] || cv.pl || cv.en
+  return file ? import.meta.env.BASE_URL + file : null
+}
+
+export const skills = [
+  { label: 'Frontend', items: ['JavaScript', 'TypeScript', 'Vue.js', 'React', 'HTML / CSS'] },
+  { label: 'Backend', items: ['Node.js', 'Python', 'Java', 'PostgreSQL', 'REST API'] },
+  { label: 'DevOps', items: ['Docker', 'CI/CD', 'GitHub Actions', 'AWS', 'Kubernetes'] },
+  { label: 'AI & Data', items: ['LLM / RAG', 'LangChain', 'Machine Learning', 'Voice AI'] },
+]
+
+const certs = [{ title: 'JavaScript Developer', issuer: 'CodersLab', year: '2021' }]
+
+// ── Translations ──
 
 const translations = {
   pl: {
     nav: {
-      about: 'O mnie',
-      experience: 'Doświadczenie',
-      education: 'Edukacja',
-      skills: 'Umiejętności',
+      label: 'Nawigacja główna',
       projects: 'Projekty',
-      certificates: 'Certyfikaty',
-      hobbies: 'Hobby',
+      experience: 'Doświadczenie',
+      about: 'O mnie',
       contact: 'Kontakt',
+      menu: 'Menu',
+      switchLang: 'Switch to English',
+      toLight: 'Włącz jasny motyw',
+      toDark: 'Włącz ciemny motyw',
     },
     hero: {
+      available: 'Dostępny do pracy',
       firstname: 'Patryk',
       lastname: 'Mansfeld',
       role: 'Full-Stack Developer & DevOps',
-      tagline: 'Tworzę aplikacje webowe i mobilne, wdrażam rozwiązania DevOps i integruję modele AI w skalowalnych systemach.',
-      location: 'Poznań, PL',
-      available: 'Dostępny do pracy',
+      tagline:
+        'Tworzę aplikacje webowe i mobilne, wdrażam rozwiązania DevOps i integruję modele AI w skalowalnych systemach.',
       primaryCta: 'Zobacz projekty',
       secondaryCta: 'Kontakt',
-      statYears: 'Lata doświadczenia',
-      statProjects: 'Projektów',
-      statTech: 'Technologii',
-    },
-    about: {
-      kicker: 'MANIFEST',
-      lead: 'Buduję nowoczesne aplikacje — mobilne, webowe i oparte na AI — łącząc precyzję dewelopera z myśleniem DevOps.',
-      body: 'Specjalizuję się w pełnym stosie technologicznym, od interfejsów użytkownika po infrastrukturę chmurową. Pracowałem w Capgemini, Bright Coders\'Factory i Alliance Technology, prowadząc własne projekty AI. Zawsze szukam nowych wyzwań technicznych i możliwości tworzenia wartościowych produktów.',
-    },
-    experience: {
-      kicker: 'HISTORIA',
-      jobs: [
-        {
-          date: '10/2025 — 01/2026',
-          title: 'AI Developer',
-          company: 'Samozatrudnienie',
-          location: 'Poznań, PL',
-          description: 'Stworzenie wirtualnego asystenta AI z interfejsem głosowym do zarządzania aplikacjami (mail, zadania). Implementacja lokalnych modeli LLM z architekturą agentową i proaktywnym proponowaniem działań.',
-          tech: ['Python', 'LLM', 'RAG', 'Agents', 'Voice AI'],
-        },
-        {
-          date: '04/2025 — 09/2025',
-          title: 'Developer',
-          company: 'Alliance Technology',
-          location: 'Poznań, PL',
-          description: 'Projektowanie i wdrażanie aplikacji biznesowych wspierających kluczowe procesy firmy. Współpraca z wieloma zespołami przy implementacji nowych funkcji i modyfikacji istniejących systemów.',
-          tech: ['JavaScript', 'Vue.js', 'Node.js', 'PostgreSQL'],
-        },
-        {
-          date: '04/2024 — 02/2025',
-          title: 'Full Stack Developer / DevOps',
-          company: 'Bright Coders\'Factory',
-          location: 'Poznań, PL',
-          description: 'Tworzenie i utrzymanie aplikacji webowych, desktopowych i mobilnych. Prowadzenie zespołu 4 programistów, implementacja pipeline\'ów CI/CD (Jenkins, GitHub Actions) i konteneryzacja z Dockerem.',
-          tech: ['Vue.js', 'Node.js', 'Docker', 'Jenkins', 'CI/CD'],
-        },
-        {
-          date: '06/2023 — 01/2024',
-          title: 'ERP Developer',
-          company: 'IT.integro',
-          location: 'Poznań, PL',
-          description: 'Projektowanie i customizacja rozwiązań dla Microsoft Dynamics 365 Business Central. Wdrażanie integracji systemowych i dopasowanych rozwiązań biznesowych.',
-          tech: ['Business Central', 'AL', 'Dynamics 365'],
-        },
-        {
-          date: '04/2022 — 04/2023',
-          title: 'Full Stack Developer / DevOps',
-          company: 'Capgemini',
-          location: 'Poznań, PL',
-          description: 'Projektowanie i rozwój skalowalnych aplikacji webowych i mobilnych. Implementacja i utrzymanie procesów CI/CD oraz konteneryzacja aplikacji z Dockerem.',
-          tech: ['React', 'Java', 'Docker', 'AWS', 'CI/CD'],
-        },
-        {
-          date: '02/2022 — 04/2022',
-          title: 'IT Technician / Developer',
-          company: 'Raben Group',
-          location: 'Poznań, PL',
-          description: 'Konfiguracja i utrzymanie systemów IT. Tworzenie oprogramowania automatyzującego procesy firmowe.',
-          tech: ['Python', 'PowerShell', 'IT Support'],
-        },
-      ],
-    },
-    education: {
-      kicker: 'AKADEMIA',
-      items: [
-        {
-          date: '10/2024 — 06/2026',
-          title: 'Informatyka — Magister',
-          school: 'Collegium Da Vinci',
-          spec: 'AI / ML',
-          description: 'Specjalizacja: Sztuczna Inteligencja. Studia skupione na uczeniu maszynowym, modelach językowych (LLM), RAG i autonomicznych systemach AI.',
-        },
-        {
-          date: '02/2020 — 04/2023',
-          title: 'Informatyka — Inżynier',
-          school: 'Collegium Da Vinci',
-          spec: 'Web & Mobile',
-          description: 'Specjalizacja: Aplikacje webowe i mobilne. Projektowanie i wdrażanie nowoczesnych systemów webowych i aplikacji mobilnych.',
-        },
-        {
-          date: '10/2018 — 02/2020',
-          title: 'Informatyka — Inżynier',
-          school: 'Uniwersytet Ekonomiczny w Poznaniu',
-          spec: 'Data Analysis',
-          description: 'Specjalizacja: Analiza danych. Podstawy programowania, algorytmy, bazy danych i analityka biznesowa.',
-        },
-      ],
-    },
-    skills: {
-      kicker: 'ARSENAŁ',
-      categories: [
-        {
-          label: 'Frontend',
-          items: [
-            { name: 'JavaScript', abbr: 'js', level: 90 },
-            { name: 'Vue.js', abbr: 'vue', level: 88 },
-            { name: 'React', abbr: 'react', level: 80 },
-            { name: 'TypeScript', abbr: 'ts', level: 75 },
-            { name: 'HTML / CSS', abbr: 'html', level: 92 },
-          ],
-        },
-        {
-          label: 'Backend',
-          items: [
-            { name: 'Node.js', abbr: 'node', level: 85 },
-            { name: 'Python', abbr: 'py', level: 82 },
-            { name: 'Java', abbr: 'java', level: 74 },
-            { name: 'PostgreSQL', abbr: 'pg', level: 78 },
-            { name: 'REST API', abbr: 'rest', level: 88 },
-          ],
-        },
-        {
-          label: 'DevOps',
-          items: [
-            { name: 'Docker', abbr: 'docker', level: 85 },
-            { name: 'CI/CD', abbr: 'cicd', level: 82 },
-            { name: 'GitHub Actions', abbr: 'gha', level: 80 },
-            { name: 'AWS', abbr: 'aws', level: 70 },
-            { name: 'Kubernetes', abbr: 'k8s', level: 62 },
-          ],
-        },
-        {
-          label: 'AI & Data',
-          items: [
-            { name: 'LLM / RAG', abbr: 'llm', level: 78 },
-            { name: 'LangChain', abbr: 'lc', level: 72 },
-            { name: 'Machine Learning', abbr: 'ml', level: 65 },
-            { name: 'Voice AI', abbr: 'vai', level: 70 },
-          ],
-        },
-      ],
+      cv: 'Pobierz CV',
+      location: 'Poznań, PL',
+      localTime: 'czas lokalny',
+      since: year => `od ${year}`,
+      years: n => plPlural(n, 'rok doświadczenia', 'lata doświadczenia', 'lat doświadczenia'),
+      projects: 'projektów',
+      focusLabel: 'fokus',
+      focusTitle: 'Agenty AI i lokalne modele LLM',
+      focusSub: 'MSc AI · Voice AI',
+      linksLabel: 'linki',
+      stackLabel: 'stack technologiczny',
     },
     projects: {
-      kicker: 'REALIZACJE',
+      title: 'Wybrane projekty',
+      featured: 'Wyróżniony',
+      code: 'Kod',
+      demo: 'Demo',
       items: [
         {
           num: '01',
           year: '2025',
+          icon: 'mic',
           title: 'AI Asystent',
           tagline: 'Głos, który myśli i działa za Ciebie.',
-          description: 'Głosowy asystent AI do autonomicznego zarządzania aplikacjami (mail, zadania) z lokalnymi modelami LLM i architekturą agentową.',
+          description:
+            'Głosowy asystent AI do autonomicznego zarządzania aplikacjami (mail, zadania) z lokalnymi modelami LLM i architekturą agentową.',
           tags: ['Python', 'LLM', 'RAG', 'JavaScript'],
           highlights: [
             'Integracja lokalnych modeli LLM z interfejsem głosowym',
@@ -182,241 +154,175 @@ const translations = {
         {
           num: '02',
           year: '2024',
+          icon: 'activity',
           title: 'Analitix',
           tagline: 'Coaching e-sportowy w czasie rzeczywistym.',
-          description: 'Platforma dla trenerów e-sportowych do zarządzania treningami i analizy wyników graczy w czasie rzeczywistym.',
+          description:
+            'Platforma dla trenerów e-sportowych do zarządzania treningami i analizy wyników graczy w czasie rzeczywistym.',
           tags: ['Vue.js', 'Node.js', 'Docker', 'CI/CD'],
-          highlights: [
-            'Analiza wyników e-sportowych w czasie rzeczywistym',
-            'Pipeline CI/CD i konteneryzacja z Dockerem',
-            'Precyzyjne narzędzia trenerskie do zarządzania planami treningów',
-          ],
         },
         {
           num: '03',
           year: '2024',
+          icon: 'clock',
           title: 'Zarządzanie Pracownikami',
           tagline: 'Czas pracy pod pełną kontrolą.',
-          description: 'Wieloplatformowa aplikacja dla budownictwa z rejestracją czasu pracy z weryfikacją GPS i monitoringiem zespołów.',
+          description:
+            'Wieloplatformowa aplikacja dla budownictwa z rejestracją czasu pracy z weryfikacją GPS i monitoringiem zespołów.',
           tags: ['React', 'Node.js', 'PostgreSQL', 'Docker'],
-          highlights: [
-            'Rejestrowanie czasu pracy z weryfikacją lokalizacji GPS',
-            'Monitoring zespołów w czasie rzeczywistym',
-            'Wieloplatformowa implementacja z automatyzacją procesów płacowych',
-          ],
         },
       ],
     },
-    certificates: {
-      kicker: 'POTWIERDZENIA',
-      items: [
-        { title: 'JavaScript Developer', issuer: 'CodersLab', year: '2021' },
-      ],
-    },
-    hobbies: {
-      kicker: 'POZA BIURKIEM',
-      items: [
-        {
-          title: 'Sztuki Walki',
-          sub: 'Dyscyplina ciała i umysłu',
-          description: 'Trening to nie tylko fizyczność — to dyscyplina mentalna i ciągłe doskonalenie. Na macie uczę się tyle samo, co przy klawiaturze.',
-        },
-        {
-          title: 'Motorsport',
-          sub: 'Prędkość i precyzja inżynierii',
-          description: 'Adrenalina na torze, strategia w boksie. Bolidy F1 i wyścigi to moja pasja od lat — inżynieria, prędkość i precyzja w jednym.',
-        },
-        {
-          title: 'Sim Racing',
-          sub: 'Technologia spotyka pasję',
-          description: 'Symulatory wyścigów to połączenie technologii i pasji motoryzacyjnej. Spędzam godziny doskonaląc technikę jazdy na wirtualnych torach.',
-        },
-      ],
-    },
-    contact: {
-      kicker: 'TRANSMISJA',
-      lead: 'Aktywnie szukam nowych możliwości zawodowych — pełny etat, kontrakt lub projekt freelance. Sprawdź moje kanały i odezwij się.',
-      form: {
-        name: 'Imię i nazwisko',
-        namePh: 'Jan Kowalski',
-        email: 'Email',
-        emailPh: 'jan@example.com',
-        message: 'Wiadomość',
-        messagePh: 'Napisz do mnie...',
-        btn: 'Wyślij wiadomość',
-      },
-      socials: [
-        { label: 'GitHub', handle: 'github.com/patrykmansfeld', url: 'https://github.com/' },
-        { label: 'LinkedIn', handle: 'linkedin.com/in/patrykmansfeld', url: 'https://linkedin.com/' },
-        { label: 'Email', handle: 'patryk.mansfeld@gmail.com', url: 'mailto:patryk.mansfeld@gmail.com' },
-      ],
-    },
-    footer: {
-      rights: 'Wszelkie prawa zastrzeżone.',
-    },
-  },
-
-  en: {
-    nav: {
-      about: 'About',
-      experience: 'Experience',
-      education: 'Education',
-      skills: 'Skills',
-      projects: 'Projects',
-      certificates: 'Certificates',
-      hobbies: 'Hobbies',
-      contact: 'Contact',
-    },
-    hero: {
-      firstname: 'Patryk',
-      lastname: 'Mansfeld',
-      role: 'Full-Stack Developer & DevOps',
-      tagline: 'I build web and mobile applications, deploy DevOps solutions and integrate AI models into scalable systems.',
-      location: 'Poznań, PL',
-      available: 'Available for work',
-      primaryCta: 'See projects',
-      secondaryCta: 'Contact',
-      statYears: 'Years of exp.',
-      statProjects: 'Projects',
-      statTech: 'Technologies',
-    },
-    about: {
-      kicker: 'MANIFESTO',
-      lead: 'I build modern applications — mobile, web and AI-powered — combining developer precision with DevOps thinking.',
-      body: 'I specialize in the full technology stack, from user interfaces to cloud infrastructure. I have worked at Capgemini, Bright Coders\'Factory and Alliance Technology, running my own AI projects on the side. I am always looking for new technical challenges and opportunities to build products that matter.',
-    },
-    experience: {
-      kicker: 'HISTORY',
+    journey: {
+      title: 'Ścieżka zawodowa',
+      experience: 'Doświadczenie',
+      education: 'Edukacja',
+      certificates: 'Certyfikaty',
+      ongoing: 'w trakcie',
       jobs: [
         {
           date: '10/2025 — 01/2026',
           title: 'AI Developer',
-          company: 'Self-employment',
-          location: 'Poznań, PL',
-          description: 'Built a voice-controlled AI assistant for autonomous management of apps (email, tasks) using local LLM models. Implemented agent architecture with proactive user suggestions.',
+          company: 'Samozatrudnienie',
+          description:
+            'Stworzenie wirtualnego asystenta AI z interfejsem głosowym do zarządzania aplikacjami (mail, zadania). Implementacja lokalnych modeli LLM z architekturą agentową i proaktywnym proponowaniem działań.',
           tech: ['Python', 'LLM', 'RAG', 'Agents', 'Voice AI'],
         },
         {
           date: '04/2025 — 09/2025',
           title: 'Developer',
           company: 'Alliance Technology',
-          location: 'Poznań, PL',
-          description: 'Designed and implemented business applications supporting key company processes. Collaborated with multiple teams to deliver new features and modify existing systems.',
+          description:
+            'Projektowanie i wdrażanie aplikacji biznesowych wspierających kluczowe procesy firmy. Współpraca z wieloma zespołami przy implementacji nowych funkcji i modyfikacji istniejących systemów.',
           tech: ['JavaScript', 'Vue.js', 'Node.js', 'PostgreSQL'],
         },
         {
           date: '04/2024 — 02/2025',
           title: 'Full Stack Developer / DevOps',
-          company: 'Bright Coders\'Factory',
-          location: 'Poznań, PL',
-          description: 'Developed and maintained web, desktop and mobile applications. Led a team of 4 developers, implemented CI/CD pipelines (Jenkins, GitHub Actions) and Docker containerization.',
+          company: "Bright Coders'Factory",
+          description:
+            "Tworzenie i utrzymanie aplikacji webowych, desktopowych i mobilnych. Prowadzenie zespołu 4 programistów, implementacja pipeline'ów CI/CD (Jenkins, GitHub Actions) i konteneryzacja z Dockerem.",
           tech: ['Vue.js', 'Node.js', 'Docker', 'Jenkins', 'CI/CD'],
         },
         {
           date: '06/2023 — 01/2024',
           title: 'ERP Developer',
           company: 'IT.integro',
-          location: 'Poznań, PL',
-          description: 'Designed and customized solutions for Microsoft Dynamics 365 Business Central. Delivered system integrations and tailored business solutions.',
+          description:
+            'Projektowanie i customizacja rozwiązań dla Microsoft Dynamics 365 Business Central. Wdrażanie integracji systemowych i dopasowanych rozwiązań biznesowych.',
           tech: ['Business Central', 'AL', 'Dynamics 365'],
         },
         {
           date: '04/2022 — 04/2023',
           title: 'Full Stack Developer / DevOps',
           company: 'Capgemini',
-          location: 'Poznań, PL',
-          description: 'Designed and developed scalable web and mobile applications for various clients. Implemented and maintained CI/CD processes and Docker containerization.',
+          description:
+            'Projektowanie i rozwój skalowalnych aplikacji webowych i mobilnych. Implementacja i utrzymanie procesów CI/CD oraz konteneryzacja aplikacji z Dockerem.',
           tech: ['React', 'Java', 'Docker', 'AWS', 'CI/CD'],
         },
         {
           date: '02/2022 — 04/2022',
           title: 'IT Technician / Developer',
           company: 'Raben Group',
-          location: 'Poznań, PL',
-          description: 'Configured and maintained IT systems. Developed software to automate internal company processes.',
+          description:
+            'Konfiguracja i utrzymanie systemów IT. Tworzenie oprogramowania automatyzującego procesy firmowe.',
           tech: ['Python', 'PowerShell', 'IT Support'],
         },
       ],
-    },
-    education: {
-      kicker: 'ACADEMIA',
-      items: [
+      schools: [
         {
           date: '10/2024 — 06/2026',
-          title: 'Computer Science — MSc',
+          title: 'Informatyka — Magister',
           school: 'Collegium Da Vinci',
           spec: 'AI / ML',
-          description: 'Specialization: Artificial Intelligence. Studies focused on machine learning, LLMs, RAG and autonomous AI systems.',
         },
         {
           date: '02/2020 — 04/2023',
-          title: 'Computer Science — BEng',
+          title: 'Informatyka — Inżynier',
           school: 'Collegium Da Vinci',
           spec: 'Web & Mobile',
-          description: 'Specialization: Web and Mobile Applications. Design and development of modern web systems and mobile applications.',
         },
         {
           date: '10/2018 — 02/2020',
-          title: 'Computer Science — BEng',
-          school: 'University of Economics in Poznań',
+          title: 'Informatyka — Inżynier',
+          school: 'Uniwersytet Ekonomiczny w Poznaniu',
           spec: 'Data Analysis',
-          description: 'Specialization: Data Analysis. Programming fundamentals, algorithms, databases and business analytics.',
         },
+      ],
+      certs,
+    },
+    about: {
+      title: 'O mnie',
+      lead: 'Buduję nowoczesne aplikacje — mobilne, webowe i oparte na AI — łącząc precyzję dewelopera z myśleniem DevOps.',
+      body: "Specjalizuję się w pełnym stosie technologicznym, od interfejsów użytkownika po infrastrukturę chmurową. Pracowałem w Capgemini, Bright Coders'Factory i Alliance Technology, prowadząc własne projekty AI. Zawsze szukam nowych wyzwań technicznych i możliwości tworzenia wartościowych produktów.",
+      hobbiesTitle: 'Poza kodem',
+      hobbies: [
+        { icon: 'shield', title: 'Sztuki walki', sub: 'Dyscyplina ciała i umysłu' },
+        { icon: 'flag', title: 'Motorsport', sub: 'Prędkość i precyzja inżynierii' },
+        { icon: 'gamepad', title: 'Sim racing', sub: 'Technologia spotyka pasję' },
       ],
     },
-    skills: {
-      kicker: 'ARSENAL',
-      categories: [
-        {
-          label: 'Frontend',
-          items: [
-            { name: 'JavaScript', abbr: 'js', level: 90 },
-            { name: 'Vue.js', abbr: 'vue', level: 88 },
-            { name: 'React', abbr: 'react', level: 80 },
-            { name: 'TypeScript', abbr: 'ts', level: 75 },
-            { name: 'HTML / CSS', abbr: 'html', level: 92 },
-          ],
-        },
-        {
-          label: 'Backend',
-          items: [
-            { name: 'Node.js', abbr: 'node', level: 85 },
-            { name: 'Python', abbr: 'py', level: 82 },
-            { name: 'Java', abbr: 'java', level: 74 },
-            { name: 'PostgreSQL', abbr: 'pg', level: 78 },
-            { name: 'REST API', abbr: 'rest', level: 88 },
-          ],
-        },
-        {
-          label: 'DevOps',
-          items: [
-            { name: 'Docker', abbr: 'docker', level: 85 },
-            { name: 'CI/CD', abbr: 'cicd', level: 82 },
-            { name: 'GitHub Actions', abbr: 'gha', level: 80 },
-            { name: 'AWS', abbr: 'aws', level: 70 },
-            { name: 'Kubernetes', abbr: 'k8s', level: 62 },
-          ],
-        },
-        {
-          label: 'AI & Data',
-          items: [
-            { name: 'LLM / RAG', abbr: 'llm', level: 78 },
-            { name: 'LangChain', abbr: 'lc', level: 72 },
-            { name: 'Machine Learning', abbr: 'ml', level: 65 },
-            { name: 'Voice AI', abbr: 'vai', level: 70 },
-          ],
-        },
-      ],
+    contact: {
+      title: 'Porozmawiajmy',
+      lead: 'Aktywnie szukam nowych możliwości zawodowych — pełny etat, kontrakt lub projekt freelance. Sprawdź moje kanały i odezwij się.',
+      copy: 'Kopiuj adres e-mail',
+      copied: 'Skopiowano adres e-mail',
+      cv: 'Pobierz CV',
+    },
+    footer: {
+      rights: 'Wszelkie prawa zastrzeżone.',
+      builtWith: 'Vue 3 + Vite',
+      backToTop: 'Do góry',
+    },
+  },
+
+  en: {
+    nav: {
+      label: 'Main navigation',
+      projects: 'Projects',
+      experience: 'Experience',
+      about: 'About',
+      contact: 'Contact',
+      menu: 'Menu',
+      switchLang: 'Przełącz na polski',
+      toLight: 'Switch to light theme',
+      toDark: 'Switch to dark theme',
+    },
+    hero: {
+      available: 'Available for work',
+      firstname: 'Patryk',
+      lastname: 'Mansfeld',
+      role: 'Full-Stack Developer & DevOps',
+      tagline:
+        'I build web and mobile applications, deploy DevOps solutions and integrate AI models into scalable systems.',
+      primaryCta: 'See projects',
+      secondaryCta: 'Contact',
+      cv: 'Download CV',
+      location: 'Poznań, PL',
+      localTime: 'local time',
+      since: year => `since ${year}`,
+      years: n => enPlural(n, 'year of experience', 'years of experience'),
+      projects: 'projects',
+      focusLabel: 'focus',
+      focusTitle: 'AI agents and local LLMs',
+      focusSub: 'MSc AI · Voice AI',
+      linksLabel: 'links',
+      stackLabel: 'tech stack',
     },
     projects: {
-      kicker: 'PORTFOLIO',
+      title: 'Selected work',
+      featured: 'Featured',
+      code: 'Code',
+      demo: 'Live demo',
       items: [
         {
           num: '01',
           year: '2025',
+          icon: 'mic',
           title: 'AI Assistant',
           tagline: 'The voice that thinks and acts for you.',
-          description: 'Voice-controlled AI assistant for autonomous management of apps (email, tasks) using local LLM models and agent architecture.',
+          description:
+            'Voice-controlled AI assistant for autonomous management of apps (email, tasks) using local LLM models and agent architecture.',
           tags: ['Python', 'LLM', 'RAG', 'JavaScript'],
           highlights: [
             'Local LLM integration with a voice interface',
@@ -427,77 +333,125 @@ const translations = {
         {
           num: '02',
           year: '2024',
+          icon: 'activity',
           title: 'Analitix',
           tagline: 'Real-time esports coaching.',
-          description: 'Platform for e-sports coaches to manage training sessions and analyze player performance in real time.',
+          description:
+            'Platform for e-sports coaches to manage training sessions and analyze player performance in real time.',
           tags: ['Vue.js', 'Node.js', 'Docker', 'CI/CD'],
-          highlights: [
-            'Real-time e-sports performance analytics',
-            'CI/CD pipeline and Docker containerization',
-            'Precise coaching tools for managing training plans',
-          ],
         },
         {
           num: '03',
           year: '2024',
+          icon: 'clock',
           title: 'Employee Management',
           tagline: 'Time tracking under full control.',
-          description: 'Cross-platform construction app with GPS-verified time tracking, live team monitoring and payroll features.',
+          description:
+            'Cross-platform construction app with GPS-verified time tracking, live team monitoring and payroll features.',
           tags: ['React', 'Node.js', 'PostgreSQL', 'Docker'],
-          highlights: [
-            'GPS-verified time tracking for construction workers',
-            'Real-time team monitoring with live location data',
-            'Cross-platform implementation with payroll automation',
-          ],
         },
       ],
     },
-    certificates: {
-      kicker: 'CREDENTIALS',
-      items: [
-        { title: 'JavaScript Developer', issuer: 'CodersLab', year: '2021' },
+    journey: {
+      title: 'Career path',
+      experience: 'Experience',
+      education: 'Education',
+      certificates: 'Certificates',
+      ongoing: 'in progress',
+      jobs: [
+        {
+          date: '10/2025 — 01/2026',
+          title: 'AI Developer',
+          company: 'Self-employment',
+          description:
+            'Built a voice-controlled AI assistant for autonomous management of apps (email, tasks) using local LLM models. Implemented agent architecture with proactive user suggestions.',
+          tech: ['Python', 'LLM', 'RAG', 'Agents', 'Voice AI'],
+        },
+        {
+          date: '04/2025 — 09/2025',
+          title: 'Developer',
+          company: 'Alliance Technology',
+          description:
+            'Designed and implemented business applications supporting key company processes. Collaborated with multiple teams to deliver new features and modify existing systems.',
+          tech: ['JavaScript', 'Vue.js', 'Node.js', 'PostgreSQL'],
+        },
+        {
+          date: '04/2024 — 02/2025',
+          title: 'Full Stack Developer / DevOps',
+          company: "Bright Coders'Factory",
+          description:
+            'Developed and maintained web, desktop and mobile applications. Led a team of 4 developers, implemented CI/CD pipelines (Jenkins, GitHub Actions) and Docker containerization.',
+          tech: ['Vue.js', 'Node.js', 'Docker', 'Jenkins', 'CI/CD'],
+        },
+        {
+          date: '06/2023 — 01/2024',
+          title: 'ERP Developer',
+          company: 'IT.integro',
+          description:
+            'Designed and customized solutions for Microsoft Dynamics 365 Business Central. Delivered system integrations and tailored business solutions.',
+          tech: ['Business Central', 'AL', 'Dynamics 365'],
+        },
+        {
+          date: '04/2022 — 04/2023',
+          title: 'Full Stack Developer / DevOps',
+          company: 'Capgemini',
+          description:
+            'Designed and developed scalable web and mobile applications for various clients. Implemented and maintained CI/CD processes and Docker containerization.',
+          tech: ['React', 'Java', 'Docker', 'AWS', 'CI/CD'],
+        },
+        {
+          date: '02/2022 — 04/2022',
+          title: 'IT Technician / Developer',
+          company: 'Raben Group',
+          description:
+            'Configured and maintained IT systems. Developed software to automate internal company processes.',
+          tech: ['Python', 'PowerShell', 'IT Support'],
+        },
       ],
+      schools: [
+        {
+          date: '10/2024 — 06/2026',
+          title: 'Computer Science — MSc',
+          school: 'Collegium Da Vinci',
+          spec: 'AI / ML',
+        },
+        {
+          date: '02/2020 — 04/2023',
+          title: 'Computer Science — BEng',
+          school: 'Collegium Da Vinci',
+          spec: 'Web & Mobile',
+        },
+        {
+          date: '10/2018 — 02/2020',
+          title: 'Computer Science — BEng',
+          school: 'University of Economics in Poznań',
+          spec: 'Data Analysis',
+        },
+      ],
+      certs,
     },
-    hobbies: {
-      kicker: 'OFF DUTY',
-      items: [
-        {
-          title: 'Martial Arts',
-          sub: 'Body and mind discipline',
-          description: 'Training is not just physical — it\'s mental discipline and constant improvement. On the mat I learn as much as at the keyboard.',
-        },
-        {
-          title: 'Motorsport',
-          sub: 'Speed and engineering precision',
-          description: 'Adrenaline on track, strategy in the pits. F1 and motorsport have been my passion for years — engineering, speed and precision combined.',
-        },
-        {
-          title: 'Sim Racing',
-          sub: 'Technology meets passion',
-          description: 'Racing simulators bridge technology and motorsport passion. I spend hours perfecting my driving technique on virtual circuits.',
-        },
+    about: {
+      title: 'About',
+      lead: 'I build modern applications — mobile, web and AI-powered — combining developer precision with DevOps thinking.',
+      body: "I specialize in the full technology stack, from user interfaces to cloud infrastructure. I have worked at Capgemini, Bright Coders'Factory and Alliance Technology, running my own AI projects on the side. I am always looking for new technical challenges and opportunities to build products that matter.",
+      hobbiesTitle: 'Beyond the code',
+      hobbies: [
+        { icon: 'shield', title: 'Martial arts', sub: 'Body and mind discipline' },
+        { icon: 'flag', title: 'Motorsport', sub: 'Speed and engineering precision' },
+        { icon: 'gamepad', title: 'Sim racing', sub: 'Technology meets passion' },
       ],
     },
     contact: {
-      kicker: 'TRANSMISSION',
+      title: "Let's talk",
       lead: 'Actively looking for new professional opportunities — full-time, contract, or freelance. Check my channels and get in touch.',
-      form: {
-        name: 'Full name',
-        namePh: 'John Doe',
-        email: 'Email',
-        emailPh: 'john@example.com',
-        message: 'Message',
-        messagePh: 'Write to me...',
-        btn: 'Send message',
-      },
-      socials: [
-        { label: 'GitHub', handle: 'github.com/patrykmansfeld', url: 'https://github.com/' },
-        { label: 'LinkedIn', handle: 'linkedin.com/in/patrykmansfeld', url: 'https://linkedin.com/' },
-        { label: 'Email', handle: 'patryk.mansfeld@gmail.com', url: 'mailto:patryk.mansfeld@gmail.com' },
-      ],
+      copy: 'Copy email address',
+      copied: 'Email address copied',
+      cv: 'Download CV',
     },
     footer: {
       rights: 'All rights reserved.',
+      builtWith: 'Vue 3 + Vite',
+      backToTop: 'Back to top',
     },
   },
 }

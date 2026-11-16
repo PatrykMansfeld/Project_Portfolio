@@ -1,0 +1,181 @@
+<!doctype html>
+<!--
+  Source for public/og-image.png (1200×630 link preview).
+  Regenerate from the portfolio/ folder:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars \
+      --window-size=1200,630 --virtual-time-budget=8000 \
+      --screenshot="$PWD/public/og-image.png" "file://$PWD/og/og-image.html"
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg: #09090b;
+        --card: #111113;
+        --card-2: #18181b;
+        --line: #26262b;
+        --text: #fafafa;
+        --muted: #a1a1aa;
+        --acc: #818cf8;
+        --acc-text: #a5b4fc;
+        --on-acc: #0b0b14;
+      }
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      body {
+        background:
+          radial-gradient(55% 70% at 8% 0%, rgb(129 140 248 / 0.22), transparent 70%),
+          radial-gradient(40% 50% at 100% 100%, rgb(129 140 248 / 0.12), transparent 70%), var(--bg);
+        color: var(--text);
+        font-family: 'Geist', system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        padding: 48px;
+        display: grid;
+        grid-template-columns: 1.55fr 1fr;
+        grid-template-rows: 1fr auto;
+        gap: 16px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        padding: 36px;
+      }
+      .mono {
+        font-family: 'Geist Mono', monospace;
+        font-size: 18px;
+        color: var(--muted);
+      }
+      .main {
+        grid-row: span 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .mark {
+        width: 52px;
+        height: 52px;
+        border-radius: 15px;
+        background: var(--acc);
+        color: var(--on-acc);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 20px;
+      }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 16px;
+        border-radius: 999px;
+        background: rgb(129 140 248 / 0.14);
+        color: var(--acc-text);
+        font-family: 'Geist Mono', monospace;
+        font-size: 17px;
+      }
+      .status::before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--acc);
+      }
+      h1 {
+        font-size: 96px;
+        font-weight: 600;
+        letter-spacing: -0.045em;
+        line-height: 0.98;
+      }
+      h1 span {
+        color: var(--muted);
+      }
+      .role {
+        margin-top: 18px;
+        font-size: 30px;
+        font-weight: 500;
+        color: var(--acc-text);
+        letter-spacing: -0.01em;
+      }
+      .side {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .big {
+        font-size: 64px;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .chip {
+        font-family: 'Geist Mono', monospace;
+        font-size: 18px;
+        padding: 9px 15px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--card-2);
+      }
+      .chip.acc {
+        background: rgb(129 140 248 / 0.14);
+        border-color: transparent;
+        color: var(--acc-text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card main">
+      <div class="top">
+        <div class="mark">PM</div>
+        <div class="status">Open to work</div>
+      </div>
+      <div>
+        <h1>Patryk<br /><span>Mansfeld</span></h1>
+        <p class="role">Full-Stack Developer &amp; DevOps</p>
+      </div>
+    </div>
+
+    <div class="card side">
+      <div class="mono">Poznań, PL · since 2022</div>
+      <div>
+        <div class="big">4+ yrs</div>
+        <div class="mono" style="margin-top: 8px">web · cloud · AI</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="chips">
+        <span class="chip">Vue.js</span>
+        <span class="chip">Node.js</span>
+        <span class="chip">Python</span>
+        <span class="chip">Docker</span>
+        <span class="chip acc">LLM / RAG</span>
+      </div>
+    </div>
+  </body>
+</html>

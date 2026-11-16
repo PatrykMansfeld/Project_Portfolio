@@ -1,45 +1,41 @@
 <template>
-  <footer>
-    <div class="cn-wrapper">
-      <div class="cn-footer">
-        <span>© {{ year }} PATRYK MANSFELD</span>
-        <span class="c">▶ {{ t.footer.rights }}</span>
-        <span class="r">{{ lang === 'pl' ? 'WYD. 04' : 'ISSUE 04' }} · {{ year }}</span>
-      </div>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© {{ year }} Patryk Mansfeld · {{ t.footer.rights }}</span>
+      <span>{{ t.footer.builtWith }}</span>
+      <a href="#start" @click.prevent="scrollToId('start')">{{ t.footer.backToTop }} ↑</a>
     </div>
   </footer>
 </template>
 
 <script setup>
 import { useLang } from '../composables/useLang.js'
-const { lang, t } = useLang()
+import { scrollToId } from '../utils/scroll.js'
+
+const { t } = useLang()
 const year = new Date().getFullYear()
 </script>
 
 <style scoped>
-footer {
-  position: relative;
-  z-index: 1;
-  background: var(--bg);
-  border-top: 3px solid var(--ink);
+.footer {
+  margin-top: 72px;
+  border-top: 1px solid var(--line);
 }
-.cn-footer {
-  padding: 24px 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 22px;
-  font-family: 'Archivo Narrow', sans-serif;
-  font-size: 11px;
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: var(--ink);
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-top: 24px;
+  padding-bottom: 32px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
 }
-.cn-footer .c { text-align: center; color: var(--red); }
-.cn-footer .r { text-align: right; }
-
-@media (max-width: 720px) {
-  .cn-footer { grid-template-columns: 1fr; gap: 4px; padding: 18px 0; }
-  .cn-footer .c, .cn-footer .r { text-align: left; }
+a {
+  text-decoration: none;
+}
+a:hover {
+  color: var(--text);
 }
 </style>

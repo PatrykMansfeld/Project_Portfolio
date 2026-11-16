@@ -1,304 +1,311 @@
 <template>
-  <div class="cn-hero-background" id="hero">
-    <div class="cn-hero-shapes" aria-hidden="true">
-      <div class="cn-shape-line-diag" />
-      <div class="cn-shape-circle-big" />
-      <div class="cn-shape-circle-out" />
-      <div class="cn-shape-tri" />
-      <div class="cn-shape-bars" />
-      <div class="cn-shape-dot" />
-    </div>
-
-    <div class="cn-hero-issue-badge">
-      <span class="lbl">{{ lang === 'pl' ? 'WYD.' : 'ISSUE' }}</span>
-      <span class="num">04</span>
-    </div>
-
-    <div class="cn-wrapper cn-hero-content">
-      <div class="cn-hero">
-        <div class="cn-hero-left">
-          <div class="cn-hero-tag">
-            <span class="label">PORTFOLIO · 04</span>
-            <span>·</span>
-            <span>{{ t.hero.location }}</span>
-            <span>·</span>
-            <span class="red">● {{ t.hero.available }}</span>
-          </div>
-          <h1 class="cn-hero-display">
-            <span class="first">{{ t.hero.firstname }}</span>
-            <span class="last">{{ t.hero.lastname }}</span>
+  <section id="start" class="hero container">
+    <div class="bento">
+      <div class="card hero-main span-2 row-2">
+        <span class="chip accent status">
+          <span class="pulse" aria-hidden="true" />
+          {{ t.hero.available }}
+        </span>
+        <div>
+          <h1>
+            {{ t.hero.firstname }} <span class="last">{{ t.hero.lastname }}</span>
           </h1>
-          <div class="cn-hero-role">{{ t.hero.role }}</div>
-          <p class="cn-hero-tagline">{{ t.hero.tagline }}</p>
-          <div class="cn-hero-actions">
-            <a class="cn-button" href="#" @click.prevent="scrollTo('projects')">
-              <span>{{ t.hero.primaryCta }}</span>
-              <span class="arrow">▶</span>
-            </a>
-            <a class="cn-button alt" href="#" @click.prevent="scrollTo('contact')">
-              <span>{{ t.hero.secondaryCta }}</span>
-              <span class="arrow">▶</span>
-            </a>
+          <p class="role">{{ t.hero.role }}</p>
+          <p class="tagline">{{ t.hero.tagline }}</p>
+        </div>
+        <div class="actions">
+          <a class="btn primary" href="#projects" @click.prevent="scrollToId('projects')">
+            {{ t.hero.primaryCta }}
+            <AppIcon name="arrow-down" :size="16" />
+          </a>
+          <a class="btn" href="#contact" @click.prevent="scrollToId('contact')">{{
+            t.hero.secondaryCta
+          }}</a>
+          <a v-if="cvHref" class="btn" :href="cvHref" download>
+            <AppIcon name="download" :size="16" />
+            {{ t.hero.cv }}
+          </a>
+        </div>
+      </div>
+
+      <div class="card tile">
+        <span class="label"><AppIcon name="map-pin" :size="14" />{{ t.hero.location }}</span>
+        <div>
+          <p class="big clock">{{ time }}</p>
+          <span class="mono">{{ t.hero.localTime }}</span>
+        </div>
+      </div>
+
+      <div class="card tile">
+        <span class="label"
+          ><AppIcon name="briefcase" :size="14" />{{ t.hero.since(CAREER_START) }}</span
+        >
+        <div class="stats">
+          <div>
+            <p class="big">{{ years }}+</p>
+            <span class="mono">{{ t.hero.years(years) }}</span>
+          </div>
+          <div>
+            <p class="big">10+</p>
+            <span class="mono">{{ t.hero.projects }}</span>
           </div>
         </div>
-        <div class="cn-hero-right">
-          <div class="cn-stat-block red">
-            <div class="lbl">{{ t.hero.statYears }}</div>
-            <div class="val">04+</div>
-            <div class="sub">{{ lang === 'pl' ? 'od 2022' : 'since 2022' }}</div>
-          </div>
-          <div class="cn-stat-block dark">
-            <div class="lbl">{{ t.hero.statProjects }}</div>
-            <div class="val">10+</div>
-            <div class="sub">{{ lang === 'pl' ? 'dostarczonych' : 'shipped' }}</div>
-          </div>
-          <div class="cn-stat-block">
-            <div class="lbl">{{ t.hero.statTech }}</div>
-            <div class="val">19+</div>
-            <div class="sub">{{ lang === 'pl' ? 'w aktywnym użyciu' : 'in active use' }}</div>
+      </div>
+
+      <div class="card tile">
+        <span class="label"
+          ><AppIcon name="sparkles" :size="14" class="acc" />{{ t.hero.focusLabel }}</span
+        >
+        <div>
+          <p class="focus">{{ t.hero.focusTitle }}</p>
+          <span class="mono">{{ t.hero.focusSub }}</span>
+        </div>
+      </div>
+
+      <div class="card tile">
+        <span class="label"><AppIcon name="link" :size="14" />{{ t.hero.linksLabel }}</span>
+        <div class="socials">
+          <a
+            class="icon-btn"
+            :href="links.github"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+          >
+            <AppIcon name="github" />
+          </a>
+          <a
+            class="icon-btn"
+            :href="links.linkedin"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+          >
+            <AppIcon name="linkedin" />
+          </a>
+          <a class="icon-btn" :href="`mailto:${links.email}`" aria-label="E-mail">
+            <AppIcon name="mail" />
+          </a>
+        </div>
+      </div>
+
+      <div class="card stack span-4">
+        <span class="label"><AppIcon name="terminal" :size="14" />{{ t.hero.stackLabel }}</span>
+        <div class="stack-grid">
+          <div v-for="cat in skills" :key="cat.label">
+            <h3 class="stack-title">{{ cat.label }}</h3>
+            <div class="chips">
+              <span v-for="s in cat.items" :key="s" class="chip">{{ s }}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
-import { useLang } from '../composables/useLang.js'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import AppIcon from './AppIcon.vue'
+import { useLang, links, skills, cvUrl, CAREER_START } from '../composables/useLang.js'
+import { scrollToId } from '../utils/scroll.js'
 
 const { lang, t } = useLang()
+const cvHref = computed(() => cvUrl(lang.value))
 
-function scrollTo(id) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-}
+const years = new Date().getFullYear() - CAREER_START
+
+const now = ref(new Date())
+let timer
+const time = computed(() =>
+  new Intl.DateTimeFormat(lang.value === 'pl' ? 'pl-PL' : 'en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'Europe/Warsaw',
+  }).format(now.value),
+)
+
+onMounted(() => {
+  timer = setInterval(() => (now.value = new Date()), 15_000)
+})
+onBeforeUnmount(() => clearInterval(timer))
 </script>
 
-<style>
-.cn-hero-background {
-  position: relative;
-  overflow: hidden;
-  border-bottom: 4px solid var(--ink);
-  min-height: 100vh;
-}
-.cn-hero-shapes {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-.cn-hero-content {
-  position: relative;
-  z-index: 1;
-  padding-top: calc(48px + 70px);
-  padding-bottom: 70px;
-}
-.cn-hero {
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: 36px;
-  align-items: end;
-  min-height: calc(100vh - 48px - 140px);
-}
-.cn-shape-circle-big {
-  position: absolute;
-  right: -120px; top: 50px;
-  width: 480px; height: 480px;
-  background: var(--red);
-  border-radius: 50%;
-}
-.cn-shape-circle-out {
-  position: absolute;
-  right: 10%; top: 60px;
-  width: 200px; height: 200px;
-  border: 14px solid var(--ink);
-  border-radius: 50%;
-  background: transparent;
-}
-.cn-shape-tri {
-  position: absolute;
-  right: 8%; bottom: 18%;
-  width: 0; height: 0;
-  border-left: 80px solid transparent;
-  border-right: 80px solid transparent;
-  border-bottom: 130px solid var(--ink);
-  transform: rotate(18deg);
-}
-.cn-shape-bars {
-  position: absolute;
-  left: -40px; top: 30%;
-  width: 12px; height: 240px;
-  background: var(--ink);
-  transform: rotate(-15deg);
-  box-shadow: 24px 6px 0 0 var(--red), 48px 12px 0 0 var(--ink);
-}
-.cn-shape-dot {
-  position: absolute;
-  left: 38%; bottom: 12%;
-  width: 60px; height: 60px;
-  background: var(--ink);
-  border-radius: 50%;
-}
-.cn-shape-line-diag {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(120deg, transparent 35%, var(--ink) 35%, var(--ink) 36%, transparent 36%, transparent 60%, var(--red) 60%, var(--red) 61%, transparent 61%);
-  opacity: 0.08;
-}
-.cn-hero-left { position: relative; z-index: 1; }
-.cn-hero-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 24px;
-  font-family: 'Archivo Narrow', sans-serif;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-.cn-hero-tag .label { background: var(--ink); color: var(--cream); padding: 4px 10px; }
-.cn-hero-tag .red { color: var(--red); }
-.cn-hero-issue-badge {
-  position: absolute;
-  right: clamp(18px, 3vw, 60px); top: calc(48px + 32px);
-  width: 86px; height: 86px;
-  background: var(--ink);
-  color: var(--cream);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Archivo', sans-serif;
-  border-radius: 50%;
-  z-index: 2;
-  transform: rotate(-8deg);
-}
-.cn-hero-issue-badge .lbl {
-  font-size: 9px;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  opacity: 0.6;
-  margin-bottom: 1px;
-  font-weight: 700;
-}
-.cn-hero-issue-badge .num {
-  font-size: 32px;
-  font-weight: 900;
-  letter-spacing: -1.5px;
-  line-height: 1;
-  color: var(--red);
-}
-.cn-hero-display {
-  font-family: 'Archivo', sans-serif;
-  font-weight: 900;
-  font-size: clamp(70px, 13vw, 210px);
-  line-height: 0.85;
-  letter-spacing: -7px;
-  margin: 0 0 24px;
-  text-transform: uppercase;
-  position: relative;
-}
-.cn-hero-display .first { display: block; color: var(--ink); }
-.cn-hero-display .last {
-  display: block;
-  color: var(--cream);
-  background: var(--ink);
-  padding: 0 0.08em;
-  width: fit-content;
-  line-height: 0.92;
-  margin-top: -0.05em;
-}
-.cn-hero-role {
-  font-family: 'Archivo Narrow', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 18px;
-  padding-bottom: 14px;
-  border-bottom: 3px solid var(--ink);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  position: relative;
-}
-.cn-hero-role::before {
-  content: '';
-  width: 14px; height: 14px;
-  background: var(--red);
-  border-radius: 50%;
-  display: inline-block;
-}
-.cn-hero-tagline {
-  font-size: 16px;
-  line-height: 1.55;
-  max-width: 540px;
-  margin: 0 0 30px;
-}
-.cn-hero-actions {
-  display: flex;
-  gap: 0;
-  border: 3px solid var(--ink);
-  width: fit-content;
-}
-.cn-hero-right {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.cn-stat-block {
-  border: 3px solid var(--ink);
-  padding: 22px 24px;
-  position: relative;
-  background: var(--cream);
-}
-.cn-stat-block + .cn-stat-block { border-top: none; }
-.cn-stat-block.dark { background: var(--ink); color: var(--cream); }
-.cn-stat-block.red { background: var(--red); color: var(--cream); }
-.cn-stat-block .lbl {
-  font-family: 'Archivo Narrow', sans-serif;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 700;
-  opacity: 0.65;
-  margin-bottom: 6px;
-}
-.cn-stat-block .val {
-  font-family: 'Archivo', sans-serif;
-  font-weight: 900;
-  font-size: 56px;
-  letter-spacing: -2.5px;
-  line-height: 0.9;
-}
-.cn-stat-block .sub {
-  font-family: 'Archivo Narrow', sans-serif;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  margin-top: 4px;
-  font-weight: 600;
-  opacity: 0.7;
+<style scoped>
+.hero {
+  padding-top: 20px;
 }
 
-@media (max-width: 1024px) {
-  .cn-hero { grid-template-columns: 1fr; gap: 32px; min-height: auto; }
-  .cn-hero-content { padding-bottom: 50px; }
-  .cn-hero-issue-badge { top: calc(48px + 16px); right: 16px; width: 72px; height: 72px; }
-  .cn-hero-shapes { opacity: 0.6; }
-  .cn-shape-circle-big { width: 320px; height: 320px; right: -100px; top: 60px; }
+.hero-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 32px;
+  min-height: 400px;
 }
-@media (max-width: 720px) {
-  .cn-hero-content { padding-top: calc(48px + 36px); padding-bottom: 36px; }
-  .cn-hero-display { font-size: clamp(44px, 15vw, 80px); letter-spacing: -3px; }
-  .cn-hero-actions { width: 100%; flex-direction: column; }
-  .cn-hero-shapes { opacity: 0.3; }
-  .cn-hero-issue-badge { width: 60px; height: 60px; top: calc(48px + 10px); right: 12px; }
-  .cn-hero-issue-badge .num { font-size: 24px; }
-  .cn-hero-right { flex-direction: row; }
-  .cn-stat-block { flex: 1; padding: 16px 14px; }
-  .cn-stat-block .val { font-size: 38px; }
-  .cn-stat-block + .cn-stat-block { border-top: 3px solid var(--ink); border-left: none; }
+
+.status {
+  width: fit-content;
+}
+.pulse {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--acc);
+}
+.pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--acc);
+  animation: ping 2s var(--ease) infinite;
+}
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  80%,
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+h1 {
+  font-size: clamp(42px, 5.6vw, 64px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.last {
+  color: var(--muted);
+}
+
+.role {
+  margin-top: 16px;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--acc-text);
+}
+.tagline {
+  margin-top: 8px;
+  max-width: 46ch;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 180px;
+}
+
+.big {
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.clock {
+  font-family: var(--mono);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.tile .mono {
+  display: block;
+  line-height: 1.4;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+}
+
+.focus {
+  margin-bottom: 4px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+}
+.acc {
+  color: var(--acc);
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+.stack-title {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .hero-main {
+    min-height: 0;
+  }
+  .stack-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .hero {
+    padding-top: 12px;
+  }
+  .hero-main {
+    padding: 24px 20px;
+    gap: 24px;
+  }
+  .tile {
+    min-height: 150px;
+    gap: 16px;
+  }
+  .big {
+    font-size: 28px;
+  }
+  .focus {
+    font-size: 15px;
+  }
+  .socials {
+    gap: 6px;
+  }
+  .socials .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+  .stack-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }
 </style>
