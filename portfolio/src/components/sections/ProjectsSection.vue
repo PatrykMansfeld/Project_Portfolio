@@ -1,20 +1,17 @@
 <template>
   <section id="projects" class="section container reveal">
-    <header class="section-head">
-      <h2>{{ t.projects.title }}</h2>
-      <span class="mono">{{ String(t.projects.items.length).padStart(2, '0') }}</span>
-    </header>
+    <SectionHeader :title="t.projects.title" :meta="String(items.length).padStart(2, '0')" />
 
     <div class="bento">
       <article
-        v-for="(p, i) in t.projects.items"
+        v-for="(p, i) in items"
         :key="p.num"
         class="card project"
         :class="i === 0 ? 'featured span-2 row-2' : 'span-2'"
       >
         <div class="top">
           <span v-if="i === 0" class="chip accent">{{ t.projects.featured }}</span>
-          <span v-else class="project-icon"><AppIcon :name="p.icon" :size="20" /></span>
+          <span v-else class="icon-tile"><AppIcon :name="p.icon" :size="20" /></span>
           <span class="mono">{{ p.num }} · {{ p.year }}</span>
         </div>
 
@@ -35,24 +32,12 @@
           <span v-for="tag in p.tags" :key="tag" class="chip">{{ tag }}</span>
         </div>
 
-        <div v-if="projectLinks[p.num]?.repo || projectLinks[p.num]?.demo" class="project-links">
-          <a
-            v-if="projectLinks[p.num].repo"
-            class="btn sm"
-            :href="projectLinks[p.num].repo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+        <div v-if="p.repo || p.demo" class="project-links">
+          <a v-if="p.repo" class="btn sm" :href="p.repo" target="_blank" rel="noopener noreferrer">
             <AppIcon name="github" :size="16" />
             {{ t.projects.code }}
           </a>
-          <a
-            v-if="projectLinks[p.num].demo"
-            class="btn sm"
-            :href="projectLinks[p.num].demo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a v-if="p.demo" class="btn sm" :href="p.demo" target="_blank" rel="noopener noreferrer">
             {{ t.projects.demo }}
             <AppIcon name="arrow-up-right" :size="16" />
           </a>
@@ -63,10 +48,13 @@
 </template>
 
 <script setup>
-import AppIcon from './AppIcon.vue'
-import { useLang, projectLinks } from '../composables/useLang.js'
+import AppIcon from '../ui/AppIcon.vue'
+import SectionHeader from '../ui/SectionHeader.vue'
+import { projects } from '../../content/projects.js'
+import { useLang, useLocalized } from '../../composables/useLang.js'
 
 const { t } = useLang()
+const items = useLocalized(projects)
 </script>
 
 <style scoped>
@@ -83,17 +71,7 @@ const { t } = useLang()
   gap: 8px;
 }
 
-.project-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  background: var(--acc-soft);
-  color: var(--acc);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
+/* Featured project's visual: dot grid with a soft accent glow */
 .visual {
   flex: 1;
   min-height: 160px;

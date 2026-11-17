@@ -1,0 +1,48 @@
+/* Page width, section spacing and the bento grid (4 → 2 columns). */
+
+.container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding-top: 72px;
+}
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap);
+}
+.span-2 {
+  grid-column: span 2;
+}
+.span-4 {
+  grid-column: span 4;
+}
+.row-2 {
+  grid-row: span 2;
+}
+
+@media (max-width: 900px) {
+  .bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .span-4 {
+    grid-column: span 2;
+  }
+  .row-2 {
+    grid-row: auto;
+  }
+  .section {
+    padding-top: 56px;
+  }
+}
+
+@media (max-width: 560px) {
+  .container {
+    padding: 0 16px;
+  }
+}

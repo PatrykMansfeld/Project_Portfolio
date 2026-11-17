@@ -1,0 +1,53 @@
+/* Design tokens. Light values on :root, dark overrides below.
+   To re-color the site, change --acc / --acc-text / --on-acc in both blocks. */
+
+:root {
+  color-scheme: light;
+  --bg: #f4f4f5;
+  --card: #ffffff;
+  --card-2: #f8f8f9;
+  --line: #e4e4e7;
+  --line-strong: #d4d4d8;
+  --text: #18181b;
+  --muted: #6b6b75;
+  --acc: #4f46e5;
+  --acc-text: #4338ca;
+  --on-acc: #ffffff;
+  --acc-soft: color-mix(in srgb, var(--acc) 10%, transparent);
+  --spot: color-mix(in srgb, var(--acc) 8%, transparent);
+  --glow: color-mix(in srgb, var(--acc) 14%, transparent);
+  --hover: color-mix(in srgb, var(--text) 6%, transparent);
+
+  --radius: 20px;
+  --radius-sm: 12px;
+  --gap: 12px;
+  --nav-h: 64px;
+  --font: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* "Zmierzch" — a dimmed, slate-gray dark theme rather than near-black */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #22272e;
+  --card: #2d333b;
+  --card-2: #363d46;
+  --line: #444c56;
+  --line-strong: #59626e;
+  --text: #e8edf3;
+  --muted: #a8b2bd;
+  --acc: #959dff;
+  --acc-text: #bcc2ff;
+  --on-acc: #0b0b14;
+  --acc-soft: color-mix(in srgb, var(--acc) 14%, transparent);
+  --spot: color-mix(in srgb, var(--acc) 10%, transparent);
+  --glow: color-mix(in srgb, var(--acc) 12%, transparent);
+}
+
+@media (max-width: 560px) {
+  :root {
+    --gap: 10px;
+    --radius: 18px;
+  }
+}

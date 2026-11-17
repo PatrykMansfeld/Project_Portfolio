@@ -9,7 +9,8 @@
         aria-labelledby="picker-title"
         @keydown="onKeydown"
       >
-        <span class="brand-mark" aria-hidden="true">PM</span>
+        <span class="brand-mark lg" aria-hidden="true">{{ profile.initials }}</span>
+        <!-- Deliberately bilingual: shown before a language is chosen -->
         <h2 id="picker-title">
           Wybierz język
           <span class="sub">Choose your language</span>
@@ -27,7 +28,7 @@
             @click="setLang(opt.code)"
           >
             <span class="code">{{ opt.code.toUpperCase() }}</span>
-            <span class="text">
+            <span>
               <span class="name">{{ opt.name }}</span>
               <span class="hint">{{ opt.hint }}</span>
             </span>
@@ -46,8 +47,9 @@
 
 <script setup>
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
-import AppIcon from './AppIcon.vue'
-import { useLang } from '../composables/useLang.js'
+import AppIcon from '../ui/AppIcon.vue'
+import { profile } from '../../content/profile.js'
+import { useLang } from '../../composables/useLang.js'
 
 const { setLang, langChosen, suggestedLang } = useLang()
 const dialog = ref(null)
@@ -57,23 +59,23 @@ const options = [
   { code: 'en', name: 'English', hint: 'English version' },
 ]
 
-function buttons() {
+function optionButtons() {
   return dialog.value ? [...dialog.value.querySelectorAll('.option')] : []
 }
 
 function onKeydown(e) {
-  const list = buttons()
-  const idx = list.indexOf(document.activeElement)
-
   if (e.key === 'Escape') {
-    // closing = accept the suggested language
+    // closing = accepting the suggested language
     setLang(suggestedLang)
-  } else if (e.key === 'Tab' || e.key.startsWith('Arrow')) {
-    // keep focus inside the dialog, arrows move between the two options
+    return
+  }
+  if (e.key === 'Tab' || e.key.startsWith('Arrow')) {
+    // keep focus inside the dialog; arrows move between the two options
     e.preventDefault()
+    const list = optionButtons()
+    const current = list.indexOf(document.activeElement)
     const back = e.shiftKey || e.key === 'ArrowUp' || e.key === 'ArrowLeft'
-    const next = (idx + (back ? -1 : 1) + list.length) % list.length
-    list[next]?.focus()
+    list[(current + (back ? -1 : 1) + list.length) % list.length]?.focus()
   }
 }
 
@@ -82,10 +84,9 @@ watch(
   langChosen,
   async chosen => {
     document.documentElement.style.overflow = chosen ? '' : 'hidden'
-    if (!chosen) {
-      await nextTick()
-      dialog.value?.querySelector(`[data-code="${suggestedLang}"]`)?.focus()
-    }
+    if (chosen) return
+    await nextTick()
+    dialog.value?.querySelector(`[data-code="${suggestedLang}"]`)?.focus()
   },
   { immediate: true },
 )
@@ -113,19 +114,6 @@ onBeforeUnmount(() => {
   max-width: 440px;
   padding: 28px;
   box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.45);
-}
-
-.brand-mark {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: var(--acc);
-  color: var(--on-acc);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
 }
 
 h2 {

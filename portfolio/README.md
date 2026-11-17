@@ -6,12 +6,12 @@ Personal portfolio website for **Patryk Mansfeld**, Full-Stack Developer & DevOp
 
 | Layer      | Technology                                                       |
 | ---------- | ---------------------------------------------------------------- |
-| Framework  | Vue 3 (`<script setup>` SFCs)                                    |
+| Framework  | Vue 3 (`<script setup>` SFCs, composables)                       |
 | Build tool | Vite 8                                                           |
 | Language   | JavaScript (ES Modules)                                          |
 | Styling    | CSS custom properties (light / dark tokens), Geist + Geist Mono  |
 | Fonts      | Self-hosted via `@fontsource-variable` (no Google Fonts request) |
-| Quality    | ESLint (flat config, `eslint-plugin-vue`) + Prettier             |
+| Quality    | ESLint (`eslint-plugin-vue`) + Prettier + Vitest                 |
 
 ## Features
 
@@ -21,39 +21,38 @@ Personal portfolio website for **Patryk Mansfeld**, Full-Stack Developer & DevOp
 - **Small touches** — cursor spotlight on cards, live Poznań clock, expandable experience list, copy-email button
 - **Accessible** — real links and buttons, `aria-expanded` on toggles, `prefers-reduced-motion` respected
 - **Link previews** — Open Graph / Twitter card with a 1200×630 image (`public/og-image.png`)
-- **Ready for project links and CV** — buttons appear as soon as you fill in the URLs (see below)
+- **Ready for project links and CV** — buttons appear as soon as you fill in the URLs
 - **Sections**: Start (hero + stack) · Projects · Career path (experience, education, certificates) · About (hobbies + contact)
 
 ## Project structure
 
 ```text
 portfolio/
-├── index.html                       # Meta / link previews, favicon, theme-before-paint script
-├── eslint.config.js / .prettierrc.json
-├── og/og-image.html                 # Source of the link-preview image
+├── index.html                  # Meta / link previews, favicon, theme-before-paint script
+├── og/og-image.html            # Source of the link-preview image
 ├── public/
-│   ├── og-image.png                 # Link-preview image (1200×630)
-│   └── cv/                          # Put CV PDFs here
-├── src/
-│   ├── App.vue                      # Mounts sections, scroll reveal, card spotlight
-│   ├── main.js                      # Vue app entry point
-│   ├── style.css                    # Design tokens (light/dark), bento grid, shared UI
-│   ├── composables/
-│   │   ├── useLang.js               # Content + i18n state (PL / EN)
-│   │   └── useTheme.js              # Light / dark theme state
-│   ├── utils/
-│   │   └── scroll.js                # Smooth scroll to section + URL hash
-│   └── components/
-│       ├── AppIcon.vue              # Inline stroke icons
-│       ├── LanguagePicker.vue       # First-visit PL / EN dialog
-│       ├── NavBar.vue
-│       ├── HeroSection.vue          # Intro, clock, stats, focus, links, stack
-│       ├── ProjectsSection.vue
-│       ├── JourneySection.vue       # Experience + education + certificates
-│       ├── AboutSection.vue         # About + hobbies + contact
-│       └── FooterSection.vue
-├── package.json
-└── vite.config.js
+│   ├── og-image.png            # Link-preview image (1200×630)
+│   └── cv/                     # Put CV PDFs here
+└── src/
+    ├── main.js                 # Entry: fonts, styles, mount
+    ├── App.vue                 # Page layout, scroll reveal, card spotlight
+    ├── content/                # ✏️ Everything about you — edit these files
+    │   ├── profile.js          #    name, hero texts, about, hobbies, links, CV
+    │   ├── projects.js         #    projects (+ repo / demo links)
+    │   ├── career.js           #    jobs, education, certificates
+    │   └── skills.js           #    tech stack card
+    ├── i18n/
+    │   ├── messages.js         # UI strings (buttons, labels, titles) — PL / EN
+    │   ├── localize.js         # { pl, en } pairs → current language
+    │   └── plural.js           # Polish / English plural forms
+    ├── composables/            # useLang, useTheme, useCv, useNow, useClipboard,
+    │                           # useScrollReveal, useCardSpotlight, useEventListener
+    ├── utils/                  # dates, scroll, storage (safe localStorage)
+    ├── styles/                 # tokens · base · layout · ui (imported by index.css)
+    └── components/
+        ├── layout/             # NavBar, SiteFooter, LanguagePicker
+        ├── sections/           # HeroSection, ProjectsSection, CareerSection, AboutSection
+        └── ui/                 # AppIcon (+ icons.js), SectionHeader, SocialLinks
 ```
 
 ## Getting started
@@ -61,70 +60,47 @@ portfolio/
 **Prerequisites:** Node.js 20.19+ or 22.12+ (required by Vite 8; CI uses Node 24)
 
 ```bash
-# Install dependencies
-npm install
+npm install          # install dependencies
+npm run dev          # dev server
+npm run build        # production build → dist/
+npm run preview      # serve the production build
 
-# Start dev server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Lint / format
-npm run lint          # ESLint (also runs in CI before deploy)
-npm run format        # Prettier — rewrites files
-npm run format:check  # Prettier — check only
+npm run lint         # ESLint
+npm test             # Vitest (unit tests + content checks)
+npm run format       # Prettier — rewrites files
+npm run format:check # Prettier — check only
 ```
 
-## Filling in links and CV
+CI (`.github/workflows/deploy.yml`) runs lint → tests → build on every push to `main` and deploys to GitHub Pages only if all pass.
 
-All in `src/composables/useLang.js`, top of the file:
+## Editing content
 
-- **Project links** — `projectLinks['01' | '02' | '03']` → `{ repo: 'https://…', demo: 'https://…' }`. Empty string hides the button.
-- **CV** — copy the PDF(s) to `public/cv/` and set `cv.pl` / `cv.en` to e.g. `'cv/Patryk_Mansfeld_CV_PL.pdf'`. If only one is set, it is used for both languages. Buttons appear in the hero and contact cards.
+All content lives in `src/content/`. Text shown in both languages is written as a pair:
+
+```js
+title: { pl: 'AI Asystent', en: 'AI Assistant' },   // translated
+year: '2025',                                         // same in both languages
+```
+
+- **Project links** — in `projects.js`, set `repo` / `demo` to a full `https://…` URL. Empty string hides the button.
+- **CV** — copy the PDF(s) to `public/cv/` and set `cv.pl` / `cv.en` in `profile.js` to e.g. `'cv/Patryk_Mansfeld_CV_PL.pdf'`. If only one is set, it is used for both languages. Buttons appear in the hero and contact cards.
+- **Icons** — `icon: 'mic'` etc. refer to names in `src/components/ui/icons.js`.
+
+`npm test` checks the content: every `{ pl, en }` pair filled in, PL / EN UI strings in sync, icon names valid, dates in `MM/YYYY — MM/YYYY` format, links well-formed.
+
+## i18n
+
+- `useLang()` → `lang` (`'pl' | 'en'`), `t` (UI strings from `i18n/messages.js`), `setLang()`, `toggleLang()`, `langChosen`.
+- `useLocalized(data)` → a computed copy of content with every `{ pl, en }` pair resolved to the current language.
+- The chosen language is stored in `localStorage` (`lang`); clear it to see the first-visit picker again.
+
+## Theming
+
+Colors are CSS custom properties in `src/styles/tokens.css`: light values on `:root`, dark overrides on `:root[data-theme='dark']`. Change `--acc` / `--acc-text` / `--on-acc` in both blocks to re-color the whole site.
 
 ## Link-preview image
 
 `public/og-image.png` is rendered from `og/og-image.html` with headless Chrome — the exact command is in the comment at the top of that file. After deploying, check the preview with the [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/).
-
-## Content overview
-
-### Experience
-
-| Period            | Role                          | Company               |
-| ----------------- | ----------------------------- | --------------------- |
-| 10/2025 — 01/2026 | AI Developer                  | Self-employment       |
-| 04/2025 — 09/2025 | Developer                     | Alliance Technology   |
-| 04/2024 — 02/2025 | Full Stack Developer / DevOps | Bright Coders'Factory |
-| 06/2023 — 01/2024 | ERP Developer                 | IT.integro            |
-| 04/2022 — 04/2023 | Full Stack Developer / DevOps | Capgemini             |
-| 02/2022 — 04/2022 | IT Technician / Developer     | Raben Group           |
-
-### Skills
-
-- **Frontend** — JavaScript, Vue.js, React, TypeScript, HTML/CSS
-- **Backend** — Node.js, Python, Java, PostgreSQL, REST API
-- **DevOps** — Docker, CI/CD, GitHub Actions, AWS, Kubernetes
-- **AI & Data** — LLM/RAG, LangChain, Machine Learning, Voice AI
-
-### Featured projects
-
-| #   | Title                       | Stack                              |
-| --- | --------------------------- | ---------------------------------- |
-| 01  | AI Assistant                | Python, LLM, RAG, JavaScript       |
-| 02  | Analitix (esports coaching) | Vue.js, Node.js, Docker, CI/CD     |
-| 03  | Employee Management         | React, Node.js, PostgreSQL, Docker |
-
-## i18n and content
-
-All UI strings and content live in `src/composables/useLang.js`. The `useLang()` composable exposes `lang` (reactive `'pl' | 'en'`), `t` (computed translations object), `toggleLang()`, `setLang()` and `langChosen`. The chosen language is stored in `localStorage` (`lang`); clear it to see the first-visit picker again. Language-independent data (`links`, `projectLinks`, `cv`, `skills`, `CAREER_START`) is exported from the same file. Switching language is instant with no page reload.
-
-## Theming
-
-Colors are CSS custom properties in `src/style.css`: light values on `:root`, dark overrides on `:root[data-theme='dark']`. Change `--acc` / `--acc-text` / `--on-acc` in both blocks to re-color the whole site.
 
 ## License
 

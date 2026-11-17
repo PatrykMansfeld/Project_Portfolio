@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="container footer-inner">
-      <span>© {{ year }} Patryk Mansfeld · {{ t.footer.rights }}</span>
+      <span>© {{ year }} {{ fullName }} · {{ t.footer.rights }}</span>
       <span>{{ t.footer.builtWith }}</span>
       <a href="#start" @click.prevent="scrollToId('start')">{{ t.footer.backToTop }} ↑</a>
     </div>
@@ -9,10 +9,12 @@
 </template>
 
 <script setup>
-import { useLang } from '../composables/useLang.js'
-import { scrollToId } from '../utils/scroll.js'
+import { profile } from '../../content/profile.js'
+import { useLang } from '../../composables/useLang.js'
+import { scrollToId } from '../../utils/scroll.js'
 
 const { t } = useLang()
+const fullName = `${profile.firstName} ${profile.lastName}`
 const year = new Date().getFullYear()
 </script>
 

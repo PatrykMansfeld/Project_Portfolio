@@ -1,28 +1,7 @@
-<template>
-  <!-- eslint-disable vue/no-v-html -- markup comes only from the static `icons` map below -->
-  <svg
-    :width="size"
-    :height="size"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.75"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    aria-hidden="true"
-    focusable="false"
-    v-html="icons[name]"
-  />
-</template>
+// Stroke icons in the style of Lucide (24×24 grid). Used by AppIcon.vue;
+// content files refer to them by name (e.g. icon: 'mic').
 
-<script setup>
-defineProps({
-  name: { type: String, required: true },
-  size: { type: [Number, String], default: 18 },
-})
-
-// Stroke icons in the style of Lucide (24×24 grid).
-const icons = {
+export const icons = {
   'arrow-down': '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
   'arrow-right': '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
   'chevron-down': '<path d="m6 9 6 6 6-6"/>',
@@ -63,4 +42,3 @@ const icons = {
   gamepad:
     '<path d="M6 12h4"/><path d="M8 10v4"/><path d="M15 13h.01"/><path d="M18 11h.01"/><rect width="20" height="12" x="2" y="6" rx="2"/>',
 }
-</script>

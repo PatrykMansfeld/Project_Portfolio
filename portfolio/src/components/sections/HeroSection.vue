@@ -8,10 +8,10 @@
         </span>
         <div>
           <h1>
-            {{ t.hero.firstname }} <span class="last">{{ t.hero.lastname }}</span>
+            {{ me.firstName }} <span class="last">{{ me.lastName }}</span>
           </h1>
-          <p class="role">{{ t.hero.role }}</p>
-          <p class="tagline">{{ t.hero.tagline }}</p>
+          <p class="role">{{ me.role }}</p>
+          <p class="tagline">{{ me.tagline }}</p>
         </div>
         <div class="actions">
           <a class="btn primary" href="#projects" @click.prevent="scrollToId('projects')">
@@ -23,22 +23,22 @@
           }}</a>
           <a v-if="cvHref" class="btn" :href="cvHref" download>
             <AppIcon name="download" :size="16" />
-            {{ t.hero.cv }}
+            {{ t.common.downloadCv }}
           </a>
         </div>
       </div>
 
       <div class="card tile">
-        <span class="label"><AppIcon name="map-pin" :size="14" />{{ t.hero.location }}</span>
+        <span class="label"><AppIcon name="map-pin" :size="14" />{{ me.location }}</span>
         <div>
-          <p class="big clock">{{ time }}</p>
+          <p class="big clock">{{ localTime }}</p>
           <span class="mono">{{ t.hero.localTime }}</span>
         </div>
       </div>
 
       <div class="card tile">
         <span class="label"
-          ><AppIcon name="briefcase" :size="14" />{{ t.hero.since(CAREER_START) }}</span
+          ><AppIcon name="briefcase" :size="14" />{{ t.hero.since(me.careerStart) }}</span
         >
         <div class="stats">
           <div>
@@ -46,7 +46,7 @@
             <span class="mono">{{ t.hero.years(years) }}</span>
           </div>
           <div>
-            <p class="big">10+</p>
+            <p class="big">{{ me.projectsCount }}</p>
             <span class="mono">{{ t.hero.projects }}</span>
           </div>
         </div>
@@ -57,36 +57,14 @@
           ><AppIcon name="sparkles" :size="14" class="acc" />{{ t.hero.focusLabel }}</span
         >
         <div>
-          <p class="focus">{{ t.hero.focusTitle }}</p>
-          <span class="mono">{{ t.hero.focusSub }}</span>
+          <p class="focus">{{ me.focus.title }}</p>
+          <span class="mono">{{ me.focus.sub }}</span>
         </div>
       </div>
 
       <div class="card tile">
         <span class="label"><AppIcon name="link" :size="14" />{{ t.hero.linksLabel }}</span>
-        <div class="socials">
-          <a
-            class="icon-btn"
-            :href="links.github"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-          >
-            <AppIcon name="github" />
-          </a>
-          <a
-            class="icon-btn"
-            :href="links.linkedin"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-          >
-            <AppIcon name="linkedin" />
-          </a>
-          <a class="icon-btn" :href="`mailto:${links.email}`" aria-label="E-mail">
-            <AppIcon name="mail" />
-          </a>
-        </div>
+        <SocialLinks />
       </div>
 
       <div class="card stack span-4">
@@ -105,30 +83,31 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import AppIcon from './AppIcon.vue'
-import { useLang, links, skills, cvUrl, CAREER_START } from '../composables/useLang.js'
-import { scrollToId } from '../utils/scroll.js'
+import { computed } from 'vue'
+import AppIcon from '../ui/AppIcon.vue'
+import SocialLinks from '../ui/SocialLinks.vue'
+import { profile } from '../../content/profile.js'
+import { skills } from '../../content/skills.js'
+import { useCv } from '../../composables/useCv.js'
+import { useLang, useLocalized } from '../../composables/useLang.js'
+import { useNow } from '../../composables/useNow.js'
+import { yearsSince } from '../../utils/dates.js'
+import { scrollToId } from '../../utils/scroll.js'
 
 const { lang, t } = useLang()
-const cvHref = computed(() => cvUrl(lang.value))
+const me = useLocalized(profile)
+const cvHref = useCv()
 
-const years = new Date().getFullYear() - CAREER_START
+const years = yearsSince(profile.careerStart)
 
-const now = ref(new Date())
-let timer
-const time = computed(() =>
+const now = useNow()
+const localTime = computed(() =>
   new Intl.DateTimeFormat(lang.value === 'pl' ? 'pl-PL' : 'en-GB', {
     hour: '2-digit',
     minute: '2-digit',
-    timeZone: 'Europe/Warsaw',
+    timeZone: profile.timeZone,
   }).format(now.value),
 )
-
-onMounted(() => {
-  timer = setInterval(() => (now.value = new Date()), 15_000)
-})
-onBeforeUnmount(() => clearInterval(timer))
 </script>
 
 <style scoped>
@@ -211,6 +190,10 @@ h1 {
   gap: 20px;
   min-height: 180px;
 }
+.tile .mono {
+  display: block;
+  line-height: 1.4;
+}
 
 .big {
   font-size: 34px;
@@ -223,11 +206,6 @@ h1 {
   font-weight: 500;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
-}
-
-.tile .mono {
-  display: block;
-  line-height: 1.4;
 }
 
 .stats {
@@ -245,12 +223,6 @@ h1 {
 }
 .acc {
   color: var(--acc);
-}
-
-.socials {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
 }
 
 .stack {
@@ -296,10 +268,11 @@ h1 {
   .focus {
     font-size: 15px;
   }
+  /* three link buttons must fit one row in the narrow tile */
   .socials {
     gap: 6px;
   }
-  .socials .icon-btn {
+  .socials :deep(.icon-btn) {
     width: 36px;
     height: 36px;
   }

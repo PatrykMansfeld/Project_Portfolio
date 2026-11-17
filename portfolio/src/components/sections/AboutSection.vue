@@ -1,20 +1,18 @@
 <template>
   <section id="about" class="section container reveal">
-    <header class="section-head">
-      <h2>{{ t.about.title }}</h2>
-    </header>
+    <SectionHeader :title="t.about.title" />
 
     <div class="bento">
       <div class="card about-main span-2 row-2">
-        <p class="lead">{{ t.about.lead }}</p>
-        <p class="text">{{ t.about.body }}</p>
+        <p class="lead">{{ me.about.lead }}</p>
+        <p class="text">{{ me.about.body }}</p>
       </div>
 
       <div class="card span-2">
         <h3 class="label"><AppIcon name="heart" :size="14" />{{ t.about.hobbiesTitle }}</h3>
         <ul class="hobbies">
-          <li v-for="h in t.about.hobbies" :key="h.title">
-            <span class="hobby-icon"><AppIcon :name="h.icon" :size="18" /></span>
+          <li v-for="h in me.hobbies" :key="h.icon">
+            <span class="icon-tile"><AppIcon :name="h.icon" :size="18" /></span>
             <span>
               <span class="row-title">{{ h.title }}</span>
               <span class="row-sub">{{ h.sub }}</span>
@@ -25,43 +23,26 @@
 
       <div id="contact" class="card contact span-2">
         <h3>{{ t.contact.title }}</h3>
-        <p>{{ t.contact.lead }}</p>
+        <p>{{ me.contactNote }}</p>
         <div class="contact-actions">
-          <a class="btn contact-mail" :href="`mailto:${links.email}`">
+          <a class="btn contact-btn" :href="`mailto:${links.email}`">
             <AppIcon name="mail" :size="16" />
             {{ links.email }}
           </a>
-          <a v-if="cvHref" class="btn contact-mail" :href="cvHref" download>
+          <a v-if="cvHref" class="btn contact-btn" :href="cvHref" download>
             <AppIcon name="download" :size="16" />
-            {{ t.contact.cv }}
+            {{ t.common.downloadCv }}
           </a>
           <button
             type="button"
             class="icon-btn"
-            :aria-label="copied ? t.contact.copied : t.contact.copy"
-            :title="copied ? t.contact.copied : t.contact.copy"
+            :aria-label="copyLabel"
+            :title="copyLabel"
             @click="copyEmail"
           >
             <AppIcon :name="copied ? 'check' : 'copy'" />
           </button>
-          <a
-            class="icon-btn"
-            :href="links.github"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-          >
-            <AppIcon name="github" />
-          </a>
-          <a
-            class="icon-btn"
-            :href="links.linkedin"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-          >
-            <AppIcon name="linkedin" />
-          </a>
+          <SocialLinks :only="['github', 'linkedin']" />
         </div>
         <span class="sr-only" aria-live="polite">{{ copied ? t.contact.copied : '' }}</span>
       </div>
@@ -70,28 +51,26 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref } from 'vue'
-import AppIcon from './AppIcon.vue'
-import { useLang, links, cvUrl } from '../composables/useLang.js'
+import { computed } from 'vue'
+import AppIcon from '../ui/AppIcon.vue'
+import SectionHeader from '../ui/SectionHeader.vue'
+import SocialLinks from '../ui/SocialLinks.vue'
+import { links, profile } from '../../content/profile.js'
+import { useClipboard } from '../../composables/useClipboard.js'
+import { useCv } from '../../composables/useCv.js'
+import { useLang, useLocalized } from '../../composables/useLang.js'
 
-const { lang, t } = useLang()
-const cvHref = computed(() => cvUrl(lang.value))
+const { t } = useLang()
+const me = useLocalized(profile)
+const cvHref = useCv()
 
-const copied = ref(false)
-let resetTimer
+const { copied, copy } = useClipboard()
+const copyLabel = computed(() => (copied.value ? t.value.contact.copied : t.value.contact.copy))
 
 async function copyEmail() {
-  try {
-    await navigator.clipboard.writeText(links.email)
-    copied.value = true
-    clearTimeout(resetTimer)
-    resetTimer = setTimeout(() => (copied.value = false), 2000)
-  } catch {
-    window.location.href = `mailto:${links.email}`
-  }
+  // No clipboard access (old browser, insecure context) → open the mail app instead.
+  if (!(await copy(links.email))) window.location.href = `mailto:${links.email}`
 }
-
-onBeforeUnmount(() => clearTimeout(resetTimer))
 </script>
 
 <style scoped>
@@ -124,18 +103,8 @@ onBeforeUnmount(() => clearTimeout(resetTimer))
   align-items: center;
   gap: 12px;
 }
-.hobby-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  background: var(--acc-soft);
-  color: var(--acc);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
 
+/* Contact card: filled with the accent color, controls drawn in --on-acc */
 .contact {
   --spot: color-mix(in srgb, var(--on-acc) 16%, transparent);
   display: flex;
@@ -166,18 +135,18 @@ onBeforeUnmount(() => clearTimeout(resetTimer))
   margin-top: auto;
   padding-top: 10px;
 }
-.contact .icon-btn,
-.contact-mail {
+.contact :deep(.icon-btn),
+.contact-btn {
   background: color-mix(in srgb, var(--on-acc) 12%, transparent);
   border-color: color-mix(in srgb, var(--on-acc) 24%, transparent);
   color: var(--on-acc);
 }
-.contact .icon-btn:hover,
-.contact-mail:hover {
+.contact :deep(.icon-btn:hover),
+.contact-btn:hover {
   background: color-mix(in srgb, var(--on-acc) 20%, transparent);
   border-color: color-mix(in srgb, var(--on-acc) 40%, transparent);
 }
-.contact :focus-visible {
+.contact :deep(:focus-visible) {
   outline-color: var(--on-acc);
 }
 
@@ -188,7 +157,7 @@ onBeforeUnmount(() => clearTimeout(resetTimer))
   .contact h3 {
     font-size: 24px;
   }
-  .contact-mail {
+  .contact-btn {
     width: 100%;
   }
 }

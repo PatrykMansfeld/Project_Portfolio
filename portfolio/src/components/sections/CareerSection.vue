@@ -1,16 +1,14 @@
 <template>
   <section id="experience" class="section container reveal">
-    <header class="section-head">
-      <h2>{{ t.journey.title }}</h2>
-    </header>
+    <SectionHeader :title="t.career.title" />
 
     <div class="bento">
       <div class="card span-2">
         <h3 class="label card-title">
-          <AppIcon name="briefcase" :size="14" />{{ t.journey.experience }}
+          <AppIcon name="briefcase" :size="14" />{{ t.career.experience }}
         </h3>
         <ul class="rows">
-          <li v-for="(job, i) in t.journey.jobs" :key="job.date" :class="{ open: openIdx === i }">
+          <li v-for="(job, i) in jobList" :key="job.date" :class="{ open: openIdx === i }">
             <button
               type="button"
               class="job-btn"
@@ -39,26 +37,26 @@
 
       <div class="card span-2">
         <h3 class="label card-title">
-          <AppIcon name="graduation-cap" :size="14" />{{ t.journey.education }}
+          <AppIcon name="graduation-cap" :size="14" />{{ t.career.education }}
         </h3>
         <ul class="rows">
-          <li v-for="item in t.journey.schools" :key="item.date" class="static-row">
+          <li v-for="item in schoolList" :key="item.date" class="static-row">
             <span class="main">
               <span class="row-title">{{ item.title }}</span>
               <span class="row-sub">{{ item.school }} · {{ item.spec }}</span>
             </span>
             <span class="side">
-              <span v-if="isOngoing(item.date)" class="chip accent">{{ t.journey.ongoing }}</span>
+              <span v-if="isOngoing(item.date)" class="chip accent">{{ t.career.ongoing }}</span>
               <span class="mono">{{ item.date }}</span>
             </span>
           </li>
         </ul>
 
         <h3 class="label card-title certs-title">
-          <AppIcon name="award" :size="14" />{{ t.journey.certificates }}
+          <AppIcon name="award" :size="14" />{{ t.career.certificates }}
         </h3>
         <ul class="rows">
-          <li v-for="c in t.journey.certs" :key="c.title" class="static-row">
+          <li v-for="c in certificates" :key="c.title" class="static-row">
             <span class="main">
               <span class="row-title">{{ c.title }}</span>
               <span class="row-sub">{{ c.issuer }}</span>
@@ -73,26 +71,20 @@
 
 <script setup>
 import { ref } from 'vue'
-import AppIcon from './AppIcon.vue'
-import { useLang } from '../composables/useLang.js'
+import AppIcon from '../ui/AppIcon.vue'
+import SectionHeader from '../ui/SectionHeader.vue'
+import { certificates, education, jobs } from '../../content/career.js'
+import { useLang, useLocalized } from '../../composables/useLang.js'
+import { isOngoing } from '../../utils/dates.js'
 
 const { t } = useLang()
-const openIdx = ref(0)
+const jobList = useLocalized(jobs)
+const schoolList = useLocalized(education)
 
+// Accordion: one job open at a time, the most recent one to start with.
+const openIdx = ref(0)
 function toggle(i) {
   openIdx.value = openIdx.value === i ? null : i
-}
-
-// "10/2024 — 06/2026" → ongoing until the end of the end month.
-// Missing or non-date end (e.g. "obecnie") counts as ongoing.
-function isOngoing(range) {
-  const match = range
-    .split('—')[1]
-    ?.trim()
-    .match(/^(\d{1,2})\/(\d{4})$/)
-  if (!match) return true
-  const [, month, year] = match.map(Number)
-  return new Date() < new Date(year, month, 1)
 }
 </script>
 
@@ -135,6 +127,7 @@ function isOngoing(range) {
   transform: rotate(180deg);
 }
 
+/* Height animation via grid rows 0fr → 1fr */
 .job-detail {
   display: grid;
   grid-template-rows: 0fr;

@@ -2,8 +2,8 @@
   <header class="nav" :class="{ scrolled: scrolled || menuOpen }">
     <div class="container nav-inner">
       <a class="brand" href="#start" @click.prevent="go('start')">
-        <span class="brand-mark" aria-hidden="true">PM</span>
-        <span class="brand-name">Patryk Mansfeld</span>
+        <span class="brand-mark" aria-hidden="true">{{ profile.initials }}</span>
+        <span class="brand-name">{{ fullName }}</span>
       </a>
 
       <nav class="nav-links" :aria-label="t.nav.label">
@@ -66,14 +66,18 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import AppIcon from './AppIcon.vue'
-import { useLang } from '../composables/useLang.js'
-import { useTheme } from '../composables/useTheme.js'
-import { scrollToId } from '../utils/scroll.js'
+import { computed, onMounted, ref } from 'vue'
+import AppIcon from '../ui/AppIcon.vue'
+import { profile } from '../../content/profile.js'
+import { useEventListener } from '../../composables/useEventListener.js'
+import { useLang } from '../../composables/useLang.js'
+import { useTheme } from '../../composables/useTheme.js'
+import { scrollToId } from '../../utils/scroll.js'
 
 const { lang, t, toggleLang } = useLang()
 const { theme, toggleTheme } = useTheme()
+
+const fullName = `${profile.firstName} ${profile.lastName}`
 const menuOpen = ref(false)
 const scrolled = ref(false)
 
@@ -89,23 +93,14 @@ function go(id) {
   scrollToId(id)
 }
 
-function onScroll() {
+function updateScrolled() {
   scrolled.value = window.scrollY > 8
 }
 
-function onKeydown(e) {
+onMounted(updateScrolled)
+useEventListener(window, 'scroll', updateScrolled, { passive: true })
+useEventListener(window, 'keydown', e => {
   if (e.key === 'Escape') menuOpen.value = false
-}
-
-onMounted(() => {
-  onScroll()
-  window.addEventListener('scroll', onScroll, { passive: true })
-  window.addEventListener('keydown', onKeydown)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', onScroll)
-  window.removeEventListener('keydown', onKeydown)
 })
 </script>
 
@@ -142,18 +137,6 @@ onBeforeUnmount(() => {
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.01em;
-}
-.brand-mark {
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-  background: var(--acc);
-  color: var(--on-acc);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
 }
 
 .nav-links {
